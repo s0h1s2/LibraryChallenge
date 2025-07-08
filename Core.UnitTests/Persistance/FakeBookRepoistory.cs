@@ -1,7 +1,7 @@
-using Domain;
-using Domain.Persistance;
+using Core;
+using Core.Persistance;
 
-namespace UnitTests.Persistance;
+namespace Core.UnitTests.Persistance;
 
 public class FakeBookRepository:IBookRepository
 {

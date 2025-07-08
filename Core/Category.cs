@@ -1,4 +1,4 @@
-namespace Domain;
+namespace Core;
 
 public class CategoryId
 {

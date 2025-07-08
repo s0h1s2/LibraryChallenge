@@ -1,10 +1,10 @@
-﻿using Domain;
-using Domain.Services;
-using UnitTests.Persistance;
+﻿using Core.UnitTests.Persistance;
+using Core;
+using Core.Services;
 
-namespace UnitTests;
+namespace Core.UnitTests;
 
-public class UnitTest1
+public class BookTest
 {
     [Fact]
     public async Task TestAddBookToLibrary_Book_MustBe_Added()

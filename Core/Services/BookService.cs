@@ -1,6 +1,6 @@
-using Domain.Persistance;
+using Core.Persistance;
 
-namespace Domain.Services;
+namespace Core.Services;
 
 public class BookService
 {

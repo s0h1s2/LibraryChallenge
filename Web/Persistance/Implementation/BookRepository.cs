@@ -1,5 +1,7 @@
 using Core;
+using Core.Dto;
 using Core.Persistance;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Web.Persistance;
@@ -12,9 +14,26 @@ public class BookRepository:IBookRepository
     {
         _context = context;
     }
-    public Task<Book?> AddBookAsync(Book book)
+    public async Task<Book?> AddBookAsync(CreateBook book)
     {
-        return null;
+        var bookToAdd = new BookEntity()
+        {
+            Isbn = book.Isbn,
+            Author = book.Author,
+            Title = book.Title,
+            CategoryId = book.CategoryId.Id,
+            AvailableCopies = book.AvailableCopies
+        };
+        _context.Books.Add(bookToAdd);
+        await _context.SaveChangesAsync();
+        return Book.CreateExisting(
+            bookToAdd.Id,
+            book.Isbn,
+            book.Title,
+            book.CategoryId, 
+            book.Author, 
+            book.AvailableCopies
+            );
     }
 
     public async Task<IList<Book>> GetBooksAsync()

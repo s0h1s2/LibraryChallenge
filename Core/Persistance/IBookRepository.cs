@@ -6,5 +6,5 @@ public interface IBookRepository
     Task<IList<Book>> GetBooksAsync();
     Task<Book?> GetBookByIdAsync(Guid id); 
     Task<bool> DeleteBookAsync(Guid id);
-    
+    Task<IEnumerable<Book>> FilterBooksAsync(string searchTerm);
 }

@@ -64,4 +64,20 @@ public class BookRepository:IBookRepository
         await _context.SaveChangesAsync();
         return await Task.FromResult(true);
     }
+
+    public async Task<IEnumerable<Book>> FilterBooksAsync(string searchTerm)
+    {
+        var books=await _context.
+            Books.
+            Where(book=>book.Title.Contains(searchTerm)|| book.Author.Contains(searchTerm)|| book.Isbn.Equals(searchTerm))
+            .ToListAsync();
+        
+        return books.Select(book=>Book.CreateExisting(book.Id,
+            book.Isbn,
+            book.Title,
+            new CategoryId(book.CategoryId),
+            book.Author,
+            book.AvailableCopies) 
+            ).ToList();
+    }
 }

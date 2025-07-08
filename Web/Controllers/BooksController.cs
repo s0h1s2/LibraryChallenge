@@ -17,7 +17,7 @@ public class BooksController : ControllerBase
         _bookRepository = bookRepository;
     }
 
-    [HttpGet(Name = "GetWeatherForecast")]
+    [HttpGet(Name = "GetBooks")]
     public async Task<IEnumerable<Book>> Get()
     {
         return await _bookRepository.GetBooksAsync();

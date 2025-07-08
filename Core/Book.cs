@@ -23,7 +23,15 @@ public class Book
     {
         return new Book(isbn, title, category, author,availableCopies);
     }
-
+    public static Book CreateExisting(Guid id,string isbn, string title, CategoryId category, string author,int availableCopies)
+    {
+        if (id == Guid.Empty) throw new DomainException("Id cannot be empty");
+        var book=new Book(isbn, title, category, author,availableCopies)
+        {
+            Id = id,
+        };
+        return book;
+    }
     public void Borrow(DateTime dueDate)
     {
         if (this.AvailableCopies==0) throw new DomainException("Can't borrow book when no copies are available");

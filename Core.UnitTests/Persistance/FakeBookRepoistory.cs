@@ -11,4 +11,9 @@ public class FakeBookRepository:IBookRepository
         Books.Add(book);
         return Task.FromResult<Book?>(book);
     }
+
+    public Task<IList<Book>> GetBooksAsync()
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -1,11 +1,17 @@
 namespace Core;
 
-public class CategoryId
+public class Category
 {
-    public int Id { get; private set; }
+    public Guid Id { get; private set; }
+    public string Name { get; private set; }
 
-    public CategoryId(int id)
+    private Category(string name)
     {
-        Id = id;
+        Id = Guid.NewGuid();
+        Name = name;
+    }
+    public static Category Create(string name)
+    {
+        return new Category(name);
     }
 }

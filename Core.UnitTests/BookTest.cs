@@ -1,5 +1,6 @@
 ﻿using Core.UnitTests.Persistance;
 using Core;
+using Core.Dto;
 using Core.Services;
 
 namespace Core.UnitTests;
@@ -9,18 +10,18 @@ public class BookTest
     [Fact]
     public async Task TestAddBookToLibrary_Book_MustBe_Added()
     {
-        var book = Book.CreateBook(
+        var bookToAdd = new CreateBook(
             "978-0-306-40615-7",
             "The Art of Computer Programming",
-            new CategoryId(Guid.NewGuid()),
+            Guid.NewGuid(),
             "Donald Knuth",
             1
             );
         var bookRepo = new FakeBookRepository();
         var bookService = new BookService(bookRepo);
-        await bookService.AddBookAsync(book);
-        Assert.NotEmpty(bookRepo.Books);
-        Assert.Same(book,bookRepo.Books.First());
+        var book=await bookService.AddBookAsync(bookToAdd);
+        Assert.Single(bookRepo.Books);
+        Assert.Equivalent(book,bookRepo.Books.First());
     }
     [Fact]
     public void TestBorrowBookFromLibrary_AvailableCopies_Is_Zero_Must_Throw_Domain_Exception()

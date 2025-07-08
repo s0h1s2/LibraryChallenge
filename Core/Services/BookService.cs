@@ -1,3 +1,4 @@
+using Core.Dto;
 using Core.Persistance;
 
 namespace Core.Services;
@@ -11,7 +12,7 @@ public class BookService
         _bookRepository = bookRepository;
     }
 
-    public async Task<Book?> AddBookAsync(Book book)
+    public async Task<Book?> AddBookAsync(CreateBook book)
     {
         return await _bookRepository.AddBookAsync(book);
     }

@@ -1,5 +1,7 @@
 using Core;
+using Core.Dto;
 using Core.Persistance;
+using Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers;
@@ -10,11 +12,13 @@ public class BooksController : BaseController
 {
     private readonly ILogger<BooksController> _logger;
     private readonly IBookRepository _bookRepository;
+    private readonly BookService _bookService;
 
-    public BooksController(ILogger<BooksController> logger,IBookRepository bookRepository)
+    public BooksController(ILogger<BooksController> logger,IBookRepository bookRepository,BookService bookService)
     {
         _logger = logger;
         _bookRepository = bookRepository;
+        _bookService = bookService;
     }
 
     [HttpGet(Name = "GetBooks")]
@@ -44,6 +48,17 @@ public class BooksController : BaseController
         }
         var books = await _bookRepository.FilterBooksAsync(q);
         return Success(books);
+    }
+
+    [HttpPost("", Name = "AddBook")]
+    public async Task<IActionResult> AddBook(CreateBook book)
+    {
+        var bookResult=await _bookService.AddBookAsync(book);
+        return CreatedAtAction(
+            nameof(AddBook), 
+            new { id = bookResult?.Id }, 
+            bookResult
+            );
     }
     
     [HttpDelete("{id:guid}", Name = "DeleteBookById")]

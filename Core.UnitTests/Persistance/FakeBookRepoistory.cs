@@ -1,4 +1,5 @@
 using Core;
+using Core.Dto;
 using Core.Persistance;
 
 namespace Core.UnitTests.Persistance;
@@ -6,12 +7,14 @@ namespace Core.UnitTests.Persistance;
 public class FakeBookRepository:IBookRepository
 {
     public List<Book> Books { get; } = new();
-    public Task<Book?> AddBookAsync(Book book)
+    public Task<Book?> AddBookAsync(CreateBook bookToAdd)
     {
+        var book= bookToAdd.ToBook();
         Books.Add(book);
         return Task.FromResult<Book?>(book);
     }
 
+    
     public Task<IList<Book>> GetBooksAsync()
     {
         throw new NotImplementedException();

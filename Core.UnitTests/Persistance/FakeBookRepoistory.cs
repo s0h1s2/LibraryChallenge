@@ -16,4 +16,14 @@ public class FakeBookRepository:IBookRepository
     {
         throw new NotImplementedException();
     }
+
+    public Task<Book?> GetBookByIdAsync(Guid id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> DeleteBookAsync(Guid id)
+    {
+        throw new NotImplementedException();
+    }
 }

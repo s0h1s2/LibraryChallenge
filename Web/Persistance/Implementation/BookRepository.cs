@@ -33,4 +33,35 @@ public class BookRepository:IBookRepository
                     ))
             .ToList();
     }
+
+    public async Task<Book?> GetBookByIdAsync(Guid id)
+    {
+        var bookEntity=await _context.Books.FindAsync(id);
+        if (bookEntity == null)
+        {
+            return null;
+        }
+
+        return Book.CreateExisting(
+            bookEntity.Id,
+            bookEntity.Isbn,
+            bookEntity.Title,
+            new CategoryId(bookEntity.CategoryId),
+            bookEntity.Author,
+            bookEntity.AvailableCopies
+            );
+
+    }
+
+    public async Task<bool> DeleteBookAsync(Guid id)
+    {
+        var book = await _context.Books.FindAsync(id);
+        if (book == null)
+        {
+            throw new KeyNotFoundException($"Book with id {id} not found.");
+        }
+        _context.Books.Remove(book);
+        await _context.SaveChangesAsync();
+        return await Task.FromResult(true);
+    }
 }

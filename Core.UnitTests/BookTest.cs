@@ -12,7 +12,7 @@ public class BookTest
         var book = Book.CreateBook(
             "978-0-306-40615-7",
             "The Art of Computer Programming",
-            new CategoryId(1),
+            new CategoryId(Guid.NewGuid()),
             "Donald Knuth",
             1
             );
@@ -28,7 +28,7 @@ public class BookTest
         var book = Book.CreateBook(
             "978-0-306-40615-7",
             "The Art of Computer Programming",
-            new CategoryId(1),
+            new CategoryId(Guid.NewGuid()),
             "Donald Knuth",
             0
         );
@@ -41,7 +41,7 @@ public class BookTest
         var book = Book.CreateBook(
             "978-0-306-40615-7",
             "The Art of Computer Programming",
-            new CategoryId(1),
+            new CategoryId(Guid.NewGuid()),
             "Donald Knuth",
             2
         );   
@@ -55,7 +55,7 @@ public class BookTest
         var book = Book.CreateBook(
             "978-0-306-40615-7",
             "The Art of Computer Programming",
-            new CategoryId(1),
+            new CategoryId(Guid.NewGuid()),
             "Donald Knuth",
             1
         );   

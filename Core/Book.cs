@@ -1,18 +1,20 @@
 namespace Core;
 public class Book
 {
+    public Guid Id { get; private set; }
     public string Isbn { get; private set; }
     public string Title { get; private set; }
-    public CategoryId Category { get; private set; }
+    public CategoryId CategoryId { get; private set; }
     public string Author { get; private set; }
     
     public int AvailableCopies { get; private set; }
     public DateTime DueDate { get; private set; }
-    private Book(string isbn, string title, CategoryId category, string author, int availableCopies)
+    private Book(string isbn, string title, CategoryId categoryId, string author, int availableCopies)
     {
+        Id = Guid.NewGuid();
         Isbn = isbn;
         Title = title;
-        Category = category;
+        CategoryId = categoryId;
         Author = author;
         AvailableCopies = availableCopies;
     }

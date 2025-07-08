@@ -26,4 +26,9 @@ public class FakeBookRepository:IBookRepository
     {
         throw new NotImplementedException();
     }
+
+    public Task<IEnumerable<Book>> FilterBooksAsync(string searchTerm)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -23,7 +23,7 @@ public class BooksController : BaseController
         var books = await _bookRepository.GetBooksAsync();
         return Success(books);
     }
-
+    
     [HttpGet("{id:guid}", Name = "GetBookById")]
     public async Task<IActionResult> GetBookById(Guid id)
     {
@@ -35,6 +35,17 @@ public class BooksController : BaseController
 
         return Success(book,null);
     }
+    [HttpGet("search", Name = "FilterBooks")]
+    public async Task<IActionResult> FilterBooks([FromQuery] string q)
+    {
+        if (string.IsNullOrWhiteSpace(q))
+        {
+            return Failure(Messages.SearchTermNotFound);
+        }
+        var books = await _bookRepository.FilterBooksAsync(q);
+        return Success(books);
+    }
+    
     [HttpDelete("{id:guid}", Name = "DeleteBookById")]
     public async Task<IActionResult> DeleteBookById(Guid id)
     {

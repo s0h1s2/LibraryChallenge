@@ -1,4 +1,4 @@
-namespace Domain.Persistance;
+namespace Core.Persistance;
 
 public interface IBookRepository
 {

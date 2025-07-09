@@ -8,6 +8,7 @@ public class HasPermissionAttribute:AuthorizeAttribute
 {
     public HasPermissionAttribute(AttributeType attributeType):base(policy:attributeType.ToString())
     {
+        
     }
     
     

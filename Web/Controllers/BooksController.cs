@@ -2,8 +2,10 @@ using Core;
 using Core.Dto;
 using Core.Persistance;
 using Core.Services;
+using Core.ValueObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Web.Util;
 
 namespace Web.Controllers;
 
@@ -55,6 +57,7 @@ public class BooksController : BaseController
     }
 
     [HttpPost("", Name = "AddBook")]
+    [HasPermission(AttributeType.CanCreateBooks)]
     public async Task<IActionResult> AddBook(CreateBook book)
     {
         var bookResult = await _bookDomainService.AddBookAsync(book);

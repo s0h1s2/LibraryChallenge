@@ -12,6 +12,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<UserEntity> User { get; set; }
     public DbSet<RoleEntity> Role { get; set; }
     public DbSet<PermissionEntity> Permission { get; set; }
+    public DbSet<UserRoleEntity> UserRole { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

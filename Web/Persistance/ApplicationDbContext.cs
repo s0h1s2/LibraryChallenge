@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Web.Persistance;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :DbContext
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :DbContext(options)
 {
     public DbSet<BookEntity> Books { get; set; }
     public DbSet<CategoryEntity> Category { get; set; }

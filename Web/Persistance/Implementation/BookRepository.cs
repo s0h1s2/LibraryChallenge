@@ -1,7 +1,6 @@
 using Core;
 using Core.Dto;
 using Core.Persistance;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Web.Persistance;
@@ -30,10 +29,16 @@ public class BookRepository:IBookRepository
             bookToAdd.Id,
             book.Isbn,
             book.Title,
-            book.CategoryId, 
+            new CategoryId(bookToAdd.CategoryId), 
             book.Author, 
             book.AvailableCopies
             );
+        
+    }
+
+    public Task<Book> UpdateBookAsync(Book book)
+    {
+        
     }
 
     public async Task<IList<Book>> GetBooksAsync()

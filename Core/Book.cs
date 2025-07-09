@@ -1,3 +1,5 @@
+using Core.Dto;
+
 namespace Core;
 public class Book
 {
@@ -42,5 +44,9 @@ public class Book
     public void Return()
     {
         this.AvailableCopies++;
+    }
+    public Book UpdateDetail(UpdateBook updateBook)
+    {
+        return CreateExisting(Id,updateBook.Isbn,updateBook.Title,CategoryId,updateBook.Author,updateBook.AvailableCopies);
     }
 }

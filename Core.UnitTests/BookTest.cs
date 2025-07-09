@@ -35,7 +35,27 @@ public class BookTest
         );
         Assert.Throws<DomainException>(()=>book.Borrow(DateTime.Now));
     }
-
+    [Fact]
+    public void TestUpdateBookInLibrary_Book_MustBe_Updated()
+    {
+        var bookRepo = new FakeBookRepository();
+        var bookToUpdate = new CreateBook(
+                "12354",
+            "The Art of Computer Programming",
+            Guid.NewGuid(),
+            "Donald Knuth",
+            1)
+            .ToBook();
+        bookRepo.Books.Add(bookToUpdate);
+        var book=bookRepo.Books.First();
+        var updatedBook=book.UpdateDetail(new UpdateBook("The Art Of Computer Programming",
+            "12354",
+            book.CategoryId.Id,
+            "Donald Knuth",
+            2));
+        bookRepo.UpdateBookAsync(updatedBook);
+        Assert.NotEqual(book,bookRepo.Books.First());
+    }
     [Fact]
     public void TestBorrowBookFromLibrary_AvailableCopies_Must_Decrease_AfterBorrowing()
     {

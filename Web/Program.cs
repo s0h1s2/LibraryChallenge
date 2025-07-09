@@ -3,9 +3,8 @@ using Core.Services;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Web.Persistance;
-
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -15,6 +14,10 @@ builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped(typeof(BookService));
 
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+builder.Services.AddFluentValidationAutoValidation(configuration =>
+{
+    configuration.DisableBuiltInModelValidation = true;
+} );
 
 builder.Services
     .AddDbContext<ApplicationDbContext>(opt=> 

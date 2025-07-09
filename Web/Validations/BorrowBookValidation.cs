@@ -8,11 +8,13 @@ public class BorrowBookValidation:AbstractValidator<BorrowBook>
     public BorrowBookValidation()
     {
         RuleFor(x => x.BookId)
-            .NotEmpty().WithMessage("Book ID cannot be empty.")
-            .NotEqual(Guid.Empty).WithMessage("Book ID cannot be an empty GUID.");
+            .NotEmpty()
+            .WithMessage("Book ID cannot be empty.")
+            .NotEqual(Guid.Empty)
+            .WithMessage("Book ID cannot be an empty GUID.");
 
         RuleFor(x => x.BorrowDate)
-            .NotEmpty().WithMessage("Borrow date cannot be empty.")
-            .LessThanOrEqualTo(DateTime.Now).WithMessage("Borrow date cannot be in the future.");
+            .NotEmpty()
+            .WithMessage("Borrow date cannot be empty.");
     }
 }

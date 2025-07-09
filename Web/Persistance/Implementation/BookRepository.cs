@@ -20,7 +20,7 @@ public class BookRepository:IBookRepository
             Isbn = book.Isbn,
             Author = book.Author,
             Title = book.Title,
-            CategoryId = book.CategoryId.Id,
+            CategoryId = book.CategoryId,
             AvailableCopies = book.AvailableCopies
         };
         _context.Books.Add(bookToAdd);
@@ -38,7 +38,20 @@ public class BookRepository:IBookRepository
 
     public Task<Book> UpdateBookAsync(Book book)
     {
-        
+        var bookEntity = _context.Books.Find(book.Id);
+        if (bookEntity == null)
+        {
+            throw new KeyNotFoundException($"Book with id {book.Id} not found.");
+        }
+
+        bookEntity.Isbn = book.Isbn;
+        bookEntity.Title = book.Title;
+        bookEntity.Author = book.Author;
+        bookEntity.CategoryId = book.CategoryId.Id;
+        bookEntity.AvailableCopies = book.AvailableCopies;
+        _context.Books.Update(bookEntity);
+        _context.SaveChangesAsync();
+        return Task.FromResult(book);
     }
 
     public async Task<IList<Book>> GetBooksAsync()

@@ -1,7 +1,9 @@
 using Core.Persistance;
 using Core.Services;
 using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 using Web.Persistance;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +14,14 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped(typeof(BookDomainService));
+builder.Services.AddAuthentication();
+builder.Services.
+    AddIdentityApiEndpoints<IdentityUser>(options =>
+    {
+        
+    }).
+    AddEntityFrameworkStores<ApplicationDbContext>();
+
 
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 builder.Services.AddFluentValidationAutoValidation(configuration =>
@@ -29,12 +39,14 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference();
 }
+
 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
 app.MapControllers();
+app.MapGroup("api/v1/users").MapIdentityApi<IdentityUser>();
 
 app.Run();

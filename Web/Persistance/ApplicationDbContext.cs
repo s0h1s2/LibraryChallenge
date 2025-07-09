@@ -4,10 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Web.Persistance;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext(options)
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :DbContext
 {
     public DbSet<BookEntity> Books { get; set; }
     public DbSet<CategoryEntity> Category { get; set; }
+    public DbSet<UserEntity> User { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

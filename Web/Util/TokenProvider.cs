@@ -6,7 +6,7 @@ using JwtRegisteredClaimNames = System.IdentityModel.Tokens.Jwt.JwtRegisteredCla
 
 namespace Web.Util;
 
-internal sealed class TokenProvider(IConfiguration configuration)
+public sealed class TokenProvider(IConfiguration configuration)
 {
     public string Create(UserEntity user)
     {

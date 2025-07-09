@@ -17,7 +17,7 @@ public class CreateUserValidation:AbstractValidator<CreateUser>
             .WithMessage("Email is required")
             .EmailAddress()
             .MustAsync(CheckForUniqueEmail)
-            .WithMessage("Invalid email format");
+            .WithMessage("Email must be unique");
 
         RuleFor(x => x.Password)
             .NotEmpty()

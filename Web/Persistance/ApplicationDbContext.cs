@@ -1,5 +1,6 @@
 using Core;
 using Core.ValueObjects;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -234,6 +235,36 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                     CategoryId = categories[random.Next(categories.Count)].Id
                 }
             });
+            var passwordHasher = new PasswordHasher<object?>();
+            context.AddRange(new List<UserEntity>()
+            {
+                new UserEntity()
+                {
+                    Email = "shkar@mail.com",
+                    PasswordHash = passwordHasher.HashPassword(null,"password")
+                },
+                new UserEntity()
+                {
+                    Email = "broosk@mail.com",
+                    PasswordHash = passwordHasher.HashPassword(null,"password")
+                },
+                new UserEntity()
+                {
+                    Email = "handren@mail.com",
+                    PasswordHash = passwordHasher.HashPassword(null,"password")
+                },
+                new UserEntity()
+                {
+                    Email = "sazan@mail.com",
+                    PasswordHash = passwordHasher.HashPassword(null,"password")
+                },
+                new UserEntity()
+                {
+                    Email = "john@mail.com",
+                    PasswordHash = passwordHasher.HashPassword(null,"password")
+                },
+
+            });
             context.Add(new RoleEntity()
             {
                 Name = nameof(RoleType.Admin),
@@ -241,6 +272,11 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                 {
                     Name = perm.ToString()
                 }).ToList(),
+            });
+            context.Add(new UserRoleEntity()
+            {
+                RoleId = 1,
+                UserId = 1
             });
             context.SaveChanges();
         }));

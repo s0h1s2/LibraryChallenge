@@ -16,4 +16,15 @@ public class BookService
     {
         return await _bookRepository.AddBookAsync(book);
     }
+
+    public async Task BorrowBookAsync(BorrowBook borrowBook)
+    {
+        var book=await _bookRepository.GetBookByIdAsync(borrowBook.BookId);
+        if (book is null)
+        {
+            throw new KeyNotFoundException();
+        }
+        book.Borrow(borrowBook.BorrowDate);
+        await _bookRepository.UpdateBookAsync(book);   
+    }
 }

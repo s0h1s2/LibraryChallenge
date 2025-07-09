@@ -3,11 +3,11 @@ using Core.Persistance;
 
 namespace Core.Services;
 
-public class BookService
+public class BookDomainService
 {
     private readonly IBookRepository _bookRepository;
     
-    public BookService(IBookRepository bookRepository)
+    public BookDomainService(IBookRepository bookRepository)
     {
         _bookRepository = bookRepository;
     }

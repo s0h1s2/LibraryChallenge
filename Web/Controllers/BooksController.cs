@@ -2,12 +2,14 @@ using Core;
 using Core.Dto;
 using Core.Persistance;
 using Core.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/v1/[controller]")]
+[Authorize]
 public class BooksController : BaseController
 {
     private readonly ILogger<BooksController> _logger;

@@ -8,6 +8,8 @@ using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using Web.Persistance;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
+using Web.Util;
+
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
@@ -15,7 +17,8 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
-builder.Services.AddScoped(typeof(BookDomainService));
+builder.Services.AddScoped<BookDomainService>();
+builder.Services.AddSingleton<TokenProvider>();
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme=JwtBearerDefaults.AuthenticationScheme;

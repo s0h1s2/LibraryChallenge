@@ -12,13 +12,13 @@ public class BooksController : BaseController
 {
     private readonly ILogger<BooksController> _logger;
     private readonly IBookRepository _bookRepository;
-    private readonly BookService _bookService;
+    private readonly BookDomainService _bookDomainService;
 
-    public BooksController(ILogger<BooksController> logger, IBookRepository bookRepository, BookService bookService)
+    public BooksController(ILogger<BooksController> logger, IBookRepository bookRepository, BookDomainService bookDomainService)
     {
         _logger = logger;
         _bookRepository = bookRepository;
-        _bookService = bookService;
+        _bookDomainService = bookDomainService;
     }
 
     [HttpGet(Name = "GetBooks")]
@@ -55,7 +55,7 @@ public class BooksController : BaseController
     [HttpPost("", Name = "AddBook")]
     public async Task<IActionResult> AddBook(CreateBook book)
     {
-        var bookResult = await _bookService.AddBookAsync(book);
+        var bookResult = await _bookDomainService.AddBookAsync(book);
         return CreatedAtAction(
             nameof(AddBook),
             new { id = bookResult?.Id },
@@ -82,7 +82,7 @@ public class BooksController : BaseController
     {
         try
         {
-            await _bookService.BorrowBookAsync(borrowBook);
+            await _bookDomainService.BorrowBookAsync(borrowBook);
             return Success<object>(null, Messages.SuccessMessage);
         }
         catch (KeyNotFoundException e)

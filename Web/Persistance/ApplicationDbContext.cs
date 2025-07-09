@@ -233,7 +233,14 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                     CategoryId = categories[random.Next(categories.Count)].Id
                 }
             });
-            context.AddRange(Enum.GetValues<AttributeType>().Select(perm=>new PermissionEntity()).ToList());
+            context.Add(new RoleEntity()
+            {
+                Name = nameof(RoleType.Admin),
+                Permissions = Enum.GetValues<AttributeType>().Select(perm=>new PermissionEntity
+                {
+                    Name = perm.ToString()
+                }).ToList(),
+            });
             context.SaveChanges();
         }));
     }

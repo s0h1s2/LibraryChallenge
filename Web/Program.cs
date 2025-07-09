@@ -1,8 +1,10 @@
 using Core.Persistance;
 using Core.Services;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using Web.Persistance;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
@@ -14,14 +16,23 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped(typeof(BookDomainService));
-builder.Services.AddAuthentication();
-builder.Services.
-    AddIdentityApiEndpoints<IdentityUser>(options =>
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme=JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme=JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters()
     {
-        
-    }).
-    AddEntityFrameworkStores<ApplicationDbContext>();
-
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience =builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.Unicode.GetBytes(builder.Configuration["Jwt:Key"] ?? string.Empty))
+    };
+});
 
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 builder.Services.AddFluentValidationAutoValidation(configuration =>
@@ -47,6 +58,5 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 app.MapControllers();
-app.MapGroup("api/v1/users").MapIdentityApi<IdentityUser>();
 
 app.Run();

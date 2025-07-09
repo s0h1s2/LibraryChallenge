@@ -13,7 +13,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<UserEntity> User { get; set; }
     public DbSet<RoleEntity> Role { get; set; }
     public DbSet<PermissionEntity> Permission { get; set; }
-    public DbSet<UserRoleEntity> UserRole { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -235,14 +234,24 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                     CategoryId = categories[random.Next(categories.Count)].Id
                 }
             });
+            var adminRole = new RoleEntity()
+            {
+                Name = nameof(RoleType.Admin),
+                Permissions = Enum.GetValues<AttributeType>().Select(perm => new PermissionEntity
+                {
+                    Name = perm.ToString()
+                }).ToList(),
+            };
             var passwordHasher = new PasswordHasher<object?>();
+            var adminUser = new UserEntity()
+            {
+                Email = "shkar@mail.com",
+                PasswordHash = passwordHasher.HashPassword(null, "password"),
+                Role = adminRole
+            };
             context.AddRange(new List<UserEntity>()
             {
-                new UserEntity()
-                {
-                    Email = "shkar@mail.com",
-                    PasswordHash = passwordHasher.HashPassword(null,"password")
-                },
+                adminUser,
                 new UserEntity()
                 {
                     Email = "broosk@mail.com",
@@ -265,19 +274,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                 },
 
             });
-            context.Add(new RoleEntity()
-            {
-                Name = nameof(RoleType.Admin),
-                Permissions = Enum.GetValues<AttributeType>().Select(perm=>new PermissionEntity
-                {
-                    Name = perm.ToString()
-                }).ToList(),
-            });
-            context.Add(new UserRoleEntity()
-            {
-                RoleId = 1,
-                UserId = 1
-            });
+           
             context.SaveChanges();
         }));
     }

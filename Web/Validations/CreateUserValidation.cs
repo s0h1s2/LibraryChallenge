@@ -28,6 +28,6 @@ public class CreateUserValidation:AbstractValidator<CreateUser>
 
     private async Task<bool> CheckForUniqueEmail(string email, CancellationToken cancellationToken)
     {
-        return await _dbContext.User.AnyAsync(user=>user.Email==email,cancellationToken);
+        return await _dbContext.User.AnyAsync(user=>user.Email==email,cancellationToken) is not true;
     }
 }

@@ -5,13 +5,13 @@ namespace Core.Entity;
 
 public class RoleAttribute
 {
-    private AttributeType _attribute;
+    private PermissionType _permission;
 
-    private RoleAttribute(AttributeType attribute)
+    private RoleAttribute(PermissionType permission)
     {
-        _attribute = attribute;
+        _permission = permission;
     }
-    public static RoleAttribute Create (AttributeType type)
+    public static RoleAttribute Create (PermissionType type)
     {
         return new RoleAttribute(type);
     }

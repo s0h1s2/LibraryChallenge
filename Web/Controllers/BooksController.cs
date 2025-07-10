@@ -57,7 +57,7 @@ public class BooksController : BaseController
     }
 
     [HttpPost("", Name = "AddBook")]
-    [HasPermission(AttributeType.CanCreateBooks)]
+    [HasPermission(PermissionType.CanCreateBooks)]
     public async Task<IActionResult> AddBook(CreateBook book)
     {
         var bookResult = await _bookDomainService.AddBookAsync(book);
@@ -69,7 +69,7 @@ public class BooksController : BaseController
     }
 
     [HttpDelete("{id:guid}", Name = "DeleteBookById")]
-    [HasPermission(AttributeType.CanDeleteBooks)]
+    [HasPermission(PermissionType.CanDeleteBooks)]
     public async Task<IActionResult> DeleteBookById(Guid id)
     {
         try
@@ -84,7 +84,7 @@ public class BooksController : BaseController
     }
 
     [HttpPost("borrow", Name = "BorrowBook")]
-    [HasPermission(AttributeType.CanBorrowBooks)]
+    [HasPermission(PermissionType.CanBorrowBooks)]
     public async Task<IActionResult> BorrowBook([FromBody] BorrowBook borrowBook)
     {
         try
@@ -102,7 +102,7 @@ public class BooksController : BaseController
         }
     }
     [HttpPut("{id:guid}", Name = "UpdateBook")]
-    [HasPermission(AttributeType.CanUpdateBooks)]
+    [HasPermission(PermissionType.CanUpdateBooks)]
     public async Task<IActionResult> UpdateBook(Guid id,[FromBody] UpdateBook updateBook)
     {
         var book = await _bookRepository.GetBookByIdAsync(id);
@@ -122,7 +122,7 @@ public class BooksController : BaseController
         }
     }
     [HttpPost("{id:guid}/return", Name = "ReturnBook")]
-    [HasPermission(AttributeType.CanReturnBooks)]
+    [HasPermission(PermissionType.CanReturnBooks)]
     public async Task<IActionResult> ReturnBook(Guid id)
     {
         var book = await _bookRepository.GetBookByIdAsync(id);

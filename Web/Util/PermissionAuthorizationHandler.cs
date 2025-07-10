@@ -28,12 +28,14 @@ public class PermissionAuthorizationHandler:AuthorizationHandler<PermissionRequi
             return;
         }
 
-        var permissions = await _context.User.Where(user => user.Id == userIdGuid)
-            .Include(user => user.Role)
-            .ThenInclude(role => role.Permissions)
-            .FirstAsync();
+        var permissions= await _context.User
+            .Where(u => u.Id == userIdGuid)
+            .SelectMany(u => u.Role.Permissions)
+            .ToListAsync();
+        
+            
 
-        if (permissions.Role.Permissions.Any(p => p.Name == requirement.Permission))
+        if (permissions.Any(p=>p.Name== requirement.Permission))
         {
             context.Succeed(requirement);
         }

@@ -16,9 +16,8 @@ public sealed class TokenProvider(IConfiguration configuration)
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity([
-                new Claim(JwtRegisteredClaimNames.Sub,user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Email,user.Email),
-                
+                new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
+                new Claim(ClaimTypes.Email,user.Email),
             ]),
             Expires = DateTime.UtcNow.AddSeconds(configuration.GetValue<int>("Jwt:ExpireInSeconds", 3600)),
             SigningCredentials = credentials,

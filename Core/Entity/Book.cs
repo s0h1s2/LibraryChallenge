@@ -34,11 +34,10 @@ public class Book
         };
         return book;
     }
-    public void Borrow(DateTime dueDate)
+    public void Borrow()
     {
         if (this.AvailableCopies==0) throw new DomainException("Can't borrow book when no copies are available");
-        this.AvailableCopies--;
-        this.DueDate = dueDate;
+        AvailableCopies--;
     }
 
     public void Return()
@@ -51,9 +50,9 @@ public class Book
             Id,
             updateBook.Isbn?? Isbn,
             updateBook.Title??Title,
-            CategoryId??new CategoryId(updateBook.CategoryId),
+            CategoryId??updateBook.CategoryId,
             updateBook.Author?? Author,
-            updateBook.AvailableCopies
+            updateBook.AvailableCopies?? AvailableCopies
             );
     }
 }

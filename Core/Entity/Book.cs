@@ -1,6 +1,6 @@
 using Core.Dto;
 
-namespace Core;
+namespace Core.Entity;
 public class Book
 {
     public Guid Id { get; private set; }
@@ -11,7 +11,6 @@ public class Book
     public string Author { get; private set; }
     
     public int AvailableCopies { get; private set; }
-    public DateTime DueDate { get; private set; }
     private Book(string isbn, string title, CategoryId categoryId, string author, int availableCopies)
     {
         Id = Guid.NewGuid();

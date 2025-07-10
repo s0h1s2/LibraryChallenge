@@ -30,6 +30,7 @@ public class UpdateBookValidation:AbstractValidator<UpdateBook>
 
     private Task<bool> LookForCategory(CategoryId categoryId, CancellationToken cancellationToken)
     {
-        return _dbContext.Category.AnyAsync(entity => entity.Id == categoryId.Id, cancellationToken);
+        return _dbContext.Category.AnyAsync(entity => entity.Id == categoryId, cancellationToken);
+        
     }
 }

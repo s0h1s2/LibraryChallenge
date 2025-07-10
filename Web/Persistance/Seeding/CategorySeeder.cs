@@ -14,11 +14,11 @@ public class CategorySeeder:IDataSeeder
     public static void Configure(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Category>().HasData(
-            Category.CreateExisting(FictionId,name : "Science" ),
-            Category.CreateExisting(NonFictionId,name : "Non-Fiction" ),
-            Category.CreateExisting(FictionId,name : "Fiction" ),
-            Category.CreateExisting(HistoryId,name : "History" ),
-            Category.CreateExisting(ProgrammingId,name : "Programming" )
+            Category.CreateExisting(new CategoryId( FictionId),name : "Science" ),
+            Category.CreateExisting(new CategoryId(NonFictionId),name : "Non-Fiction" ),
+            Category.CreateExisting(new CategoryId(HistoryId),name : "History" ),
+            Category.CreateExisting(new CategoryId(ProgrammingId),name : "Programming" ),
+            Category.CreateExisting(new CategoryId(ScienceId),name : "Science" )
         );
     }
 }

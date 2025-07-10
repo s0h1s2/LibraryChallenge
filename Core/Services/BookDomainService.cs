@@ -36,7 +36,7 @@ public class BookDomainService
     public async Task ReturnBookAsync(Guid bookId,Guid userId)
     {
         var book = await _bookRepository.GetBookByIdAsync(bookId);
-        var user = await _userRepository.GetUserByIdAsync(userId);
+        var user = await _userRepository.GetUserWithBorrowedBooksAsync(userId,bookId);
         if (book is null || user is null)
         {
             throw new KeyNotFoundException();
@@ -44,6 +44,7 @@ public class BookDomainService
         book.Return(user);
         await _bookRepository.UpdateBookAsync(book);
         await _userRepository.UpdateUserAsync(user);
+        
     }
     
 }

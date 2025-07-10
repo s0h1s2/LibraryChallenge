@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Web.Persistance;
 
-public class BookConfigurations:IEntityTypeConfiguration<Book>
+public class BookConfiguration:IEntityTypeConfiguration<Book>
 {
     public void Configure(EntityTypeBuilder<Book> builder)
     {

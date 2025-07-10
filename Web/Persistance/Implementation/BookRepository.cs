@@ -36,7 +36,7 @@ public class BookRepository:IBookRepository
         
     }
 
-    public Task<Book> UpdateBookAsync(Book book)
+    public async Task<Book> UpdateBookAsync(Book book)
     {
         var bookEntity = _context.Books.Find(book.Id);
         if (bookEntity == null)
@@ -50,8 +50,8 @@ public class BookRepository:IBookRepository
         bookEntity.CategoryId = book.CategoryId.Id;
         bookEntity.AvailableCopies = book.AvailableCopies;
         _context.Books.Update(bookEntity);
-        _context.SaveChangesAsync();
-        return Task.FromResult(book);
+        await _context.SaveChangesAsync();
+        return book;
     }
 
     public async Task<IList<Book>> GetBooksAsync()

@@ -47,6 +47,13 @@ public class Book
     }
     public Book UpdateDetail(UpdateBook updateBook)
     {
-        return CreateExisting(Id,updateBook.Isbn,updateBook.Title,CategoryId,updateBook.Author,updateBook.AvailableCopies);
+        return CreateExisting(
+            Id,
+            updateBook.Isbn?? Isbn,
+            updateBook.Title??Title,
+            CategoryId??new CategoryId(updateBook.CategoryId),
+            updateBook.Author?? Author,
+            updateBook.AvailableCopies
+            );
     }
 }

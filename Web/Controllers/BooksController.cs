@@ -101,7 +101,26 @@ public class BooksController : BaseController
             return Failure(e.Message, 400);
         }
     }
-
+    [HttpPut("{id:guid}", Name = "UpdateBook")]
+    [HasPermission(AttributeType.CanUpdateBooks)]
+    public async Task<IActionResult> UpdateBook(Guid id,[FromBody] UpdateBook updateBook)
+    {
+        var book = await _bookRepository.GetBookByIdAsync(id);
+        if (book == null)
+        {
+            return Failure(Messages.BookNotFound, 404);
+        }
+        try
+        {
+            var newBookInfo=book.UpdateDetail(updateBook);
+            await _bookRepository.UpdateBookAsync(newBookInfo);
+            return Success(book, Messages.SuccessMessage);
+        }
+        catch (DomainException e)
+        {
+            return Failure(e.Message, 400);
+        }
+    }
     [HttpPost("{id:guid}/return", Name = "ReturnBook")]
     [HasPermission(AttributeType.CanReturnBooks)]
     public async Task<IActionResult> ReturnBook(Guid id)

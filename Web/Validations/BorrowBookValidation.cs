@@ -13,7 +13,7 @@ public class BorrowBookValidation:AbstractValidator<BorrowBook>
             .NotEqual(Guid.Empty)
             .WithMessage("Book ID cannot be an empty GUID.");
 
-        RuleFor(x => x.BorrowDate)
+        RuleFor(x => x.DueDate)
             .NotEmpty()
             .WithMessage("Borrow date cannot be empty.");
     }

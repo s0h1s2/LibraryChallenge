@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Core;
 using Core.Dto;
 using Core.Persistance;
@@ -87,9 +88,11 @@ public class BooksController : BaseController
     [HasPermission(PermissionType.CanBorrowBooks)]
     public async Task<IActionResult> BorrowBook([FromBody] BorrowBook borrowBook)
     {
+        var userId = this.User.Claims.FirstOrDefault(u => u.Type == ClaimTypes.NameIdentifier)!.Value;
         try
         {
-            await _bookDomainService.BorrowBookAsync(borrowBook);
+            await _bookDomainService.BorrowBookAsync(borrowBook,Guid.Parse(userId));
+            
             return Success<object>(null, Messages.SuccessMessage);
         }
         catch (KeyNotFoundException e)

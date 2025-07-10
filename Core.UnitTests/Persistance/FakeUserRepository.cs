@@ -11,4 +11,14 @@ public class FakeUserRepository:IUserRepository
         Users.Add(user);
         return Task.FromResult(user);
     }
+
+    public Task<User?> GetUserByIdAsync(Guid userId)
+    {
+        return Task.FromResult(User.Create("shkar", "password"));
+    }
+
+    public Task<User> UpdateUserAsync(User? user)
+    {
+        throw new NotImplementedException();
+    }
 }

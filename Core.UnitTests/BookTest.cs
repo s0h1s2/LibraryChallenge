@@ -18,7 +18,8 @@ public class BookTest
             1
             );
         var bookRepo = new FakeBookRepository();
-        var bookService = new BookDomainService(bookRepo);
+        var userRepo = new FakeUserRepository();
+        var bookService = new BookDomainService(bookRepo,userRepo);
         var book=await bookService.AddBookAsync(bookToAdd);
         Assert.Single(bookRepo.Books);
         Assert.Equivalent(book,bookRepo.Books.First());

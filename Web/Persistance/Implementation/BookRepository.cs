@@ -15,40 +15,19 @@ public class BookRepository:IBookRepository
     }
     public async Task<Book?> AddBookAsync(CreateBook book)
     {
-        var bookToAdd = new BookEntity()
-        {
-            Isbn = book.Isbn,
-            Author = book.Author,
-            Title = book.Title,
-            CategoryId = book.CategoryId,
-            AvailableCopies = book.AvailableCopies
-        };
+        var bookToAdd = Book.CreateBook(isbn:book.Isbn,title:book.Title, category:new CategoryId(book.CategoryId),author:book.Author, availableCopies:book.AvailableCopies);
         _context.Books.Add(bookToAdd);
         await _context.SaveChangesAsync();
-        return Book.CreateExisting(
-            bookToAdd.Id,
-            book.Isbn,
-            book.Title,
-            new CategoryId(bookToAdd.CategoryId), 
-            book.Author, 
-            book.AvailableCopies
-            );
-        
+        return bookToAdd;
     }
 
     public async Task<Book> UpdateBookAsync(Book book)
     {
-        var bookEntity = _context.Books.Find(book.Id);
+        var bookEntity = await _context.Books.FindAsync(book.Id);
         if (bookEntity == null)
         {
             throw new KeyNotFoundException($"Book with id {book.Id} not found.");
         }
-
-        bookEntity.Isbn = book.Isbn;
-        bookEntity.Title = book.Title;
-        bookEntity.Author = book.Author;
-        bookEntity.CategoryId = book.CategoryId.Id;
-        bookEntity.AvailableCopies = book.AvailableCopies;
         _context.Books.Update(bookEntity);
         await _context.SaveChangesAsync();
         return book;
@@ -64,7 +43,7 @@ public class BookRepository:IBookRepository
                         book.Id,
                         book.Isbn,
                         book.Title,
-                        new CategoryId(book.CategoryId),
+                       book.CategoryId, 
                         book.Author,
                         book.AvailableCopies
                     ))
@@ -79,15 +58,7 @@ public class BookRepository:IBookRepository
             return null;
         }
 
-        return Book.CreateExisting(
-            bookEntity.Id,
-            bookEntity.Isbn,
-            bookEntity.Title,
-            new CategoryId(bookEntity.CategoryId),
-            bookEntity.Author,
-            bookEntity.AvailableCopies
-            );
-
+        return bookEntity;
     }
 
     public async Task<bool> DeleteBookAsync(Guid id)
@@ -108,13 +79,7 @@ public class BookRepository:IBookRepository
             Books.
             Where(book=>book.Title.Contains(searchTerm)|| book.Author.Contains(searchTerm)|| book.Isbn.Equals(searchTerm))
             .ToListAsync();
-        
-        return books.Select(book=>Book.CreateExisting(book.Id,
-            book.Isbn,
-            book.Title,
-            new CategoryId(book.CategoryId),
-            book.Author,
-            book.AvailableCopies) 
-            ).ToList();
+
+        return books;
     }
 }

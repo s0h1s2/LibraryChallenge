@@ -9,8 +9,8 @@ namespace Web.Persistance;
 
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :DbContext(options)
 {
-    public DbSet<BookEntity> Books { get; set; }
-    public DbSet<CategoryEntity> Category { get; set; }
+    public DbSet<Book> Books { get; set; }
+    public DbSet<Category> Category { get; set; }
     public DbSet<UserEntity> User { get; set; }
     public DbSet<RoleEntity> Role { get; set; }
     public DbSet<PermissionEntity> Permission { get; set; }

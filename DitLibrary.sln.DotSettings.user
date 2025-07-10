@@ -22,6 +22,11 @@
     &lt;TestId&gt;xUnit::21FEB2F7-49CC-46FB-B662-8906727DFEDA::net9.0::Core.UnitTests.BookTest&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3de8187f_002De162_002D4dfb_002Dbb13_002D65b134fa8f2a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="BookTest #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::21FEB2F7-49CC-46FB-B662-8906727DFEDA::net9.0::Core.UnitTests.BookTest&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4fdca8cd_002Dd4ca_002D4c9d_002D8087_002D29ef496fe097/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="TestCreateUser_User_MustBe_Created" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::21FEB2F7-49CC-46FB-B662-8906727DFEDA::net9.0::Core.UnitTests.UserTest&lt;/TestId&gt;
@@ -34,7 +39,7 @@
     &lt;TestId&gt;xUnit::21FEB2F7-49CC-46FB-B662-8906727DFEDA::net9.0::Core.UnitTests.RoleTest&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=64000e85_002D8007_002D4ff9_002D9b95_002D340523d2c062/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="BookTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=64000e85_002D8007_002D4ff9_002D9b95_002D340523d2c062/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="BookTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::21FEB2F7-49CC-46FB-B662-8906727DFEDA::net9.0::Core.UnitTests.BookTest&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::21FEB2F7-49CC-46FB-B662-8906727DFEDA::net9.0::Core.UnitTests.UserTest&lt;/TestId&gt;

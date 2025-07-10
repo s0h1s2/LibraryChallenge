@@ -2,7 +2,7 @@ namespace Core.ValueObjects;
 
 public enum RoleType
 {
-    Admin,
+    Admin=1,
     Liberian,
     Member
 }

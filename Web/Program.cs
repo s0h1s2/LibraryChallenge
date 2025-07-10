@@ -20,7 +20,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<BookDomainService>();
 builder.Services.AddSingleton<TokenProvider>();
-builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
+builder.Services.AddAuthorization();
+builder.Services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
 
 builder.Services.AddAuthentication(options =>

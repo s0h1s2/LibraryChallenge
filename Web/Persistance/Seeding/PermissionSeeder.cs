@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Web.Persistance.Seeding;
 
-public class PermissionSeeder
+public class PermissionSeeder:IDataSeeder
 {
     public static void Configure(ModelBuilder modelBuilder)
     {

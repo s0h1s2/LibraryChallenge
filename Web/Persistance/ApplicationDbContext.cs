@@ -242,6 +242,57 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                     Name = perm.ToString()
                 }).ToList(),
             };
+            var librarianRole = new RoleEntity()
+            {
+                Name = nameof(RoleType.Liberian),
+                Permissions = new List<PermissionEntity>([
+                    new PermissionEntity()
+                    {
+                        Name = nameof(AttributeType.CanDeleteBooks)
+                    },
+                    new PermissionEntity()
+                    {
+                        Name = nameof(AttributeType.CanCreateBooks)
+                    },
+                    new PermissionEntity()
+                    {
+                        Name = nameof(AttributeType.CanDeleteBooks)
+                    },
+                    new PermissionEntity()
+                    {
+                        Name = nameof(AttributeType.CanReturnBooks)
+                    },
+                    new PermissionEntity()
+                    {
+                        Name = nameof(AttributeType.CanUpdateBooks)
+                    },
+                    new PermissionEntity()
+                    {
+                        Name = nameof(AttributeType.CanBorrowBooks)
+                    },
+
+                ])
+            };
+            var memberRole = new RoleEntity()
+            {
+                Name = nameof(RoleType.Member),
+                Permissions = new List<PermissionEntity>([
+                    new PermissionEntity()
+                    {
+                        Name = nameof(AttributeType.CanBorrowBooks)
+                    },
+                    new PermissionEntity()
+                    {
+                        Name = nameof(AttributeType.CanReturnBooks)
+                    },
+                ])
+            };
+            context.AddRange(new List<RoleEntity>()
+            {
+                adminRole,
+                librarianRole,
+                memberRole
+            });
             var passwordHasher = new PasswordHasher<object?>();
             var adminUser = new UserEntity()
             {
@@ -255,22 +306,26 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                 new UserEntity()
                 {
                     Email = "broosk@mail.com",
-                    PasswordHash = passwordHasher.HashPassword(null,"password")
+                    PasswordHash = passwordHasher.HashPassword(null,"password"),
+                    Role = adminRole
                 },
                 new UserEntity()
                 {
                     Email = "handren@mail.com",
-                    PasswordHash = passwordHasher.HashPassword(null,"password")
+                    PasswordHash = passwordHasher.HashPassword(null,"password"),
+                    Role = adminRole
                 },
                 new UserEntity()
                 {
                     Email = "sazan@mail.com",
-                    PasswordHash = passwordHasher.HashPassword(null,"password")
+                    PasswordHash = passwordHasher.HashPassword(null,"password"),
+                    Role = adminRole
                 },
                 new UserEntity()
                 {
                     Email = "john@mail.com",
-                    PasswordHash = passwordHasher.HashPassword(null,"password")
+                    PasswordHash = passwordHasher.HashPassword(null,"password"),
+                    Role = librarianRole
                 },
 
             });

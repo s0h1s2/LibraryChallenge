@@ -7,7 +7,7 @@ public class User
     public Guid Id { get; private set; }
     public int RoleId { get; private set; }
     public Role Role { get; private set; }
-    public virtual IList<BorrowedBook> BorrowedBooks { get; private set; } 
+    public virtual IList<BorrowedBook> BorrowedBooks { get; private set; } = new List<BorrowedBook>();
     private User() { } // EF Core requires a parameterless constructor
     private User(string email, string password,int roleId)
     {

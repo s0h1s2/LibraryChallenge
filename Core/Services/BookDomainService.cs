@@ -41,7 +41,7 @@ public class BookDomainService
         {
             throw new KeyNotFoundException();
         }
-        book.Return(user);
+        book.ReturnBy(user);
         await _bookRepository.UpdateBookAsync(book);
         await _userRepository.UpdateUserAsync(user);
         

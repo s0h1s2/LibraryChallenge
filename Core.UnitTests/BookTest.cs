@@ -97,7 +97,7 @@ public class BookTest:IDisposable
         var returnDate = DateTime.Now.AddDays(14);
         book.Borrow(User,returnDate);
         Assert.Equal(0,book.AvailableCopies);
-        book.Return(User);
+        book.ReturnBy(User);
         Assert.Equal(1,book.AvailableCopies);
     }
     [Fact]
@@ -131,7 +131,7 @@ public class BookTest:IDisposable
         var returnDate = DateTime.Now.AddDays(14);
         book.Borrow(User,returnDate);
         Assert.Single(User.BorrowedBooks);
-        book.Return(User);
+        book.ReturnBy(User);
         Assert.Empty(User.BorrowedBooks);
     }
 

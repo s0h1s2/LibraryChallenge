@@ -20,9 +20,16 @@ public class UserRepository:IUserRepository
     public async Task<User> GetUserByIdAsync(Guid userId)
     {
         return await _dbContext.User
-            .Include(u => u.BorrowedBooks)
             .FirstAsync(u => u.Id == userId);
         
+    }
+
+    public async Task<User> GetUserWithBorrowedBooksAsync(Guid userId, Guid bookId)
+    {
+        return await _dbContext.User
+            .Include(user=>user.BorrowedBooks.Where(bb=>bb.BookId==bookId))
+            .FirstAsync(u => u.Id == userId);
+
     }
 
     public async Task<User> UpdateUserAsync(User user)

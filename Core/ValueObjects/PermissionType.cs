@@ -1,6 +1,6 @@
 namespace Core.ValueObjects;
 
-public enum AttributeType
+public enum PermissionType
 {
     CanViewBooks,
     CanCreateBooks,

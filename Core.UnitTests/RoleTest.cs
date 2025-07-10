@@ -10,7 +10,7 @@ public class RoleTest
     public void TestAssignAttributeToRole_Attribute_MustBe_Assigned()
     {
         var role = Role.Create(RoleType.Liberian);
-        var attribute = RoleAttribute.Create(AttributeType.CanViewBooks);
+        var attribute = RoleAttribute.Create(PermissionType.CanViewBooks);
         role.AssignAttribute(attribute);
         Assert.True(role.HasPermission(attribute));
     }
@@ -18,7 +18,7 @@ public class RoleTest
     public void TestRevokeAttribute_From_Role_Attribute_MustBe_Revoked()
     {
         var role = Role.Create(RoleType.Liberian);
-        var attribute = RoleAttribute.Create(AttributeType.CanViewBooks);
+        var attribute = RoleAttribute.Create(PermissionType.CanViewBooks);
         role.AssignAttribute(attribute);
         Assert.True(role.HasPermission(attribute));
         role.RevokeAttribute(attribute);

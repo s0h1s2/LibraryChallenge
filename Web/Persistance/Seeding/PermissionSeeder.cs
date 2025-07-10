@@ -10,7 +10,7 @@ public class PermissionSeeder:IDataSeeder
         var permissions = new List<PermissionEntity>();
         var permissionId = 1;
         // Admin permissions - all permissions
-        foreach (var perm in Enum.GetValues<AttributeType>())
+        foreach (var perm in Enum.GetValues<PermissionType>())
         {
             permissions.Add(new PermissionEntity
             {
@@ -24,12 +24,12 @@ public class PermissionSeeder:IDataSeeder
         // Librarian permissions
         var librarianPermissions = new[]
         {
-            AttributeType.CanDeleteBooks,
-            AttributeType.CanCreateBooks,
-            AttributeType.CanReturnBooks,
-            AttributeType.CanUpdateBooks,
-            AttributeType.CanBorrowBooks,
-            AttributeType.CanExtendDueDate
+            PermissionType.CanDeleteBooks,
+            PermissionType.CanCreateBooks,
+            PermissionType.CanReturnBooks,
+            PermissionType.CanUpdateBooks,
+            PermissionType.CanBorrowBooks,
+            PermissionType.CanExtendDueDate
         };
 
         foreach (var perm in librarianPermissions)
@@ -46,8 +46,8 @@ public class PermissionSeeder:IDataSeeder
         // Member permissions
         var memberPermissions = new[]
         {
-            AttributeType.CanBorrowBooks,
-            AttributeType.CanReturnBooks
+            PermissionType.CanBorrowBooks,
+            PermissionType.CanReturnBooks
         };
 
         foreach (var perm in memberPermissions)

@@ -50,7 +50,7 @@ public class Book
             Id,
             updateBook.Isbn?? Isbn,
             updateBook.Title??Title,
-            CategoryId??updateBook.CategoryId,
+            CategoryId,
             updateBook.Author?? Author,
             updateBook.AvailableCopies?? AvailableCopies
             );

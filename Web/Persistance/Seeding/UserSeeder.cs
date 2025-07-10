@@ -1,3 +1,4 @@
+using Core.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,51 +9,38 @@ public class UserSeeder: IDataSeeder
     public static void Configure(ModelBuilder modelBuilder)
     {
         var passwordHasher = new PasswordHasher<object?>();
-        var users = new List<UserEntity>
+        var users = new List<User>
         {
-            new()
-            {
-                Id = Guid.NewGuid(),
-                Email = "shkar@mail.com",
-                PasswordHash = passwordHasher.HashPassword(null, "password"),
-                RoleId = RoleSeeder.AdminRoleId
-            },
-            new()
-            {
-                Id = Guid.NewGuid(),
-                Email = "broosk@mail.com",
-                PasswordHash = passwordHasher.HashPassword(null, "password"),
-                RoleId = RoleSeeder.AdminRoleId
-            },
-            new()
-            {
-                Id = Guid.NewGuid(),
-                Email = "handren@mail.com",
-                PasswordHash = passwordHasher.HashPassword(null, "password"),
-                RoleId = RoleSeeder.AdminRoleId
-            },
-            new()
-            {
-                Id = Guid.NewGuid(),
-                Email = "sazan@mail.com",
-                PasswordHash = passwordHasher.HashPassword(null, "password"),
-                RoleId = RoleSeeder.AdminRoleId
-            },
-            new()
-            {
-                Id = Guid.NewGuid(),
-                Email = "john@mail.com",
-                PasswordHash = passwordHasher.HashPassword(null, "password"),
-                RoleId = RoleSeeder.MemberRoleId
-            },
-            new()
-            {
-                Id = Guid.NewGuid(),
-                Email = "liberian@mail.com",
-                PasswordHash = passwordHasher.HashPassword(null, "password"),
-                RoleId = RoleSeeder.LibrarianRoleId
-            },
-
+            User.Create(
+                email : "shkar@mail.com",
+                password: passwordHasher.HashPassword(null, "password"),
+                roleId : RoleAndPermissionSeeder.AdminRoleId
+                ),
+            User.Create(
+                email : "broosk@mail.com",
+                password: passwordHasher.HashPassword(null, "password"),
+                roleId : RoleAndPermissionSeeder.AdminRoleId
+            ),
+            User.Create(
+                email : "handren@mail.com",
+                password: passwordHasher.HashPassword(null, "password"),
+                roleId : RoleAndPermissionSeeder.AdminRoleId
+            ),
+            User.Create(
+                email : "sazan@mail.com",
+                password: passwordHasher.HashPassword(null, "password"),
+                roleId : RoleAndPermissionSeeder.AdminRoleId
+            ),
+            User.Create(
+                email : "member@mail.com",
+                password: passwordHasher.HashPassword(null, "password"),
+                roleId : RoleAndPermissionSeeder.MemberRoleId
+            ),
+            User.Create(
+                email : "liberian@mail.com",
+                password: passwordHasher.HashPassword(null, "password"),
+                roleId : RoleAndPermissionSeeder.LibrarianRoleId
+            ),
         };
 
         modelBuilder.Entity<UserEntity>().HasData(users);

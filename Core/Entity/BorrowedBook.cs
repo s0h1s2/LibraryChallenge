@@ -10,18 +10,19 @@ public class BorrowedBook
     public User User { get; set; }
     public DateTime DueDate { get; private set; }
     public DateTime? ReturnDate { get; set; }
+    public bool IsReturned => ReturnDate != null;
     private BorrowedBook(){}
     public BorrowedBook(Book book, DateTime dueDate,User user)
     {
         Id=Guid.NewGuid();
         BookId = book.Id;
         UserId = user.Id;
+        Book = book;
         DueDate = dueDate;
         ReturnDate = null;
     }
     public void MarkAsReturned(DateTime returnDate)
     {
-        if (returnDate < DueDate) throw new DomainException("Return date cannot be before due date");
         ReturnDate = returnDate;
     }
 }

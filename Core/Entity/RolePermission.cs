@@ -5,12 +5,14 @@ namespace Core.Entity;
 
 public class RolePermission
 {
-    public Guid Id { get; private set; }
+    public int Id { get; private set; }
     private PermissionType _permission;
+    public int RoleId;
+    public Role Role;
     public string Name => _permission.ToString();
+    private RolePermission() { }
     private RolePermission(PermissionType permission)
     {
-        Id= Guid.NewGuid();
         _permission = permission;
     }
     public static RolePermission Create (PermissionType type)

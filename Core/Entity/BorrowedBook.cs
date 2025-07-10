@@ -6,15 +6,18 @@ public class BorrowedBook
     
     public Guid BookId { get; private set; }
     public Book Book { get; private set; }
-    public Guid UserId { get; set; }
-    public User User { get; set; } = null!;
+    public Guid UserId { get; private set; }
+    public User User { get; set; }
     public DateTime DueDate { get; private set; }
     public DateTime? ReturnDate { get; set; }
+    private BorrowedBook(){}
     public BorrowedBook(Book book, DateTime dueDate,User user)
     {
         Id=Guid.NewGuid();
-        Book = book;
+        BookId = book.Id;
+        UserId = user.Id;
         DueDate = dueDate;
+        ReturnDate = null;
     }
     public void MarkAsReturned(DateTime returnDate)
     {

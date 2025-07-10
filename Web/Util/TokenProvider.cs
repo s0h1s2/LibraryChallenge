@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Core.Entity;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using Web.Persistance;
@@ -8,7 +9,7 @@ namespace Web.Util;
 
 public sealed class TokenProvider(IConfiguration configuration)
 {
-    public string Create(UserEntity user)
+    public string Create(User user)
     {
         var secretKey = configuration["Jwt:Key"] ?? string.Empty;
         var securityKey = new SymmetricSecurityKey(System.Text.Encoding.Unicode.GetBytes(secretKey));

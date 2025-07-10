@@ -13,9 +13,10 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 {
     public DbSet<Book> Books { get; set; }
     public DbSet<Category> Category { get; set; }
-    public DbSet<UserEntity> User { get; set; }
-    public DbSet<RoleEntity> Role { get; set; }
-    public DbSet<PermissionEntity> Permission { get; set; }
+    public DbSet<User> User { get; set; }
+    
+    public DbSet<Role> Role { get; set; }
+    public DbSet<RolePermission> Permission { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

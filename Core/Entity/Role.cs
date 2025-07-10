@@ -6,7 +6,7 @@ public class Role
 {
     public RoleType Name { get; private set; }
     public Guid Id { get; private set; }
-    private HashSet<RoleAttribute> _attributes = new();
+    public HashSet<RolePermission> Permissions { get; private set; }
 
     private Role(RoleType name)
     {
@@ -19,21 +19,21 @@ public class Role
         return new Role(roleType);
     }
 
-    public void AssignAttribute(RoleAttribute attribute)
+    public void AssignAttribute(RolePermission permission)
     {
-        _attributes.Add(attribute);
+        Permissions.Add(permission);
     }
 
-    public bool HasPermission(RoleAttribute attribute)
+    public bool HasPermission(RolePermission permission)
     {
-        return _attributes.Contains(attribute);
+        return Permissions.Contains(permission);
     }
 
-    public void RevokeAttribute(RoleAttribute attribute)
+    public void RevokeAttribute(RolePermission permission)
     {
-        if (_attributes.Contains(attribute))
+        if (Permissions.Contains(permission))
         {
-            _attributes.Remove(attribute);
+            Permissions.Remove(permission);
         }
     }
 }

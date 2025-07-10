@@ -1,4 +1,3 @@
-using System.Net;
 using Core.Dto;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -43,11 +42,7 @@ public class UsersController:BaseController
     [HttpPost("")]
     public async Task<IActionResult> CreateUser([FromBody] CreateUser createUser)
     {
-        _dbContext.User.Add(new UserEntity()
-        {
-            Email = createUser.Email,
-            PasswordHash = new PasswordHasher<object?>().HashPassword(null,createUser.Password)
-        });
+        _dbContext.User.Add(Core.Entity.User.Create(createUser.Email,new PasswordHasher<object?>().HashPassword(null,createUser.Password)));
         await _dbContext.SaveChangesAsync();
         return Success(new
         {

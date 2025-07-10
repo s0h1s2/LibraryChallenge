@@ -1,3 +1,4 @@
+using Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace Web.Persistance.Seeding;
@@ -12,12 +13,12 @@ public class CategorySeeder:IDataSeeder
 
     public static void Configure(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<CategoryEntity>().HasData(
-            new CategoryEntity { Id = ScienceId, Name = "Science" },
-            new CategoryEntity { Id = NonFictionId, Name = "Non-Fiction" },
-            new CategoryEntity { Id = FictionId, Name = "Fiction" },
-            new CategoryEntity { Id = HistoryId, Name = "History" },
-            new CategoryEntity { Id = ProgrammingId, Name = "Programming" }
+        modelBuilder.Entity<Category>().HasData(
+            Category.CreateExisting(FictionId,name : "Science" ),
+            Category.CreateExisting(NonFictionId,name : "Non-Fiction" ),
+            Category.CreateExisting(FictionId,name : "Fiction" ),
+            Category.CreateExisting(HistoryId,name : "History" ),
+            Category.CreateExisting(ProgrammingId,name : "Programming" )
         );
     }
 }

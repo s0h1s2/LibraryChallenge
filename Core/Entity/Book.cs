@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices.JavaScript;
 using Core.Dto;
 
 namespace Core.Entity;
@@ -34,15 +35,17 @@ public class Book
         };
         return book;
     }
-    public void Borrow()
+    public void Borrow(User user,DateTime dueDate)
     {
         if (this.AvailableCopies==0) throw new DomainException("Can't borrow book when no copies are available");
         AvailableCopies--;
+        user.AddBookToBorrowedBooks(this, dueDate);
     }
 
-    public void Return()
+    public void Return(User user)
     {
         this.AvailableCopies++;
+        user.MarkBookAsReturned(this);
     }
     public Book UpdateDetail(UpdateBook updateBook)
     {

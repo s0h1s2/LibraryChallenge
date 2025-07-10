@@ -1,4 +1,5 @@
 using Core.Dto;
+using Core.ValueObjects;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -42,7 +43,11 @@ public class UsersController:BaseController
     [HttpPost("")]
     public async Task<IActionResult> CreateUser([FromBody] CreateUser createUser)
     {
-        _dbContext.User.Add(Core.Entity.User.Create(createUser.Email,new PasswordHasher<object?>().HashPassword(null,createUser.Password)));
+        var memberRole= await _dbContext.Role
+            .Where(role=>role.Name==RoleType.Member)
+            .FirstOrDefaultAsync();
+        _dbContext.User.Add(Core.Entity.User.Create(createUser.Email,new PasswordHasher<object?>().HashPassword(null,createUser.Password),memberRole.Id));
+        
         await _dbContext.SaveChangesAsync();
         return Success(new
         {

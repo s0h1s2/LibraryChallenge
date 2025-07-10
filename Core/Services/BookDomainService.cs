@@ -24,12 +24,11 @@ public class BookDomainService
     {
         var book=await _bookRepository.GetBookByIdAsync(borrowBook.BookId);
         var user = await _userRepository.GetUserByIdAsync(userId);
-        
         if (book is null)
         {
             throw new KeyNotFoundException();
         }
-        user.BorrowBook(book,borrowBook.DueDate);
+        book.Borrow(user, borrowBook.DueDate);
         await _bookRepository.UpdateBookAsync(book);   
         await _userRepository.UpdateUserAsync(user);
     }

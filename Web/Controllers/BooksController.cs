@@ -136,7 +136,7 @@ public class BooksController : BaseController
 
         try
         {
-            book.Return();
+            // book.Return();
             await _bookRepository.UpdateBookAsync(book);
             return Success<object>(null, Messages.SuccessMessage);
         }

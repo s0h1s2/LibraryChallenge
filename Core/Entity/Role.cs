@@ -15,6 +15,7 @@ public class Role
     {
         Name = name;
     }
+    
 
     public static Role Create(RoleType roleType)
     {

@@ -9,30 +9,29 @@ public class User
     public Role Role { get; private set; }
     public ICollection<BorrowedBook> BorrowedBooks { get; private set; } = new List<BorrowedBook>();
     private User() { } // EF Core requires a parameterless constructor
-    private User(string username, string password)
+    private User(string email, string password,int roleId)
     {
-        Email= username;
+        Email= email;
         PasswordHash= password;
+        RoleId = roleId;
         Id = Guid.NewGuid();
     }
-    public static User? Create(string username, string password)
+    public static User Create(string email, string password,int roleId)
     {
-        return new User(username,password);
+        return new User(email,password,roleId);
     }
-
-
-    public void BorrowBook(Book book, DateTime dueDate)
+    public void AddBookToBorrowedBooks(Book book, DateTime dueDate)
     {
         if (book == null) throw new DomainException("Book cannot be null");
-        if (dueDate <= DateTime.Now) throw new ArgumentException("Return date must be in the future");
-        book.Borrow();
-        BorrowedBooks.Add(new BorrowedBook(book, dueDate,this));
+        BorrowedBooks.Add(new BorrowedBook(book, dueDate, this));
     }
 
-    public void ReturnBook(Book book)
+    public void MarkBookAsReturned(Book book)
     {
-        book.Return();
-        var borrowedBook = BorrowedBooks.FirstOrDefault(bb => bb.Book.Id == book.Id);
+        if (book == null) throw new DomainException("Book cannot be null");
+        var borrowedBook = BorrowedBooks.FirstOrDefault(bb => bb.BookId == book.Id && !bb.IsReturned);
+        if (borrowedBook == null) throw new DomainException("This book is not borrowed by the user");
+        borrowedBook.MarkAsReturned(DateTime.Now);
         BorrowedBooks.Remove(borrowedBook);
     }
 }

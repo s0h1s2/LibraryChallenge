@@ -5,8 +5,20 @@ using Core.Services;
 
 namespace Core.UnitTests;
 
-public class BookTest
+public class BookTest:IDisposable
 {
+    public User User { get; set; }
+
+    public BookTest()
+    {
+        User = User.Create("shkar",
+            "password123",
+            1
+        );
+    }
+    public void Dispose()
+    {
+    }
     [Fact]
     public async Task TestAddBookToLibrary_Book_MustBe_Added()
     {
@@ -34,7 +46,7 @@ public class BookTest
             "Donald Knuth",
             0
         );
-        Assert.Throws<DomainException>(()=>book.Borrow());
+        Assert.Throws<DomainException>(()=>book.Borrow(User,DateTime.Now));
     }
     [Fact]
     public void TestUpdateBookInLibrary_Book_MustBe_Updated()
@@ -67,7 +79,8 @@ public class BookTest
             "Donald Knuth",
             2
         );   
-        book.Borrow();
+        var returnDate = DateTime.Now.AddDays(14);
+        book.Borrow(User,returnDate);
         Assert.Equal(1,book.AvailableCopies);
         
     }
@@ -81,9 +94,46 @@ public class BookTest
             "Donald Knuth",
             1
         );   
-        book.Borrow();
+        var returnDate = DateTime.Now.AddDays(14);
+        book.Borrow(User,returnDate);
         Assert.Equal(0,book.AvailableCopies);
-        book.Return();
+        book.Return(User);
         Assert.Equal(1,book.AvailableCopies);
     }
+    [Fact]
+    public void TestBorrowBook_By_User_Must_Be_Added_To_BorrowedBooks()
+    {
+        var book = Book.CreateBook(
+            "978-0-306-40615-7",
+            "The Art of Computer Programming",
+            new CategoryId(Guid.NewGuid()),
+            "Donald Knuth",
+            1
+        ); 
+        
+        var returnDate = DateTime.Now.AddDays(14);
+        book.Borrow(User,returnDate);
+        Assert.Single(User.BorrowedBooks);
+        Assert.Equal(book, User.BorrowedBooks.First().Book);
+        Assert.Equal(returnDate, User.BorrowedBooks.First().DueDate);
+    }
+    [Fact]
+    public void TestUserReturnBorrowedBook_Book_Must_Be_Returned()
+    {
+        var book = Book.CreateBook(
+            "978-0-306-40615-7",
+            "The Art of Computer Programming",
+            new CategoryId(Guid.NewGuid()),
+            "Donald Knuth",
+            1
+        ); 
+        
+        var returnDate = DateTime.Now.AddDays(14);
+        book.Borrow(User,returnDate);
+        Assert.Single(User.BorrowedBooks);
+        book.Return(User);
+        Assert.Empty(User.BorrowedBooks);
+    }
+
+    
 }

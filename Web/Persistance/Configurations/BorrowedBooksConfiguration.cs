@@ -16,9 +16,12 @@ public class BorrowedBooksConfiguration:IEntityTypeConfiguration<BorrowedBook>
             .ValueGeneratedNever();
         
         builder.Property(bb => bb.DueDate)
+            .HasColumnType("timestamp without time zone")
             .IsRequired();
         
-        builder.Property(bb => bb.ReturnDate);
+        builder.Property(bb => bb.ReturnDate)
+            .HasColumnType("timestamp without time zone");
+      
 
         builder.HasOne(bb => bb.Book)
             .WithMany()

@@ -7,23 +7,64 @@ namespace Core.UnitTests;
 
 public class UserTest
 {
-    // [Fact]
-    // public void TestCreateUser_User_MustBe_Created()
-    // {
-    //     var user = User.Create("john","password");
-    //     var userRepo = new FakeUserRepository();
-    //     var userDomainService= new UserDomainService(userRepo);
-    //     userDomainService.CreateUserAsync(user);
-    //     Assert.Equal(userRepo.Users.First(),user);
-    // }
-
     [Fact]
-    public void TestAssignRoleToUser_Role_MustBe_Assigned()
+    public void TestUserBorrowBook_Book_MustBe_Borrowed()
     {
-        var user = User.Create("john", "password");
-        var role = Role.Create(RoleType.Admin);
-        user.AssignRole(role);
-        Assert.Equal(user.Role, role);
+        var book = Book.CreateBook(
+            "978-0-306-40615-7",
+            "The Art of Computer Programming",
+            new CategoryId(Guid.NewGuid()),
+            "Donald Knuth",
+            1
+        );
+        var user = User.Create("johnDoe", "password123");
+        var returnDate = DateTime.Now.AddDays(14);
+        user.BorrowBook(book, returnDate);
+        Assert.Single(user.BorrowedBooks);
+        Assert.Equal(user.BorrowedBooks.First().Book, book);
+        Assert.Equal(user.BorrowedBooks.First().DueDate, returnDate);
     }
-    
+    [Fact]
+    public void TestUserBorrowBook_But_Copy_Doesnt_Exist_Must_Throw_Domain_Exception()
+    {
+        var book = Book.CreateBook(
+            "978-0-306-40615-7",
+            "The Art of Computer Programming",
+            new CategoryId(Guid.NewGuid()),
+            "Donald Knuth",
+            0
+        );
+        var user = User.Create("johnDoe", "password123");
+        Assert.Throws<DomainException>(() => user.BorrowBook(book, DateTime.Now.AddDays(14)));
+    }
+    [Fact]
+    public void TestUserBorrowBook_But_ReturnDate_Is_Past_Must_Throw_Domain_Exception()
+    {
+        var book = Book.CreateBook(
+            "978-0-306-40615-7",
+            "The Art of Computer Programming",
+            new CategoryId(Guid.NewGuid()),
+            "Donald Knuth",
+            1
+        );
+        var user = User.Create("johnDoe", "password123");
+        Assert.Throws<ArgumentException>(() => user.BorrowBook(book, DateTime.Now.AddDays(-1)));
+    }
+    [Fact]
+    public void TestUserReturnBook_Book_MustBe_Returned()
+    {
+        var book = Book.CreateBook(
+            "978-0-306-40615-7",
+            "The Art of Computer Programming",
+            new CategoryId(Guid.NewGuid()),
+            "Donald Knuth",
+            1
+        );
+        var user = User.Create("johnDoe", "password123");
+        var returnDate = DateTime.Now.AddDays(14);
+        user.BorrowBook(book, returnDate);
+        Assert.Single(user.BorrowedBooks);
+        user.ReturnBook(book);
+        Assert.Empty(user.BorrowedBooks);
+    }
 }

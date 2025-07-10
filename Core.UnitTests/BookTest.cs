@@ -1,5 +1,4 @@
 ﻿using Core.UnitTests.Persistance;
-using Core;
 using Core.Dto;
 using Core.Services;
 
@@ -33,7 +32,7 @@ public class BookTest
             "Donald Knuth",
             0
         );
-        Assert.Throws<DomainException>(()=>book.Borrow(DateTime.Now));
+        Assert.Throws<DomainException>(()=>book.Borrow());
     }
     [Fact]
     public void TestUpdateBookInLibrary_Book_MustBe_Updated()
@@ -50,7 +49,7 @@ public class BookTest
         var book=bookRepo.Books.First();
         var updatedBook=book.UpdateDetail(new UpdateBook("The Art Of Computer Programming",
             "12354",
-            book.CategoryId.Id,
+            book.CategoryId,
             "Donald Knuth",
             2));
         bookRepo.UpdateBookAsync(updatedBook);
@@ -66,7 +65,7 @@ public class BookTest
             "Donald Knuth",
             2
         );   
-        book.Borrow(DateTime.Now);
+        book.Borrow();
         Assert.Equal(1,book.AvailableCopies);
         
     }
@@ -80,7 +79,7 @@ public class BookTest
             "Donald Knuth",
             1
         );   
-        book.Borrow(DateTime.Now);
+        book.Borrow();
         Assert.Equal(0,book.AvailableCopies);
         book.Return();
         Assert.Equal(1,book.AvailableCopies);

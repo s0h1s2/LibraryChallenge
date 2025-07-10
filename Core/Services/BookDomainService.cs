@@ -24,7 +24,7 @@ public class BookDomainService
         {
             throw new KeyNotFoundException();
         }
-        book.Borrow(borrowBook.BorrowDate);
+        book.Borrow();
         await _bookRepository.UpdateBookAsync(book);   
     }
 }

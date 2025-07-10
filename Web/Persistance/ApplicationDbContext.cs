@@ -270,7 +270,10 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                     {
                         Name = nameof(AttributeType.CanBorrowBooks)
                     },
-
+                    new PermissionEntity()
+                    {
+                        Name = nameof(AttributeType.CanExtendDueDate)
+                    }
                 ])
             };
             var memberRole = new RoleEntity()
@@ -287,12 +290,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                     },
                 ])
             };
-            context.AddRange(new List<RoleEntity>()
-            {
-                adminRole,
-                librarianRole,
-                memberRole
-            });
+            context.Add(memberRole);
             var passwordHasher = new PasswordHasher<object?>();
             var adminUser = new UserEntity()
             {

@@ -15,9 +15,20 @@ public class RolePermission
     {
         _permission = permission;
     }
+
+    private RolePermission(int id, PermissionType type)
+    {
+        Id = id;
+        _permission = type;
+    }
+
     public static RolePermission Create (PermissionType type)
     {
         return new RolePermission(type);
+    }
+    public static RolePermission CreateExisting (int id,PermissionType type)
+    {
+        return new RolePermission(id,type);
     }
     public void AssignToRole(int roleId)
     {

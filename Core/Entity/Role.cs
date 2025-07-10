@@ -15,11 +15,21 @@ public class Role
     {
         Name = name;
     }
-    
+
+    private Role(int id, RoleType roleType)
+    {
+        Id = id;
+        Name = roleType;
+    }
+
 
     public static Role Create(RoleType roleType)
     {
         return new Role(roleType);
+    }
+    public static Role CreateExisting(int id,RoleType roleType)
+    {
+        return new Role(id,roleType);
     }
 
     public void AssignAttribute(RolePermission permission)

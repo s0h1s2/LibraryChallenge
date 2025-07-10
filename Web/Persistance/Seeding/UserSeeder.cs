@@ -43,6 +43,6 @@ public class UserSeeder: IDataSeeder
             ),
         };
 
-        modelBuilder.Entity<UserEntity>().HasData(users);
+        modelBuilder.Entity<User>().HasData(users);
     }
 }

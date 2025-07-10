@@ -15,7 +15,7 @@ public class User
         PasswordHash= password;
         Id = Guid.NewGuid();
     }
-    public static User Create(string username, string password)
+    public static User? Create(string username, string password)
     {
         return new User(username,password);
     }

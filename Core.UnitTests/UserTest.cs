@@ -38,7 +38,7 @@ public class UserTest
         Assert.Throws<DomainException>(() => user.BorrowBook(book, DateTime.Now.AddDays(14)));
     }
     [Fact]
-    public void TestUserBorrowBook_But_ReturnDate_Is_Past_Must_Throw_Domain_Exception()
+    public void TestUserBorrowBook_But_DueDate_Is_Past_Must_Throw_Domain_Exception()
     {
         var book = Book.CreateBook(
             "978-0-306-40615-7",
@@ -61,10 +61,11 @@ public class UserTest
             1
         );
         var user = User.Create("johnDoe", "password123");
-        var returnDate = DateTime.Now.AddDays(14);
-        user.BorrowBook(book, returnDate);
+        var dueDate = DateTime.Now.AddDays(14);
+        user.BorrowBook(book, dueDate);
         Assert.Single(user.BorrowedBooks);
         user.ReturnBook(book);
         Assert.Empty(user.BorrowedBooks);
     }
+    
 }

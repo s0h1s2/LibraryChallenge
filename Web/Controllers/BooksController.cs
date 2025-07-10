@@ -69,6 +69,7 @@ public class BooksController : BaseController
     }
 
     [HttpDelete("{id:guid}", Name = "DeleteBookById")]
+    [HasPermission(AttributeType.CanDeleteBooks)]
     public async Task<IActionResult> DeleteBookById(Guid id)
     {
         try
@@ -83,6 +84,7 @@ public class BooksController : BaseController
     }
 
     [HttpPost("borrow", Name = "BorrowBook")]
+    [HasPermission(AttributeType.CanBorrowBooks)]
     public async Task<IActionResult> BorrowBook([FromBody] BorrowBook borrowBook)
     {
         try
@@ -101,6 +103,7 @@ public class BooksController : BaseController
     }
 
     [HttpPost("{id:guid}/return", Name = "ReturnBook")]
+    [HasPermission(AttributeType.CanReturnBooks)]
     public async Task<IActionResult> ReturnBook(Guid id)
     {
         var book = await _bookRepository.GetBookByIdAsync(id);

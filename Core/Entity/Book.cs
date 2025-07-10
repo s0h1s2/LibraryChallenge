@@ -42,7 +42,7 @@ public class Book
         user.AddBookToBorrowedBooks(this, dueDate);
     }
 
-    public void Return(User user)
+    public void ReturnBy(User user)
     {
         AvailableCopies++;
         user.MarkBookAsReturned(this);

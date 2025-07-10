@@ -17,6 +17,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     
     public DbSet<Role> Role { get; set; }
     public DbSet<RolePermission> Permission { get; set; }
+    public DbSet<BorrowedBook> BorrowedBooks { get; set; }
+    
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

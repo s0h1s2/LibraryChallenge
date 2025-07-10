@@ -8,6 +8,7 @@ public class User
     public int RoleId { get; private set; }
     public Role Role { get; private set; }
     public ICollection<BorrowedBook> BorrowedBooks { get; private set; } = new List<BorrowedBook>();
+    private User() { } // EF Core requires a parameterless constructor
     private User(string username, string password)
     {
         Email= username;

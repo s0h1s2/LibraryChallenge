@@ -5,13 +5,15 @@ namespace Core.Entity;
 public class Role
 {
     public RoleType Name { get; private set; }
-    public Guid Id { get; private set; }
+    public int Id { get; private set; }
     public HashSet<RolePermission> Permissions { get; private set; }
 
+    private Role()
+    {
+    }
     private Role(RoleType name)
     {
         Name = name;
-        Id = Guid.NewGuid();
     }
 
     public static Role Create(RoleType roleType)

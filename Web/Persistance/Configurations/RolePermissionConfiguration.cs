@@ -11,22 +11,16 @@ public class RolePermissionConfiguration:IEntityTypeConfiguration<Core.Entity.Ro
         builder.ToTable("RolePermissions");
             
         builder.HasKey(rp => rp.Id);
-            
         builder.Property(rp => rp.Id)
             .ValueGeneratedOnAdd();
-                
-        builder.Property(rp => rp.Name)
-            .HasMaxLength(100)
-            .IsRequired();
-                
+        
+        builder.Ignore(rp => rp.Name);
+        
         builder.Property("_permission")
             .HasConversion<string>()
             .HasColumnName("PermissionType")
             .HasMaxLength(100)
             .IsRequired();
-                
-        // Indexes
-        builder.HasIndex(rp => rp.Name)
-            .IsUnique();
+        
     }
 }

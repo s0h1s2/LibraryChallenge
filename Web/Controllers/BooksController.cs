@@ -18,6 +18,7 @@ public class BooksController : BaseController
     private readonly ILogger<BooksController> _logger;
     private readonly IBookRepository _bookRepository;
     private readonly BookDomainService _bookDomainService;
+    private readonly IUserRepository _userRepository;
 
     public BooksController(ILogger<BooksController> logger, IBookRepository bookRepository, BookDomainService bookDomainService)
     {
@@ -124,20 +125,14 @@ public class BooksController : BaseController
             return Failure(e.Message, 400);
         }
     }
-    [HttpPost("{id:guid}/return", Name = "ReturnBook")]
+    [HttpPost("{bookId:guid}/return", Name = "ReturnBook")]
     [HasPermission(PermissionType.CanReturnBooks)]
-    public async Task<IActionResult> ReturnBook(Guid id)
+    public async Task<IActionResult> ReturnBook(Guid bookId)
     {
-        var book = await _bookRepository.GetBookByIdAsync(id);
-        if (book == null)
-        {
-            return NotFound();
-        }
-
         try
         {
-            // book.Return();
-            await _bookRepository.UpdateBookAsync(book);
+            var userId = this.User.Claims.FirstOrDefault(u => u.Type == ClaimTypes.NameIdentifier)?.Value;
+            await _bookDomainService.ReturnBookAsync(bookId, Guid.Parse(userId));
             return Success<object>(null, Messages.SuccessMessage);
         }
         catch (DomainException e)

@@ -44,7 +44,7 @@ public class Book
 
     public void Return(User user)
     {
-        this.AvailableCopies++;
+        AvailableCopies++;
         user.MarkBookAsReturned(this);
     }
     public Book UpdateDetail(UpdateBook updateBook)

@@ -31,4 +31,16 @@
       <ProjectReference Include="..\Core\Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Migrations\20250709182402_Initial.cs" />
+      <Compile Remove="Migrations\20250709182402_Initial.Designer.cs" />
+      <Compile Remove="Migrations\20250710073929_fix_migrations.cs" />
+      <Compile Remove="Migrations\20250710073929_fix_migrations.Designer.cs" />
+      <Compile Remove="Migrations\ApplicationDbContextModelSnapshot.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Migrations\" />
+    </ItemGroup>
+
 </Project>

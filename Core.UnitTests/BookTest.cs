@@ -1,5 +1,6 @@
 ﻿using Core.UnitTests.Persistance;
 using Core.Dto;
+using Core.Entity;
 using Core.Services;
 
 namespace Core.UnitTests;

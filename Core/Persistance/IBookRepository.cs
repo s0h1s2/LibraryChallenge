@@ -1,4 +1,5 @@
 using Core.Dto;
+using Core.Entity;
 
 namespace Core.Persistance;
 

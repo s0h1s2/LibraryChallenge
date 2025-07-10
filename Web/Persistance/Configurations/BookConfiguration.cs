@@ -1,19 +1,23 @@
 using Core;
+using Core.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Web.Persistance;
+namespace Web.Persistance.Configurations;
 
 public class BookConfiguration:IEntityTypeConfiguration<Book>
 {
     public void Configure(EntityTypeBuilder<Book> builder)
     {
+        
+        builder.ToTable("Books");
+        
         builder.HasKey(b => b.Id);
         builder.Property(b => b.Id)
             .ValueGeneratedNever();
         builder.Property(b => b.Isbn)
             .IsRequired()
-            .HasMaxLength(13);
+            .HasMaxLength(20);
         builder.Property(b => b.Title)
             .IsRequired()
             .HasMaxLength(200);
@@ -22,13 +26,11 @@ public class BookConfiguration:IEntityTypeConfiguration<Book>
             .HasMaxLength(100);
         builder.Property(b => b.AvailableCopies)
             .IsRequired();
-        builder.Property(b => b.CategoryId).HasConversion(cate=> cate.Id, val => new CategoryId(val));
+        builder.Property(b => b.CategoryId).HasColumnName("CategoryId");
         
-        builder.HasOne(b => b.Category)
+        builder.HasOne(x => x.Category)
             .WithMany()
-            .HasForeignKey(b => b.CategoryId)
-            .OnDelete(DeleteBehavior.Cascade);
-        
-        builder.ToTable("Books");
+            .HasForeignKey("CategoryId")
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

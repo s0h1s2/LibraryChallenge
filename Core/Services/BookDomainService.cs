@@ -1,4 +1,5 @@
 using Core.Dto;
+using Core.Entity;
 using Core.Persistance;
 
 namespace Core.Services;

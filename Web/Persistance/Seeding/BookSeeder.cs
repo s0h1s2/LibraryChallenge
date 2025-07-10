@@ -1,4 +1,5 @@
 using Core;
+using Core.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Web.Persistance.Seeding;

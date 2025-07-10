@@ -1,5 +1,6 @@
 using Core;
 using Core.Dto;
+using Core.Entity;
 using Core.Persistance;
 using Microsoft.EntityFrameworkCore;
 

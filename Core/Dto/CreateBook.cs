@@ -1,3 +1,5 @@
+using Core.Entity;
+
 namespace Core.Dto;
 
 public record CreateBook(string Isbn, string Title, Guid CategoryId, string Author, int AvailableCopies)

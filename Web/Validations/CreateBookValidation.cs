@@ -32,7 +32,7 @@ public class CreateBookValidation:AbstractValidator<CreateBook>
 
     private async Task<bool> LookForCategory(Guid categoryId, CancellationToken cancellationToken)
     {
-        return await _dbContext.Category.AnyAsync(c => c.Id== categoryId, cancellationToken);
+        return await _dbContext.Category.AnyAsync(c => c.Id== new CategoryId(categoryId), cancellationToken);
     }
 
 }

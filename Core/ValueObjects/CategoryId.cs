@@ -1,3 +1,11 @@
 namespace Core;
 
-public record struct CategoryId(Guid id);
+public class CategoryId
+{
+    public Guid Id { get; private set; }
+
+    public CategoryId(Guid id)
+    {
+        Id = id;
+    }
+}

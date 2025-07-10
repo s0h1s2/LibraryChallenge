@@ -1,5 +1,6 @@
 using Core.Entity;
 using Core.Persistance;
+using Microsoft.EntityFrameworkCore;
 
 namespace Web.Persistance;
 
@@ -16,9 +17,12 @@ public class UserRepository:IUserRepository
         throw new NotImplementedException();
     }
 
-    public async Task<User?> GetUserByIdAsync(Guid userId)
+    public async Task<User> GetUserByIdAsync(Guid userId)
     {
-        return await _dbContext.User.FindAsync(userId);
+        return await _dbContext.User
+            .Include(u => u.BorrowedBooks)
+            .FirstAsync(u => u.Id == userId);
+        
     }
 
     public async Task<User> UpdateUserAsync(User user)

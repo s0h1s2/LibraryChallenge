@@ -28,7 +28,12 @@ public class UserConfiguration:IEntityTypeConfiguration<User>
             .HasForeignKey(u => u.RoleId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
-                
+        
+        builder.HasMany(u => u.BorrowedBooks)
+            .WithOne(bb => bb.User)
+            .HasForeignKey(bb => bb.UserId)
+           .OnDelete(DeleteBehavior.Cascade); 
+        
         // Indexes
         builder.HasIndex(u => u.Email)
             .IsUnique(); 

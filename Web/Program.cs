@@ -20,7 +20,6 @@ builder.Services.AddOpenApi();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<BookDomainService>();
 builder.Services.AddSingleton<TokenProvider>();
-builder.Services.AddAuthorization();
 builder.Services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
 
@@ -41,6 +40,8 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.Unicode.GetBytes(builder.Configuration["Jwt:Key"] ?? string.Empty))
     };
 });
+
+builder.Services.AddAuthorization();
 
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 builder.Services.AddFluentValidationAutoValidation(configuration =>

@@ -1,11 +1,13 @@
 using Core.Entity;
 using Core.Persistance;
+using Core.ValueObjects;
 
 namespace Core.UnitTests.Persistance;
 
 public class FakeUserRepository : IUserRepository
 {
     public List<User> Users { get; }
+
     public Task<User> CreateUserAsync(User user)
     {
         Users.Add(user);
@@ -14,7 +16,7 @@ public class FakeUserRepository : IUserRepository
 
     public Task<User> GetUserByIdAsync(Guid userId)
     {
-        return Task.FromResult(User.Create("shkar", "password", 1));
+        return Task.FromResult(User.Create("shkar", "password", Role.CreateExisting(1, RoleType.Admin)));
     }
 
     public Task<User> GetUserWithBorrowedBooksAsync(Guid userId, Guid bookId)

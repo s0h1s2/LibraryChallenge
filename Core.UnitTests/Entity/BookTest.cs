@@ -2,6 +2,7 @@
 using Core.Entity;
 using Core.Services;
 using Core.UnitTests.Persistance;
+using Core.ValueObjects;
 
 namespace Core.UnitTests.Entity;
 
@@ -11,7 +12,7 @@ public class BookTest : IDisposable
     {
         User = User.Create("shkar",
             "password123",
-            1
+            Role.CreateExisting(1, RoleType.Admin)
         );
     }
 

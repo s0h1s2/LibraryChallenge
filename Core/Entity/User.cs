@@ -1,3 +1,5 @@
+using Core.Dto;
+
 namespace Core.Entity;
 
 public class User
@@ -26,6 +28,7 @@ public class User
         return new User(email, password, roleId);
     }
 
+
     public void AddBookToBorrowedBooks(Book book, DateTime dueDate)
     {
         if (book == null) throw new DomainException("Book cannot be null");
@@ -45,5 +48,13 @@ public class User
     {
         Role = role ?? throw new ArgumentNullException(nameof(role), "Role cannot be null");
         RoleId = role.Id;
+    }
+
+    public void UpdateUserInfo(UpdateUser updateUser)
+    {
+        Email = updateUser.Email ?? Email;
+        PasswordHash = updateUser.Password ?? PasswordHash;
+        Role = updateUser.Role ?? Role;
+        RoleId = updateUser.Role?.Id ?? RoleId;
     }
 }

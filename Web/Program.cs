@@ -1,19 +1,16 @@
+using System.Text;
 using Core.Persistance;
 using Core.Services;
-
 using FluentValidation;
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-
 using Scalar.AspNetCore;
-
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
-
 using Web.Authorization;
-using Web.Persistance;
+using Web.Persistence;
+using Web.Persistence.Implementation;
 using Web.Util;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,7 +41,8 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.Unicode.GetBytes(builder.Configuration["Jwt:Key"] ?? string.Empty))
+        IssuerSigningKey =
+            new SymmetricSecurityKey(Encoding.Unicode.GetBytes(builder.Configuration["Jwt:Key"] ?? string.Empty))
     };
 });
 
@@ -59,7 +57,7 @@ builder.Services.AddFluentValidationAutoValidation(configuration =>
 builder.Services
     .AddDbContext<ApplicationDbContext>(opt =>
         opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
-        );
+    );
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -1,9 +1,8 @@
 using Core.Entity;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Web.Persistance.Configurations;
+namespace Web.Persistence.Configurations;
 
 public class UserConfiguration : IEntityTypeConfiguration<User>
 {
@@ -33,11 +32,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasMany(u => u.BorrowedBooks)
             .WithOne(bb => bb.User)
             .HasForeignKey(bb => bb.UserId)
-           .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Cascade);
 
         // Indexes
         builder.HasIndex(u => u.Email)
             .IsUnique();
-
     }
 }

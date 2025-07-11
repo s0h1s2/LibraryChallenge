@@ -1,9 +1,8 @@
 using Core.Entity;
 using Core.Persistance;
-
 using Microsoft.EntityFrameworkCore;
 
-namespace Web.Persistance;
+namespace Web.Persistence.Implementation;
 
 public class UserRepository : IUserRepository
 {
@@ -13,6 +12,7 @@ public class UserRepository : IUserRepository
     {
         this._dbContext = _dbContext;
     }
+
     public Task<User> CreateUserAsync(User user)
     {
         throw new NotImplementedException();
@@ -22,7 +22,6 @@ public class UserRepository : IUserRepository
     {
         return await _dbContext.User
             .FirstAsync(u => u.Id == userId);
-
     }
 
     // This is one is better if you want to get the user with borrowed books filtered by bookId

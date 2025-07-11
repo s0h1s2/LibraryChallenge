@@ -1,17 +1,15 @@
 using Core.Dto;
 using Core.ValueObjects;
-
 using FluentValidation;
-
 using Microsoft.EntityFrameworkCore;
-
-using Web.Persistance;
+using Web.Persistence;
 
 namespace Web.Validations;
 
 public class CreateUserValidation : AbstractValidator<CreateUser>
 {
     private readonly ApplicationDbContext _dbContext;
+
     public CreateUserValidation(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
@@ -38,6 +36,7 @@ public class CreateUserValidation : AbstractValidator<CreateUser>
     {
         return await _dbContext.User.AnyAsync(user => user.Email == email, cancellation) is false;
     }
+
     private bool BeValidRole(string roleName)
     {
         return Enum.TryParse<RoleType>(roleName, out _);

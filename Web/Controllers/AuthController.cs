@@ -1,9 +1,10 @@
+using System.Diagnostics;
 using Core.Dto;
 using Core.ValueObjects;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web.Persistance;
+using Web.Persistence;
 using Web.Util;
 using UserEntity = Core.Entity.User;
 
@@ -43,7 +44,7 @@ public class AuthController : BaseController
 
         var token = _tokenProvider.Create(user);
         var (refreshToken, expirationDate) = _tokenProvider.CreateRefreshToken(user);
-        _dbContext.RefreshTokens.Add(Persistance.RefreshToken.Create(refreshToken, expirationDate, user.Id));
+        _dbContext.RefreshTokens.Add(Persistence.RefreshToken.Create(refreshToken, expirationDate, user.Id));
         await _dbContext.SaveChangesAsync();
 
         return Success(new LoginUserResponse(token, refreshToken));
@@ -69,7 +70,7 @@ public class AuthController : BaseController
 
         var newToken = _tokenProvider.Create(user);
         var (newRefreshToken, expirationDate) = _tokenProvider.CreateRefreshToken(user);
-        _dbContext.RefreshTokens.Add(Persistance.RefreshToken.Create(newRefreshToken, expirationDate, user.Id));
+        _dbContext.RefreshTokens.Add(Persistence.RefreshToken.Create(newRefreshToken, expirationDate, user.Id));
 
         await _dbContext.SaveChangesAsync();
 
@@ -79,10 +80,10 @@ public class AuthController : BaseController
     [HttpPost("register")]
     public async Task<IActionResult> CreateUser([FromBody] RegisterUser registerUser)
     {
-        // TODO: Might need check for existing role to make sure it exists
         var memberRole = await _dbContext.Role
             .Where(role => role.Name == RoleType.Member)
             .FirstOrDefaultAsync();
+        Debug.Assert(memberRole is not null, "memberRole is null");
 
         _dbContext.User.Add(UserEntity.Create(registerUser.Email,
             new PasswordHasher<object?>().HashPassword(null, registerUser.Password), memberRole));

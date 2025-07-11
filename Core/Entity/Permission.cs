@@ -6,7 +6,6 @@ public class Permission
 {
     private readonly PermissionType _permission;
 
-
     private Permission()
     {
     }

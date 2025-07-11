@@ -1,11 +1,8 @@
 using Core;
 using Core.Dto;
-
 using FluentValidation;
-
 using Microsoft.EntityFrameworkCore;
-
-using Web.Persistance;
+using Web.Persistence;
 
 namespace Web.Validations;
 
@@ -28,12 +25,10 @@ public class UpdateBookValidation : AbstractValidator<UpdateBook>
             .When(x => x.CategoryId.Id != Guid.Empty)
             .WithMessage("Category is required.");
         RuleFor(x => x.AvailableCopies);
-
     }
 
     private Task<bool> LookForCategory(CategoryId categoryId, CancellationToken cancellationToken)
     {
         return _dbContext.Category.AnyAsync(entity => entity.Id == categoryId, cancellationToken);
-
     }
 }

@@ -1,18 +1,15 @@
 using Core;
 using Core.Dto;
-using Core.Persistance;
-
 using FluentValidation;
-
 using Microsoft.EntityFrameworkCore;
-
-using Web.Persistance;
+using Web.Persistence;
 
 namespace Web.Validations;
 
 public class CreateBookValidation : AbstractValidator<CreateBook>
 {
     private readonly ApplicationDbContext _dbContext;
+
     public CreateBookValidation(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
@@ -30,12 +27,10 @@ public class CreateBookValidation : AbstractValidator<CreateBook>
             .MinimumLength(13)
             .MaximumLength(13);
         RuleFor(x => x.CategoryId).MustAsync(LookForCategory);
-
     }
 
     private async Task<bool> LookForCategory(Guid categoryId, CancellationToken cancellationToken)
     {
         return await _dbContext.Category.AnyAsync(c => c.Id == new CategoryId(categoryId), cancellationToken);
     }
-
 }

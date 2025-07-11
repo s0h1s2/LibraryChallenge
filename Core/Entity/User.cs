@@ -8,11 +8,12 @@ public class User
     {
     } // EF Core requires a parameterless constructor
 
-    private User(string email, string password, int roleId)
+    private User(string email, string password, Role role)
     {
         Email = email;
         PasswordHash = password;
-        RoleId = roleId;
+        RoleId = role.Id;
+        Role = role;
         Id = Guid.NewGuid();
     }
 
@@ -23,9 +24,9 @@ public class User
     public Role Role { get; private set; }
     public virtual IList<BorrowedBook> BorrowedBooks { get; private set; } = new List<BorrowedBook>();
 
-    public static User Create(string email, string password, int roleId)
+    public static User Create(string email, string password, Role role)
     {
-        return new User(email, password, roleId);
+        return new User(email, password, role);
     }
 
 
@@ -50,7 +51,7 @@ public class User
         RoleId = role.Id;
     }
 
-    public void UpdateUserInfo(UpdateUser updateUser)
+    public void UpdateInfo(UpdateUser updateUser)
     {
         Email = updateUser.Email ?? Email;
         PasswordHash = updateUser.Password ?? PasswordHash;

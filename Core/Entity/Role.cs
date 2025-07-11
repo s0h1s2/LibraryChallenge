@@ -44,14 +44,6 @@ public class Role
         return Permissions.Contains(permission);
     }
 
-    public void RevokeAttribute(RolePermission permission)
-    {
-        if (Permissions.Contains(permission))
-        {
-            Permissions.Remove(permission);
-        }
-    }
-
     public void AssignPermission(RolePermission permission)
     {
         if (permission is null) throw new ArgumentNullException(nameof(permission), "Role permission cannot be null");

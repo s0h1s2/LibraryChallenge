@@ -27,7 +27,6 @@ public class UserTest : IDisposable
     [Fact]
     public void TestAssignRole_To_User_User_Must_Throw_Exception_When_Role_Is_Null()
     {
-        Role role = null;
-        Assert.Throws<DomainException>(() => _user.AssignRole(role));
+        Assert.Throws<ArgumentNullException>(() => _user.AssignRole(null));
     }
 }

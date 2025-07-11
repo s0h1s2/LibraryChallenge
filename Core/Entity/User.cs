@@ -2,13 +2,10 @@ namespace Core.Entity;
 
 public class User
 {
-    public string Email { get; private set; }
-    public string PasswordHash { get; private set; }
-    public Guid Id { get; private set; }
-    public int RoleId { get; private set; }
-    public Role Role { get; private set; }
-    public virtual IList<BorrowedBook> BorrowedBooks { get; private set; } = new List<BorrowedBook>();
-    private User() { } // EF Core requires a parameterless constructor
+    private User()
+    {
+    } // EF Core requires a parameterless constructor
+
     private User(string email, string password, int roleId)
     {
         Email = email;
@@ -16,10 +13,19 @@ public class User
         RoleId = roleId;
         Id = Guid.NewGuid();
     }
+
+    public string Email { get; private set; }
+    public string PasswordHash { get; private set; }
+    public Guid Id { get; private set; }
+    public int RoleId { get; private set; }
+    public Role Role { get; private set; }
+    public virtual IList<BorrowedBook> BorrowedBooks { get; private set; } = new List<BorrowedBook>();
+
     public static User Create(string email, string password, int roleId)
     {
         return new User(email, password, roleId);
     }
+
     public void AddBookToBorrowedBooks(Book book, DateTime dueDate)
     {
         if (book == null) throw new DomainException("Book cannot be null");
@@ -37,7 +43,7 @@ public class User
 
     public void AssignRole(Role role)
     {
-        Role = role ?? throw new DomainException("Role cannot be null");
+        Role = role ?? throw new ArgumentNullException(nameof(role), "Role cannot be null");
         RoleId = role.Id;
     }
 }

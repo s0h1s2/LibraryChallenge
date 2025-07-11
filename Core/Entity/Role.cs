@@ -7,8 +7,7 @@ public class Role
     public RoleType Name { get; private set; }
     public int Id { get; private set; }
     public HashSet<RolePermission> Permissions { get; private set; }
-    public string RoleName => Name.ToString();
-    
+
     private Role()
     {
     }

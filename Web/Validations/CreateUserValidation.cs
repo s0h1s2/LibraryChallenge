@@ -1,4 +1,5 @@
 using Core.Dto;
+using Core.ValueObjects;
 
 using FluentValidation;
 
@@ -14,16 +15,12 @@ public class CreateUserValidation:AbstractValidator<CreateUser>
     public CreateUserValidation(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
-    }
-
-    public CreateUserValidation()
-    {
         RuleFor(x => x.Email)
             .NotEmpty()
             .WithMessage("Email is required")
             .EmailAddress()
             .MustAsync(CheckForUniqueEmail)
-            .WithMessage("Invalid email format");
+            .WithMessage("Email must be unique");
 
         RuleFor(x => x.Password)
             .NotEmpty()
@@ -32,12 +29,17 @@ public class CreateUserValidation:AbstractValidator<CreateUser>
             .WithMessage("Password must be at least 6 characters long");
 
         RuleFor(x => x.RoleType)
-            .IsInEnum()
-            .WithMessage("RoleType must be a valid RoleType enum value");
+            .NotEmpty()
+            .Must(BeValidRole)
+            .WithMessage("RoleType must be one of the following: " + string.Join(", ", Enum.GetNames<RoleType>()));
     }
 
     private async Task<bool> CheckForUniqueEmail(string email, CancellationToken cancellation)
     {
-        return await _dbContext.User.AnyAsync(user => user.Email == email, cancellation);
+        return await _dbContext.User.AnyAsync(user => user.Email == email, cancellation) is false;
+    }
+    private bool BeValidRole(string roleName)
+    {
+        return Enum.TryParse<RoleType>(roleName, out _);
     }
 }

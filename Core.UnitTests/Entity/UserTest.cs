@@ -10,8 +10,7 @@ public class UserTest : IDisposable
 
     public UserTest()
     {
-        _user = User.Create("user@mail.com", "password123", 1);
-        _user.AssignRole(Role.Create(RoleType.Member));
+        _user = User.Create("user@mail.com", "password123", Role.Create(RoleType.Admin));
     }
 
     public void Dispose()
@@ -36,7 +35,7 @@ public class UserTest : IDisposable
     public void TestUpdateUserInfo_User_Must_Be_Update()
     {
         var updateUser = new UpdateUser("shkar@mail.com", "password", Role.Create(RoleType.Admin));
-        _user.UpdateUserInfo(updateUser);
+        _user.UpdateInfo(updateUser);
         Assert.Equal(_user.Email, updateUser.Email);
         Assert.Equal(_user.PasswordHash, updateUser.Password);
         Assert.Equal(_user.Role, updateUser.Role);
@@ -46,7 +45,7 @@ public class UserTest : IDisposable
     public void TestUpdateUserInfo_User_Only_Non_Null_Values_Should_Be_Updated()
     {
         var updateUser = new UpdateUser("shkar@mail.com", null, null);
-        _user.UpdateUserInfo(updateUser);
+        _user.UpdateInfo(updateUser);
         Assert.Equal(_user.Email, updateUser.Email);
         Assert.NotNull(_user.Role);
         Assert.NotEmpty(_user.PasswordHash);

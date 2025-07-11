@@ -12,6 +12,7 @@ using Scalar.AspNetCore;
 
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
+using Web.Authorization;
 using Web.Persistance;
 using Web.Util;
 

@@ -1,10 +1,11 @@
 using Core;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Web.Persistance;
 
-public class CategoryConfiguration:IEntityTypeConfiguration<Category>
+public class CategoryConfiguration : IEntityTypeConfiguration<Category>
 {
     public void Configure(EntityTypeBuilder<Category> builder)
     {
@@ -15,9 +16,9 @@ public class CategoryConfiguration:IEntityTypeConfiguration<Category>
             .HasConversion(
             c => c.Id,
             v => new CategoryId(v));
-        
+
         builder.Property(c => c.Id)
-            .ValueGeneratedNever(); 
+            .ValueGeneratedNever();
 
         builder.Property(c => c.Name)
             .IsRequired()

@@ -2,7 +2,7 @@ namespace Core.ValueObjects;
 
 public enum PermissionType
 {
-    CanViewBooks=1,
+    CanViewBooks = 1,
     CanCreateBooks,
     CanUpdateBooks,
     CanDeleteBooks,

@@ -6,7 +6,7 @@ namespace Core.Entity;
 public class RolePermission
 {
     public int Id { get; private set; }
-    private PermissionType _permission;
+    private readonly PermissionType _permission;
     public int RoleId { get; private set; }
     public Role Role;
     public string Name => _permission.ToString();
@@ -22,13 +22,13 @@ public class RolePermission
         _permission = type;
     }
 
-    public static RolePermission Create (PermissionType type)
+    public static RolePermission Create(PermissionType type)
     {
         return new RolePermission(type);
     }
-    public static RolePermission CreateExisting (int id,PermissionType type)
+    public static RolePermission CreateExisting(int id, PermissionType type)
     {
-        return new RolePermission(id,type);
+        return new RolePermission(id, type);
     }
     public void AssignToRole(int roleId)
     {

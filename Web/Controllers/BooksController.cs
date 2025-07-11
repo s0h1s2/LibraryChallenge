@@ -1,11 +1,14 @@
 using System.Security.Claims;
+
 using Core;
 using Core.Dto;
 using Core.Persistance;
 using Core.Services;
 using Core.ValueObjects;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using Web.Util;
 
 namespace Web.Controllers;
@@ -92,8 +95,8 @@ public class BooksController : BaseController
         var userId = this.User.Claims.FirstOrDefault(u => u.Type == ClaimTypes.NameIdentifier)!.Value;
         try
         {
-            await _bookDomainService.BorrowBookAsync(borrowBook,Guid.Parse(userId));
-            
+            await _bookDomainService.BorrowBookAsync(borrowBook, Guid.Parse(userId));
+
             return Success<object>(null, Messages.SuccessMessage);
         }
         catch (KeyNotFoundException e)
@@ -107,7 +110,7 @@ public class BooksController : BaseController
     }
     [HttpPut("{id:guid}", Name = "UpdateBook")]
     [HasPermission(PermissionType.CanUpdateBooks)]
-    public async Task<IActionResult> UpdateBook(Guid id,[FromBody] UpdateBook updateBook)
+    public async Task<IActionResult> UpdateBook(Guid id, [FromBody] UpdateBook updateBook)
     {
         var book = await _bookRepository.GetBookByIdAsync(id);
         if (book == null)
@@ -116,7 +119,7 @@ public class BooksController : BaseController
         }
         try
         {
-            var newBookInfo=book.UpdateDetail(updateBook);
+            var newBookInfo = book.UpdateDetail(updateBook);
             await _bookRepository.UpdateBookAsync(newBookInfo);
             return Success(book, Messages.SuccessMessage);
         }

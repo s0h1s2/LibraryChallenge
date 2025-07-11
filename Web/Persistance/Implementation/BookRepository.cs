@@ -2,11 +2,12 @@ using Core;
 using Core.Dto;
 using Core.Entity;
 using Core.Persistance;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace Web.Persistance;
 
-public class BookRepository:IBookRepository
+public class BookRepository : IBookRepository
 {
     private readonly ApplicationDbContext _context;
 
@@ -16,7 +17,7 @@ public class BookRepository:IBookRepository
     }
     public async Task<Book?> AddBookAsync(CreateBook book)
     {
-        var bookToAdd = Book.CreateBook(isbn:book.Isbn,title:book.Title, category:new CategoryId(book.CategoryId),author:book.Author, availableCopies:book.AvailableCopies);
+        var bookToAdd = Book.CreateBook(isbn: book.Isbn, title: book.Title, category: new CategoryId(book.CategoryId), author: book.Author, availableCopies: book.AvailableCopies);
         _context.Books.Add(bookToAdd);
         await _context.SaveChangesAsync();
         return bookToAdd;
@@ -39,12 +40,12 @@ public class BookRepository:IBookRepository
         var books = await _context.Books.ToListAsync();
         return books
             .Select(
-                book=>
+                book =>
                     Book.CreateExisting(
                         book.Id,
                         book.Isbn,
                         book.Title,
-                       book.CategoryId, 
+                       book.CategoryId,
                         book.Author,
                         book.AvailableCopies
                     ))
@@ -53,7 +54,7 @@ public class BookRepository:IBookRepository
 
     public async Task<Book?> GetBookByIdAsync(Guid id)
     {
-        var bookEntity=await _context.Books.FindAsync(id);
+        var bookEntity = await _context.Books.FindAsync(id);
         if (bookEntity == null)
         {
             return null;
@@ -76,9 +77,9 @@ public class BookRepository:IBookRepository
 
     public async Task<IEnumerable<Book>> FilterBooksAsync(string searchTerm)
     {
-        var books=await _context.
+        var books = await _context.
             Books.
-            Where(book=>book.Title.Contains(searchTerm)|| book.Author.Contains(searchTerm)|| book.Isbn.Equals(searchTerm))
+            Where(book => book.Title.Contains(searchTerm) || book.Author.Contains(searchTerm) || book.Isbn.Equals(searchTerm))
             .ToListAsync();
 
         return books;

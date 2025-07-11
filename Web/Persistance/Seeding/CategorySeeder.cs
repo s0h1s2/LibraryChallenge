@@ -1,9 +1,10 @@
 using Core;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace Web.Persistance.Seeding;
 
-public class CategorySeeder:IDataSeeder
+public class CategorySeeder : IDataSeeder
 {
     public static readonly Guid ScienceId = Guid.Parse("11111111-1111-1111-1111-111111111111");
     public static readonly Guid NonFictionId = Guid.Parse("22222222-2222-2222-2222-222222222222");
@@ -14,11 +15,11 @@ public class CategorySeeder:IDataSeeder
     public static void Configure(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Category>().HasData(
-            Category.CreateExisting(new CategoryId( FictionId),name : "Science" ),
-            Category.CreateExisting(new CategoryId(NonFictionId),name : "Non-Fiction" ),
-            Category.CreateExisting(new CategoryId(HistoryId),name : "History" ),
-            Category.CreateExisting(new CategoryId(ProgrammingId),name : "Programming" ),
-            Category.CreateExisting(new CategoryId(ScienceId),name : "Science" )
+            Category.CreateExisting(new CategoryId(FictionId), name: "Science"),
+            Category.CreateExisting(new CategoryId(NonFictionId), name: "Non-Fiction"),
+            Category.CreateExisting(new CategoryId(HistoryId), name: "History"),
+            Category.CreateExisting(new CategoryId(ProgrammingId), name: "Programming"),
+            Category.CreateExisting(new CategoryId(ScienceId), name: "Science")
         );
     }
 }

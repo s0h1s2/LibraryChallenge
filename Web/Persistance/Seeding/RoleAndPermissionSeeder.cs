@@ -1,5 +1,6 @@
 using Core.Entity;
 using Core.ValueObjects;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace Web.Persistance.Seeding;

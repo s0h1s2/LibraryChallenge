@@ -3,8 +3,8 @@ using Core.Persistance;
 
 namespace Core.UnitTests.Persistance;
 
-public class FakeUserRepository:IUserRepository
-{   
+public class FakeUserRepository : IUserRepository
+{
     public List<User> Users { get; }
     public Task<User> CreateUserAsync(User user)
     {
@@ -14,7 +14,7 @@ public class FakeUserRepository:IUserRepository
 
     public Task<User> GetUserByIdAsync(Guid userId)
     {
-        return Task.FromResult(User.Create("shkar", "password",1));
+        return Task.FromResult(User.Create("shkar", "password", 1));
     }
 
     public Task<User> GetUserWithBorrowedBooksAsync(Guid userId, Guid bookId)

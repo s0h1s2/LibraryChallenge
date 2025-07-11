@@ -1,11 +1,14 @@
 using Core.Dto;
+
 using FluentValidation;
+
 using Microsoft.EntityFrameworkCore;
+
 using Web.Persistance;
 
 namespace Web.Validations;
 
-public class CreateUserValidation:AbstractValidator<CreateUser>
+public class CreateUserValidation : AbstractValidator<CreateUser>
 {
     private readonly ApplicationDbContext _dbContext;
 
@@ -28,6 +31,6 @@ public class CreateUserValidation:AbstractValidator<CreateUser>
 
     private async Task<bool> CheckForUniqueEmail(string email, CancellationToken cancellationToken)
     {
-        return await _dbContext.User.AnyAsync(user=>user.Email==email,cancellationToken) is not true;
+        return await _dbContext.User.AnyAsync(user => user.Email == email, cancellationToken) is not true;
     }
 }

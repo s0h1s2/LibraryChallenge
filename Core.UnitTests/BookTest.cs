@@ -1,11 +1,11 @@
-﻿using Core.UnitTests.Persistance;
-using Core.Dto;
+﻿using Core.Dto;
 using Core.Entity;
 using Core.Services;
+using Core.UnitTests.Persistance;
 
 namespace Core.UnitTests;
 
-public class BookTest:IDisposable
+public class BookTest : IDisposable
 {
     public User User { get; set; }
 
@@ -31,10 +31,10 @@ public class BookTest:IDisposable
             );
         var bookRepo = new FakeBookRepository();
         var userRepo = new FakeUserRepository();
-        var bookService = new BookDomainService(bookRepo,userRepo);
-        var book=await bookService.AddBookAsync(bookToAdd);
+        var bookService = new BookDomainService(bookRepo, userRepo);
+        var book = await bookService.AddBookAsync(bookToAdd);
         Assert.Single(bookRepo.Books);
-        Assert.Equivalent(book,bookRepo.Books.First());
+        Assert.Equivalent(book, bookRepo.Books.First());
     }
     [Fact]
     public void TestBorrowBookFromLibrary_AvailableCopies_Is_Zero_Must_Throw_Domain_Exception()
@@ -46,7 +46,7 @@ public class BookTest:IDisposable
             "Donald Knuth",
             0
         );
-        Assert.Throws<DomainException>(()=>book.Borrow(User,DateTime.Now));
+        Assert.Throws<DomainException>(() => book.Borrow(User, DateTime.Now));
     }
     [Fact]
     public void TestUpdateBookInLibrary_Book_MustBe_Updated()
@@ -60,14 +60,14 @@ public class BookTest:IDisposable
             1)
             .ToBook();
         bookRepo.Books.Add(bookToUpdate);
-        var book=bookRepo.Books.First();
-        var updatedBook=book.UpdateDetail(new UpdateBook("The Art Of Computer Programming",
+        var book = bookRepo.Books.First();
+        var updatedBook = book.UpdateDetail(new UpdateBook("The Art Of Computer Programming",
             "12354",
             book.CategoryId,
             "Donald Knuth",
             2));
         bookRepo.UpdateBookAsync(updatedBook);
-        Assert.NotEqual(book,bookRepo.Books.First());
+        Assert.NotEqual(book, bookRepo.Books.First());
     }
     [Fact]
     public void TestBorrowBookFromLibrary_AvailableCopies_Must_Decrease_AfterBorrowing()
@@ -78,11 +78,11 @@ public class BookTest:IDisposable
             new CategoryId(Guid.NewGuid()),
             "Donald Knuth",
             2
-        );   
+        );
         var returnDate = DateTime.Now.AddDays(14);
-        book.Borrow(User,returnDate);
-        Assert.Equal(1,book.AvailableCopies);
-        
+        book.Borrow(User, returnDate);
+        Assert.Equal(1, book.AvailableCopies);
+
     }
     [Fact]
     public void TestReturnBook_After_Borrow_AvailableCopies_Must_Increase()
@@ -93,12 +93,12 @@ public class BookTest:IDisposable
             new CategoryId(Guid.NewGuid()),
             "Donald Knuth",
             1
-        );   
+        );
         var returnDate = DateTime.Now.AddDays(14);
-        book.Borrow(User,returnDate);
-        Assert.Equal(0,book.AvailableCopies);
+        book.Borrow(User, returnDate);
+        Assert.Equal(0, book.AvailableCopies);
         book.ReturnBy(User);
-        Assert.Equal(1,book.AvailableCopies);
+        Assert.Equal(1, book.AvailableCopies);
     }
     [Fact]
     public void TestBorrowBook_By_User_Must_Be_Added_To_BorrowedBooks()
@@ -109,10 +109,10 @@ public class BookTest:IDisposable
             new CategoryId(Guid.NewGuid()),
             "Donald Knuth",
             1
-        ); 
-        
+        );
+
         var returnDate = DateTime.Now.AddDays(14);
-        book.Borrow(User,returnDate);
+        book.Borrow(User, returnDate);
         Assert.Single(User.BorrowedBooks);
         Assert.Equal(book, User.BorrowedBooks.First().Book);
         Assert.Equal(returnDate, User.BorrowedBooks.First().DueDate);
@@ -126,14 +126,14 @@ public class BookTest:IDisposable
             new CategoryId(Guid.NewGuid()),
             "Donald Knuth",
             1
-        ); 
-        
+        );
+
         var returnDate = DateTime.Now.AddDays(14);
-        book.Borrow(User,returnDate);
+        book.Borrow(User, returnDate);
         Assert.Single(User.BorrowedBooks);
         book.ReturnBy(User);
         Assert.Empty(User.BorrowedBooks);
     }
 
-    
+
 }

@@ -1,17 +1,18 @@
 using Core;
 using Core.Entity;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Web.Persistance.Configurations;
 
-public class BookConfiguration:IEntityTypeConfiguration<Book>
+public class BookConfiguration : IEntityTypeConfiguration<Book>
 {
     public void Configure(EntityTypeBuilder<Book> builder)
     {
-        
+
         builder.ToTable("Books");
-        
+
         builder.HasKey(b => b.Id);
         builder.Property(b => b.Id)
             .ValueGeneratedNever();
@@ -27,7 +28,7 @@ public class BookConfiguration:IEntityTypeConfiguration<Book>
         builder.Property(b => b.AvailableCopies)
             .IsRequired();
         builder.Property(b => b.CategoryId).HasColumnName("CategoryId");
-        
+
         builder.HasOne(x => x.Category)
             .WithMany()
             .HasForeignKey("CategoryId")

@@ -9,16 +9,16 @@ public class User
     public Role Role { get; private set; }
     public virtual IList<BorrowedBook> BorrowedBooks { get; private set; } = new List<BorrowedBook>();
     private User() { } // EF Core requires a parameterless constructor
-    private User(string email, string password,int roleId)
+    private User(string email, string password, int roleId)
     {
-        Email= email;
-        PasswordHash= password;
+        Email = email;
+        PasswordHash = password;
         RoleId = roleId;
         Id = Guid.NewGuid();
     }
-    public static User Create(string email, string password,int roleId)
+    public static User Create(string email, string password, int roleId)
     {
-        return new User(email,password,roleId);
+        return new User(email, password, roleId);
     }
     public void AddBookToBorrowedBooks(Book book, DateTime dueDate)
     {

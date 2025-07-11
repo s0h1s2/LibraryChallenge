@@ -1,3 +1,3 @@
 namespace Core.Dto;
 
-public record BorrowBook(Guid BookId,DateTime DueDate);
+public record BorrowBook(Guid BookId, DateTime DueDate);

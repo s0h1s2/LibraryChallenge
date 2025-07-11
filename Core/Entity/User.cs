@@ -34,4 +34,10 @@ public class User
         borrowedBook.MarkAsReturned(DateTime.Now);
         BorrowedBooks.Remove(borrowedBook);
     }
+
+    public void AssignRole(Role role)
+    {
+        Role = role ?? throw new DomainException("Role cannot be null");
+        RoleId = role.Id;
+    }
 }

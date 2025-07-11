@@ -23,7 +23,7 @@ public class Permission
 
     public int Id { get; private set; }
     public string Name => _permission.ToString();
-    public IEnumerable<RolePermission> RolePermissions { get; }
+    public IEnumerable<RolePermission> RolePermissions { get; private set; }
 
     public static Permission Create(PermissionType type)
     {

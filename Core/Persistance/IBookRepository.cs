@@ -11,4 +11,6 @@ public interface IBookRepository
     Task<Book> UpdateBookAsync(Book book);
     Task<bool> DeleteBookAsync(Guid id);
     Task<IEnumerable<Book>> FilterBooksAsync(string searchTerm);
+    Task UpdateBookAndBorrowedBooksByUserAsync(Book book, User user);
+    
 }

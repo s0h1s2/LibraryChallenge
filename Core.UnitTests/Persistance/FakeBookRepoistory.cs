@@ -44,4 +44,9 @@ public class FakeBookRepository:IBookRepository
     {
         throw new NotImplementedException();
     }
+
+    public Task UpdateBookAndBorrowedBooksByUserAsync(Book book, User user)
+    {
+        throw new NotImplementedException();
+    }
 }

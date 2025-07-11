@@ -24,13 +24,12 @@ public class BookDomainService
     {
         var book=await _bookRepository.GetBookByIdAsync(borrowBook.BookId);
         var user = await _userRepository.GetUserByIdAsync(userId);
-        if (book is null)
+        if (book is null || user is null)
         {
             throw new KeyNotFoundException();
         }
         book.Borrow(user, borrowBook.DueDate);
-        await _bookRepository.UpdateBookAsync(book);   
-        await _userRepository.UpdateUserAsync(user);
+        await _bookRepository.UpdateBookAndBorrowedBooksByUserAsync(book, user); 
     }
 
     public async Task ReturnBookAsync(Guid bookId,Guid userId)
@@ -42,9 +41,7 @@ public class BookDomainService
             throw new KeyNotFoundException();
         }
         book.ReturnBy(user);
-        await _bookRepository.UpdateBookAsync(book);
-        await _userRepository.UpdateUserAsync(user);
-        
+        await _bookRepository.UpdateBookAndBorrowedBooksByUserAsync(book, user);
     }
     
 }

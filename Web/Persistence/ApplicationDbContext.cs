@@ -18,7 +18,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<BorrowedBook> BorrowedBooks { get; set; }
 
     public DbSet<RefreshToken> RefreshTokens { get; set; }
-    // public DbSet<RolePermission> RolePermissions { get; set; }
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -32,10 +31,9 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             var permissions = Enum.GetValues<PermissionType>()
                 .Select((p) => Core.Entity.Permission.Create(p))
                 .ToList();
-
             context.Set<Permission>().AddRange(permissions);
             context.Set<Role>().AddRange(adminRole, liberianRole, memberRole);
-            //context.Set<RolePermission>().AddRange(permissions.Select(p => RolePermission.Create(p, adminRole)).ToList());
+            adminRole.AssignPermissions(permissions);
 
             var hashPassword = new PasswordHasher<object?>();
             context.Set<User>().AddRange(

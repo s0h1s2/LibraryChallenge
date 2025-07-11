@@ -9,7 +9,7 @@ using Web.Persistance;
 
 namespace Web.Validations;
 
-public class CreateUserValidation:AbstractValidator<CreateUser>
+public class CreateUserValidation : AbstractValidator<CreateUser>
 {
     private readonly ApplicationDbContext _dbContext;
     public CreateUserValidation(ApplicationDbContext dbContext)

@@ -19,7 +19,7 @@ public class RoleTest : IDisposable
     [Fact]
     public void TestAssignRolePermission_To_Role_Role_Must_Have_Permission()
     {
-        var permission = RolePermission.Create(PermissionType.CanBorrowBooks);
+        var permission = Permission.Create(PermissionType.CanBorrowBooks);
 
         _role.AssignPermission(permission);
 
@@ -35,7 +35,7 @@ public class RoleTest : IDisposable
     [Fact]
     public void TestRevokeRolePermission_From_Role_Role_Must_Not_Have_Permission()
     {
-        var permission = RolePermission.Create(PermissionType.CanBorrowBooks);
+        var permission = Permission.Create(PermissionType.CanBorrowBooks);
         _role.AssignPermission(permission);
 
         _role.RevokePermission(permission);
@@ -46,16 +46,16 @@ public class RoleTest : IDisposable
     [Fact]
     public void TestRevokeRolePermission_From_Role_Should_Throw_Domain_Exception_When_Permission_Doesnt_Exist()
     {
-        var permission = RolePermission.Create(PermissionType.CanBorrowBooks);
+        var permission = Permission.Create(PermissionType.CanBorrowBooks);
         Assert.Throws<DomainException>(() => _role.RevokePermission(permission));
     }
 
     [Fact]
     public void TestAssignMultiplePermissions_To_Role_Role_Must_Have_All_Permissions()
     {
-        var permission1 = RolePermission.Create(PermissionType.CanBorrowBooks);
-        var permission2 = RolePermission.Create(PermissionType.CanReturnBooks);
-        _role.AssignPermissions(new List<RolePermission> { permission1, permission2 });
+        var permission1 = Permission.Create(PermissionType.CanBorrowBooks);
+        var permission2 = Permission.Create(PermissionType.CanReturnBooks);
+        _role.AssignPermissions(new List<Permission> { permission1, permission2 });
 
         Assert.Contains(permission1, _role.Permissions);
         Assert.Contains(permission2, _role.Permissions);
@@ -64,10 +64,10 @@ public class RoleTest : IDisposable
     [Fact]
     public void TestRevokeMultiplePermissions_To_Role_Role_Shouldnt_Have_Roles()
     {
-        var permission1 = RolePermission.Create(PermissionType.CanBorrowBooks);
-        var permission2 = RolePermission.Create(PermissionType.CanReturnBooks);
-        _role.AssignPermissions(new List<RolePermission> { permission1, permission2 });
-        _role.RevokePermissions(new List<RolePermission> { permission1, permission2 });
+        var permission1 = Permission.Create(PermissionType.CanBorrowBooks);
+        var permission2 = Permission.Create(PermissionType.CanReturnBooks);
+        _role.AssignPermissions(new List<Permission> { permission1, permission2 });
+        _role.RevokePermissions(new List<Permission> { permission1, permission2 });
         Assert.Empty(_role.Permissions);
     }
 }

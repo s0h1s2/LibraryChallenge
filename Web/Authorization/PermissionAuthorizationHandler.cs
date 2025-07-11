@@ -1,10 +1,6 @@
 using System.Security.Claims;
-
-using Core.Entity;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-
 using Web.Persistance;
 
 namespace Web.Authorization;
@@ -32,13 +28,11 @@ public class PermissionAuthorizationHandler : AuthorizationHandler<PermissionReq
             return;
         }
 
-        List<RolePermission> permissions = await _context.User
+        var user = await _context.User
             .Where(u => u.Id == userIdGuid)
-            .SelectMany(u => u.Role.Permissions)
-            .ToListAsync();
+            .FirstAsync();
 
-
-        if (permissions.Any(p => p.Name == requirement.Permission))
+        if (user.HasPermission(requirement.Permission))
         {
             context.Succeed(requirement);
         }

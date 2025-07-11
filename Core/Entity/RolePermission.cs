@@ -1,38 +1,28 @@
-using Core.Dto;
-using Core.ValueObjects;
-
 namespace Core.Entity;
 
 public class RolePermission
 {
-    public int Id { get; private set; }
-    private readonly PermissionType _permission;
+    private RolePermission()
+    {
+    }
+
+    private RolePermission(Role role, Permission permission)
+    {
+        Id = Guid.NewGuid();
+        Role = role ?? throw new ArgumentNullException(nameof(role), "Role cannot be null");
+        Permission = permission ?? throw new ArgumentNullException(nameof(permission), "Permission cannot be null");
+        RoleId = role.Id;
+        PermissionId = permission.Id;
+    }
+
+    public Guid Id { get; private set; }
     public int RoleId { get; private set; }
-    public Role Role;
-    public string Name => _permission.ToString();
-    private RolePermission() { }
-    private RolePermission(PermissionType permission)
-    {
-        _permission = permission;
-    }
+    public int PermissionId { get; private set; }
+    public Role Role { get; private set; }
+    public Permission Permission { get; private set; }
 
-    private RolePermission(int id, PermissionType type)
+    public static RolePermission Create(Permission permission, Role role)
     {
-        Id = id;
-        _permission = type;
-    }
-
-    public static RolePermission Create(PermissionType type)
-    {
-        return new RolePermission(type);
-    }
-    public static RolePermission CreateExisting(int id, PermissionType type)
-    {
-        return new RolePermission(id, type);
-    }
-    public void AssignToRole(int roleId)
-    {
-        if (roleId <= 0) throw new ArgumentException("Role ID must be greater than zero");
-        RoleId = roleId;
+        return new RolePermission(role, permission);
     }
 }

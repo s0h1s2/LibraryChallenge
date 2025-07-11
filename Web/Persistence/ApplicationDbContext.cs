@@ -29,11 +29,12 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             var liberianRole = Core.Entity.Role.Create(RoleType.Liberian);
             var memberRole = Core.Entity.Role.Create(RoleType.Member);
             var permissions = Enum.GetValues<PermissionType>()
-                .Select(Core.Entity.Permission.Create)
+                .Select((p) => Core.Entity.Permission.Create(p))
                 .ToList();
-            context.Set<Permission>().AddRange();
+
+            context.Set<Permission>().AddRange(permissions);
             context.Set<Role>().AddRange(adminRole, liberianRole, memberRole);
-            context.Set<RolePermission>().AddRange(permissions.Select(p => RolePermission.Create(p, adminRole)));
+            //context.Set<RolePermission>().AddRange(permissions.Select(p => RolePermission.Create(p, adminRole)).ToList());
 
             var hashPassword = new PasswordHasher<object?>();
             context.Set<User>().AddRange(

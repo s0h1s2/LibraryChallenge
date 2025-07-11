@@ -3,12 +3,10 @@ using Core.Entity;
 using Core.Services;
 using Core.UnitTests.Persistance;
 
-namespace Core.UnitTests;
+namespace Core.UnitTests.Entity;
 
 public class BookTest : IDisposable
 {
-    public User User { get; set; }
-
     public BookTest()
     {
         User = User.Create("shkar",
@@ -16,9 +14,13 @@ public class BookTest : IDisposable
             1
         );
     }
+
+    public User User { get; set; }
+
     public void Dispose()
     {
     }
+
     [Fact]
     public async Task TestAddBookToLibrary_Book_MustBe_Added()
     {
@@ -28,7 +30,7 @@ public class BookTest : IDisposable
             Guid.NewGuid(),
             "Donald Knuth",
             1
-            );
+        );
         var bookRepo = new FakeBookRepository();
         var userRepo = new FakeUserRepository();
         var bookService = new BookDomainService(bookRepo, userRepo);
@@ -36,6 +38,7 @@ public class BookTest : IDisposable
         Assert.Single(bookRepo.Books);
         Assert.Equivalent(book, bookRepo.Books.First());
     }
+
     [Fact]
     public void TestBorrowBookFromLibrary_AvailableCopies_Is_Zero_Must_Throw_Domain_Exception()
     {
@@ -48,16 +51,17 @@ public class BookTest : IDisposable
         );
         Assert.Throws<DomainException>(() => book.Borrow(User, DateTime.Now));
     }
+
     [Fact]
     public void TestUpdateBookInLibrary_Book_MustBe_Updated()
     {
         var bookRepo = new FakeBookRepository();
         var bookToUpdate = new CreateBook(
                 "12354",
-            "The Art of Computer Programming",
-            Guid.NewGuid(),
-            "Donald Knuth",
-            1)
+                "The Art of Computer Programming",
+                Guid.NewGuid(),
+                "Donald Knuth",
+                1)
             .ToBook();
         bookRepo.Books.Add(bookToUpdate);
         var book = bookRepo.Books.First();
@@ -69,6 +73,7 @@ public class BookTest : IDisposable
         bookRepo.UpdateBookAsync(updatedBook);
         Assert.NotEqual(book, bookRepo.Books.First());
     }
+
     [Fact]
     public void TestBorrowBookFromLibrary_AvailableCopies_Must_Decrease_AfterBorrowing()
     {
@@ -82,8 +87,8 @@ public class BookTest : IDisposable
         var returnDate = DateTime.Now.AddDays(14);
         book.Borrow(User, returnDate);
         Assert.Equal(1, book.AvailableCopies);
-
     }
+
     [Fact]
     public void TestReturnBook_After_Borrow_AvailableCopies_Must_Increase()
     {
@@ -100,6 +105,7 @@ public class BookTest : IDisposable
         book.ReturnBy(User);
         Assert.Equal(1, book.AvailableCopies);
     }
+
     [Fact]
     public void TestBorrowBook_By_User_Must_Be_Added_To_BorrowedBooks()
     {
@@ -117,6 +123,7 @@ public class BookTest : IDisposable
         Assert.Equal(book, User.BorrowedBooks.First().Book);
         Assert.Equal(returnDate, User.BorrowedBooks.First().DueDate);
     }
+
     [Fact]
     public void TestUserReturnBorrowedBook_Book_Must_Be_Returned()
     {
@@ -134,6 +141,4 @@ public class BookTest : IDisposable
         book.ReturnBy(User);
         Assert.Empty(User.BorrowedBooks);
     }
-
-
 }

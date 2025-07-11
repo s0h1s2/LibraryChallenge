@@ -1,7 +1,7 @@
 using Core.Entity;
 using Core.ValueObjects;
 
-namespace Core.UnitTests;
+namespace Core.UnitTests.Entity;
 
 public class RoleTest : IDisposable
 {

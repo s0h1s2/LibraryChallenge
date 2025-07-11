@@ -1,4 +1,6 @@
+using System.Runtime.InteropServices.JavaScript;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using Core.Entity;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
@@ -28,5 +30,18 @@ public sealed class TokenProvider(IConfiguration configuration)
         var tokenHandler = new JsonWebTokenHandler();
         var token = tokenHandler.CreateToken(tokenDescriptor);
         return token;
+        
+    }
+    public (string token,DateTime expirationDate) CreateRefreshToken(User user)
+    {
+        var randomNumber = new byte[32];
+        using (var rng = RandomNumberGenerator.Create())
+        {
+            rng.GetBytes(randomNumber);
+        }
+
+        var refreshToken = Convert.ToBase64String(randomNumber);
+        var expirationDate = DateTime.UtcNow.AddDays(30);
+        return (refreshToken,expirationDate); 
     }
 }

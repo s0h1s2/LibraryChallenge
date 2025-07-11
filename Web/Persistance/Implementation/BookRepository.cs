@@ -83,4 +83,11 @@ public class BookRepository:IBookRepository
 
         return books;
     }
+
+    public async Task UpdateBookAndBorrowedBooksByUserAsync(Book book, User user)
+    {
+        _context.Books.Update(book);
+        _context.BorrowedBooks.UpdateRange(user.BorrowedBooks);
+        await _context.SaveChangesAsync();
+    }
 }

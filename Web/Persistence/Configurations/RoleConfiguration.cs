@@ -20,5 +20,9 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
             .IsRequired()
             .HasConversion<string>() // Store enum as string
             .HasMaxLength(50);
+
+        builder.HasMany<Permission>(x => x.Permissions)
+            .WithMany(x => x.Roles)
+            .UsingEntity(j => j.ToTable("RolePermissions"));
     }
 }

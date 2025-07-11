@@ -4,7 +4,7 @@ namespace Web.Persistance.Seeding;
 
 public class DataSeeder
 {
-    
+
     public static void SeedData(ModelBuilder modelBuilder)
     {
         var seederType = typeof(IDataSeeder);

@@ -27,9 +27,9 @@ public class Role
     {
         return new Role(roleType);
     }
-    public static Role CreateExisting(int id,RoleType roleType)
+    public static Role CreateExisting(int id, RoleType roleType)
     {
-        return new Role(id,roleType);
+        return new Role(id, roleType);
     }
 
     public void AssignAttribute(RolePermission permission)

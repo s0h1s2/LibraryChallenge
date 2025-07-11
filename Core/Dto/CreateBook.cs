@@ -9,7 +9,7 @@ public record CreateBook(string Isbn, string Title, Guid CategoryId, string Auth
         return Book.CreateBook(
             title: Title,
             isbn: Isbn,
-            category:new CategoryId(CategoryId),
+            category: new CategoryId(CategoryId),
             author: Author,
             availableCopies: AvailableCopies
         );

@@ -1,12 +1,15 @@
 using Core;
 using Core.Dto;
+
 using FluentValidation;
+
 using Microsoft.EntityFrameworkCore;
+
 using Web.Persistance;
 
 namespace Web.Validations;
 
-public class UpdateBookValidation:AbstractValidator<UpdateBook>
+public class UpdateBookValidation : AbstractValidator<UpdateBook>
 {
     private readonly ApplicationDbContext _dbContext;
 
@@ -20,9 +23,9 @@ public class UpdateBookValidation:AbstractValidator<UpdateBook>
 
         RuleFor(x => x.Author)
             .MaximumLength(50).WithMessage("Author cannot exceed 50 characters.");
-        RuleFor(x=>x.CategoryId)
+        RuleFor(x => x.CategoryId)
             .MustAsync(LookForCategory)
-            .When(x=>x.CategoryId.Id!=Guid.Empty)
+            .When(x => x.CategoryId.Id != Guid.Empty)
             .WithMessage("Category is required.");
         RuleFor(x => x.AvailableCopies);
 
@@ -31,6 +34,6 @@ public class UpdateBookValidation:AbstractValidator<UpdateBook>
     private Task<bool> LookForCategory(CategoryId categoryId, CancellationToken cancellationToken)
     {
         return _dbContext.Category.AnyAsync(entity => entity.Id == categoryId, cancellationToken);
-        
+
     }
 }

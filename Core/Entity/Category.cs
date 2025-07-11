@@ -19,8 +19,8 @@ public class Category
     {
         return new Category(name);
     }
-    public static Category CreateExisting(CategoryId categoryId,string name)
+    public static Category CreateExisting(CategoryId categoryId, string name)
     {
-        return new Category(categoryId,name);
+        return new Category(categoryId, name);
     }
 }

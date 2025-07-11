@@ -10,18 +10,18 @@ public class ApiResponse<T>
     public static ApiResponse<T> Ok(T data, string? message = null, int status = 200)
         => new()
         {
-            Success = true, 
-            Message = message, 
+            Success = true,
+            Message = message,
             Data = data,
-            Status= status
+            Status = status
         };
 
 
-    public static ApiResponse<T> Fail(string message,int status = 400)
+    public static ApiResponse<T> Fail(string message, int status = 400)
         => new()
         {
-            Success = false, 
-            Message = message, 
+            Success = false,
+            Message = message,
             Data = default,
             Status = status
         };

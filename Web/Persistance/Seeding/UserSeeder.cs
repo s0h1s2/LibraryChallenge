@@ -1,10 +1,11 @@
 using Core.Entity;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Web.Persistance.Seeding;
 
-public class UserSeeder: IDataSeeder
+public class UserSeeder : IDataSeeder
 {
     public static void Configure(ModelBuilder modelBuilder)
     {

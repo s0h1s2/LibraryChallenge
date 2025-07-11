@@ -1,10 +1,11 @@
 using Core.Entity;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Web.Persistance.Configurations;
 
-public class UserConfiguration:IEntityTypeConfiguration<User>
+public class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
@@ -14,7 +15,7 @@ public class UserConfiguration:IEntityTypeConfiguration<User>
 
         builder.Property(u => u.Id)
             .ValueGeneratedOnAdd();
-        
+
         builder.Property(u => u.Email)
             .IsRequired()
             .HasMaxLength(100);
@@ -22,21 +23,21 @@ public class UserConfiguration:IEntityTypeConfiguration<User>
         builder.Property(u => u.PasswordHash)
             .IsRequired()
             .HasMaxLength(256);
-        
+
         builder.HasOne(u => u.Role)
             .WithMany()
             .HasForeignKey(u => u.RoleId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
-        
+
         builder.HasMany(u => u.BorrowedBooks)
             .WithOne(bb => bb.User)
             .HasForeignKey(bb => bb.UserId)
-           .OnDelete(DeleteBehavior.Cascade); 
-        
+           .OnDelete(DeleteBehavior.Cascade);
+
         // Indexes
         builder.HasIndex(u => u.Email)
-            .IsUnique(); 
+            .IsUnique();
 
     }
 }

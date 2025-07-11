@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 
 namespace Web.Util;
 
-public class PermissionAuthorizationPolicyProvider:DefaultAuthorizationPolicyProvider
+public class PermissionAuthorizationPolicyProvider : DefaultAuthorizationPolicyProvider
 {
     public PermissionAuthorizationPolicyProvider(IOptions<AuthorizationOptions> options) : base(options)
     {
@@ -11,7 +11,7 @@ public class PermissionAuthorizationPolicyProvider:DefaultAuthorizationPolicyPro
 
     public override async Task<AuthorizationPolicy?> GetPolicyAsync(string policyName)
     {
-        var policy=await base.GetPolicyAsync(policyName);
+        var policy = await base.GetPolicyAsync(policyName);
         if (policy is not null)
         {
             return policy;

@@ -8,36 +8,29 @@ using Web.Persistance;
 
 namespace Web.Validations;
 
-public class CreateUserValidation:AbstractValidator<CreateUser>
+public class RegisterUserValidation : AbstractValidator<RegisterUser>
 {
     private readonly ApplicationDbContext _dbContext;
-    public CreateUserValidation(ApplicationDbContext dbContext)
+
+    public RegisterUserValidation(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
-    }
-
-    public CreateUserValidation()
-    {
         RuleFor(x => x.Email)
             .NotEmpty()
             .WithMessage("Email is required")
             .EmailAddress()
             .MustAsync(CheckForUniqueEmail)
-            .WithMessage("Invalid email format");
+            .WithMessage("Email must be unique");
 
         RuleFor(x => x.Password)
             .NotEmpty()
             .WithMessage("Password is required")
             .MinimumLength(6)
             .WithMessage("Password must be at least 6 characters long");
-
-        RuleFor(x => x.RoleType)
-            .IsInEnum()
-            .WithMessage("RoleType must be a valid RoleType enum value");
     }
 
-    private async Task<bool> CheckForUniqueEmail(string email, CancellationToken cancellation)
+    private async Task<bool> CheckForUniqueEmail(string email, CancellationToken cancellationToken)
     {
-        return await _dbContext.User.AnyAsync(user => user.Email == email, cancellation);
+        return await _dbContext.User.AnyAsync(user => user.Email == email, cancellationToken) is not true;
     }
 }

@@ -77,17 +77,17 @@ public class AuthController : BaseController
         return Success(new LoginUserResponse(newToken, newRefreshToken));
     }
     [HttpPost("register")]
-    public async Task<IActionResult> CreateUser([FromBody] CreateUser createUser)
+    public async Task<IActionResult> CreateUser([FromBody] RegisterUser registerUser)
     {
         var memberRole = await _dbContext.Role
             .Where(role => role.Name == RoleType.Member)
             .FirstOrDefaultAsync();
-        _dbContext.User.Add(Core.Entity.User.Create(createUser.Email, new PasswordHasher<object?>().HashPassword(null, createUser.Password), memberRole.Id));
+        _dbContext.User.Add(Core.Entity.User.Create(registerUser.Email, new PasswordHasher<object?>().HashPassword(null, registerUser.Password), memberRole.Id));
 
         await _dbContext.SaveChangesAsync();
         return Success(new
         {
-            Email = createUser.Email,
+            Email = registerUser.Email,
         }, status: 201);
     }
 

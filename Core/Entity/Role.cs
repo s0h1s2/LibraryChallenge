@@ -21,9 +21,8 @@ public class Role
 
     public RoleType Name { get; private set; }
     public int Id { get; private set; }
-    private List<RolePermission> _permissions { get; } = new();
-    public IReadOnlyCollection<RolePermission> RolePermissions => _permissions.AsReadOnly();
-    public IReadOnlyCollection<Permission> Permissions => _permissions.Select(perm => perm.Permission).ToList();
+    private List<Permission> _permissions { get; } = new();
+    public IReadOnlyCollection<Permission> Permissions => _permissions.AsReadOnly();
 
 
     public static Role Create(RoleType roleType)
@@ -40,12 +39,12 @@ public class Role
     {
         if (permission is null) throw new ArgumentNullException(nameof(permission), "Role permission cannot be null");
 
-        _permissions.Add(RolePermission.Create(permission, this));
+        _permissions.Add(permission);
     }
 
     public void RevokePermission(Permission permission)
     {
-        var permissionToRemove = _permissions.FirstOrDefault(perm => perm.Id == perm.Id);
+        var permissionToRemove = _permissions.FirstOrDefault(perm => permission.Id == perm.Id);
         if (permissionToRemove is null)
         {
             throw new DomainException("Permission does not exist in the role.");

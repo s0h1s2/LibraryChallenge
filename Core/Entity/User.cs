@@ -45,6 +45,11 @@ public class User
         BorrowedBooks.Remove(borrowedBook);
     }
 
+    public bool HasPermission(string name)
+    {
+        return Role.Permissions.Any(p => p.Name == name);
+    }
+
     public void AssignRole(Role role)
     {
         Role = role ?? throw new ArgumentNullException(nameof(role), "Role cannot be null");

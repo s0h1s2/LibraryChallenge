@@ -67,6 +67,11 @@
     &lt;TestId&gt;xUnit::21FEB2F7-49CC-46FB-B662-8906727DFEDA::net9.0::UnitTests.UnitTest1.TestAddBookToLibrary_Book_MustBe_Added&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=804f6bfc_002D532d_002D4fdb_002Da832_002D8bc6f7818d3b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="RoleTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::21FEB2F7-49CC-46FB-B662-8906727DFEDA::net9.0::Core.UnitTests.Entity.RoleTest&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=956d98c9_002D784f_002D475f_002Dbcd3_002D9ea154b32042/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="BookTest #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::21FEB2F7-49CC-46FB-B662-8906727DFEDA::net9.0::Core.UnitTests.BookTest&lt;/TestId&gt;

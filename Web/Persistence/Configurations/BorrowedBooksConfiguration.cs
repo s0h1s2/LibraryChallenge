@@ -1,9 +1,8 @@
 using Core.Entity;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Web.Persistance.Configurations;
+namespace Web.Persistence.Configurations;
 
 public class BorrowedBooksConfiguration : IEntityTypeConfiguration<BorrowedBook>
 {

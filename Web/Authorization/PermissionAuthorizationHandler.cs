@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Web.Persistance;
+using Web.Persistence;
 
 namespace Web.Authorization;
 

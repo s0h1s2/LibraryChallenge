@@ -67,6 +67,9 @@
     &lt;TestId&gt;xUnit::21FEB2F7-49CC-46FB-B662-8906727DFEDA::net9.0::UnitTests.UnitTest1.TestAddBookToLibrary_Book_MustBe_Added&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7e41c4c0_002Df144_002D4686_002Da84f_002Dea19d7d1b6e2/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;Core.UnitTests&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Project Location="/home/mrprogrammez/Desktop/projects/DitLibrary/Core.UnitTests" Presentation="&amp;lt;Core.UnitTests&amp;gt;" /&gt;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=804f6bfc_002D532d_002D4fdb_002Da832_002D8bc6f7818d3b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="RoleTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::21FEB2F7-49CC-46FB-B662-8906727DFEDA::net9.0::Core.UnitTests.Entity.RoleTest&lt;/TestId&gt;

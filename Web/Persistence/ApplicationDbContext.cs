@@ -1,0 +1,56 @@
+using System.Reflection;
+using Core;
+using Core.Entity;
+using Core.ValueObjects;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
+namespace Web.Persistence;
+
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
+{
+    public DbSet<Book> Books { get; set; }
+    public DbSet<Category> Category { get; set; }
+    public DbSet<User> User { get; set; }
+
+    public DbSet<Role> Role { get; set; }
+    public DbSet<Permission> Permission { get; set; }
+    public DbSet<BorrowedBook> BorrowedBooks { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
+    public DbSet<RolePermission> RolePermissions { get; set; }
+
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseNpgsql();
+        optionsBuilder.UseSeeding(((context, b) =>
+        {
+            var adminRole = Core.Entity.Role.Create(RoleType.Admin);
+            var liberianRole = Core.Entity.Role.Create(RoleType.Liberian);
+            var memberRole = Core.Entity.Role.Create(RoleType.Member);
+            var permissions = Enum.GetValues<PermissionType>()
+                .Select(Core.Entity.Permission.Create)
+                .ToList();
+            context.Set<Permission>().AddRange();
+            context.Set<Role>().AddRange(adminRole, liberianRole, memberRole);
+            context.Set<RolePermission>().AddRange(permissions.Select(p => RolePermission.Create(p, adminRole)));
+
+            var hashPassword = new PasswordHasher<object?>();
+            context.Set<User>().AddRange(
+                Core.Entity.User.Create("user@mail.com", hashPassword.HashPassword(null, "password"), adminRole),
+                Core.Entity.User.Create("broosk@mail.com", hashPassword.HashPassword(null, "password"), adminRole),
+                Core.Entity.User.Create("sazan@mail.com", hashPassword.HashPassword(null, "password"), adminRole),
+                Core.Entity.User.Create("handren@mail.com", hashPassword.HashPassword(null, "password"), adminRole),
+                Core.Entity.User.Create("member@mail.com", hashPassword.HashPassword(null, "password"), memberRole),
+                Core.Entity.User.Create("liberian@mail.com", hashPassword.HashPassword(null, "password"), liberianRole)
+            );
+            context.SaveChanges();
+        }));
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+    }
+}

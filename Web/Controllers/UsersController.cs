@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Authorization;
-using Web.Persistance;
+using Web.Persistence;
 
 namespace Web.Controllers;
 

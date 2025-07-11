@@ -1,10 +1,7 @@
 using Core.Dto;
-
 using FluentValidation;
-
 using Microsoft.EntityFrameworkCore;
-
-using Web.Persistance;
+using Web.Persistence;
 
 namespace Web.Validations;
 

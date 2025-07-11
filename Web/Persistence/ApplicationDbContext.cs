@@ -31,9 +31,9 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             var permissions = Enum.GetValues<PermissionType>()
                 .Select((p) => Core.Entity.Permission.Create(p))
                 .ToList();
+            adminRole.AssignPermissions(permissions);
             context.Set<Permission>().AddRange(permissions);
             context.Set<Role>().AddRange(adminRole, liberianRole, memberRole);
-            adminRole.AssignPermissions(permissions);
 
             var hashPassword = new PasswordHasher<object?>();
             context.Set<User>().AddRange(

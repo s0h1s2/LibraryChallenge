@@ -32,7 +32,7 @@ public class BooksController : BaseController
 
     [HttpGet(Name = "GetBooks")]
     [Produces<SuccessResponse<IList<Book>>>]
-    public async Task<ActionResult<Ok<SuccessResponse<IList<Book>>>>> Get()
+    public async Task<Ok<SuccessResponse<IList<Book>>>> Get()
     {
         var books = await _bookRepository.GetBooksAsync();
         return TypedResults.Ok(new SuccessResponse<IList<Book>>(books));
@@ -116,8 +116,8 @@ public class BooksController : BaseController
         if (book == null) return TypedResults.NotFound(new FailureResponse(Messages.NotFoundMessage));
         try
         {
-            var newBookInfo = book.UpdateDetail(updateBook);
-            await _bookRepository.UpdateBookAsync(newBookInfo);
+            book.UpdateDetail(updateBook);
+            await _bookRepository.UpdateBookAsync(book);
             return TypedResults.Ok(new SuccessResponse<object?>(null, Messages.SuccessMessage));
         }
         catch (DomainException e)

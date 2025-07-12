@@ -1,5 +1,6 @@
 using System.Text;
 using Core.Persistance;
+using Core.Services;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -25,6 +26,7 @@ builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddScoped<BookService>();
+builder.Services.AddScoped<LibraryService>();
 builder.Services.AddSingleton<TokenProvider>();
 builder.Services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();

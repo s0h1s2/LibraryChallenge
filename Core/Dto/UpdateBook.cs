@@ -5,5 +5,6 @@ public record UpdateBook(
     string? Isbn,
     CategoryId? CategoryId,
     string? Author,
-    int? AvailableCopies
+    int? AvailableCopies,
+    int? TotalCopies
 );

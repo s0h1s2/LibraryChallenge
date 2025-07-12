@@ -2,7 +2,13 @@ using Core.Entity;
 
 namespace Core.Dto;
 
-public record CreateBook(string Isbn, string Title, Guid CategoryId, string Author, int AvailableCopies)
+public record CreateBook(
+    string Isbn,
+    string Title,
+    Guid CategoryId,
+    string Author,
+    int AvailableCopies,
+    int totalCopies)
 {
     public Book ToBook()
     {
@@ -11,7 +17,8 @@ public record CreateBook(string Isbn, string Title, Guid CategoryId, string Auth
             isbn: Isbn,
             category: new CategoryId(CategoryId),
             author: Author,
-            availableCopies: AvailableCopies
+            availableCopies: AvailableCopies,
+            totalCopies: totalCopies
         );
     }
 }

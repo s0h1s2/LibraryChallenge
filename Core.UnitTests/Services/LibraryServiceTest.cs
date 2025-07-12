@@ -17,7 +17,8 @@ public class LibraryServiceTest : IDisposable
             "The Art of Computer Programming",
             new CategoryId(Guid.NewGuid()),
             "Donald Knuth",
-            1
+            1,
+            10
         );
         _user = User.Create("shkar@mail.com", "password", Role.Create(RoleType.Admin));
         _dueDate = new DateTime(2025, 07, 01);

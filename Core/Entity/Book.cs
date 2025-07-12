@@ -4,7 +4,7 @@ namespace Core.Entity;
 
 public class Book
 {
-    private Book(string isbn, string title, CategoryId categoryId, string author, int availableCopies)
+    private Book(string isbn, string title, CategoryId categoryId, string author, int availableCopies, int totalCopies)
     {
         Id = Guid.NewGuid();
         Isbn = isbn;
@@ -12,6 +12,7 @@ public class Book
         CategoryId = categoryId;
         Author = author;
         AvailableCopies = availableCopies;
+        TotalCopies = totalCopies;
     }
 
     public Guid Id { get; private set; }
@@ -22,19 +23,21 @@ public class Book
     public string Author { get; }
 
     public int AvailableCopies { get; private set; }
+    public int TotalCopies { get; private set; }
 
-    public static Book CreateBook(string isbn, string title, CategoryId category, string author, int availableCopies)
+    public static Book CreateBook(string isbn, string title, CategoryId category, string author, int availableCopies,
+        int totalCopies)
     {
-        return new Book(isbn, title, category, author, availableCopies);
+        return new Book(isbn, title, category, author, availableCopies, totalCopies);
     }
 
     public static Book CreateExisting(Guid id, string isbn, string title, CategoryId category, string author,
-        int availableCopies)
+        int availableCopies, int totalCopies)
     {
         if (id == Guid.Empty) throw new DomainException("Id cannot be empty");
-        var book = new Book(isbn, title, category, author, availableCopies)
+        var book = new Book(isbn, title, category, author, availableCopies, totalCopies)
         {
-            Id = id
+            Id = id,
         };
         return book;
     }
@@ -47,6 +50,9 @@ public class Book
 
     public void Return()
     {
+        if (AvailableCopies >= TotalCopies)
+            throw new DomainException("Available Copies must be less or equal to total copies");
+
         AvailableCopies++;
     }
 
@@ -58,7 +64,8 @@ public class Book
             updateBook.Title ?? Title,
             CategoryId,
             updateBook.Author ?? Author,
-            updateBook.AvailableCopies ?? AvailableCopies
+            updateBook.AvailableCopies ?? AvailableCopies,
+            totalCopies: updateBook.TotalCopies ?? TotalCopies
         );
     }
 }

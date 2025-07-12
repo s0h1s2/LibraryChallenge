@@ -30,6 +30,8 @@ public class PermissionAuthorizationHandler : AuthorizationHandler<PermissionReq
 
         var user = await _context.User
             .Where(u => u.Id == userIdGuid)
+            .Include(u => u.Role)
+            .ThenInclude(u => u.Permissions)
             .FirstAsync();
 
         if (user.HasPermission(requirement.Permission))

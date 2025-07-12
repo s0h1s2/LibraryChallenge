@@ -32,7 +32,7 @@ public class BooksController : BaseController
 
     [HttpGet(Name = "GetBooks")]
     [Produces<SuccessResponse<IList<Book>>>]
-    public async Task<Ok<SuccessResponse<IList<Book>>>> Get()
+    public async Task<ActionResult<Ok<SuccessResponse<IList<Book>>>>> Get()
     {
         var books = await _bookRepository.GetBooksAsync();
         return TypedResults.Ok(new SuccessResponse<IList<Book>>(books));

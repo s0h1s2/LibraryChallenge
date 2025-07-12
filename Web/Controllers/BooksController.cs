@@ -59,6 +59,7 @@ public class BooksController : BaseController
 
     [HttpPost("", Name = "AddBook")]
     [HasPermission(PermissionType.CanCreateBooks)]
+    [ProducesResponseType(422)]
     public async Task<IActionResult> AddBook(CreateBook book)
     {
         var bookResult = await _bookDomainService.AddBookAsync(book);

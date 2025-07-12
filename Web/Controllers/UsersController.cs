@@ -62,7 +62,7 @@ public class UsersController : BaseController
 
     [HttpPut("{userId:guid}", Name = "Update User")]
     [HasPermission(PermissionType.CanUpdateUsers)]
-    public async Task<IActionResult> UpdateUser(Guid userId, [FromBody] UpdateUser updateUserRequest)
+    public async Task<IActionResult> UpdateUser(Guid userId, [FromBody] UpdateUserRequest updateUserRequest)
     {
         var user = await _dbContext.User
             .Where(u => u.Id == userId)
@@ -87,6 +87,8 @@ public class UsersController : BaseController
         await _dbContext.SaveChangesAsync();
         return Ok();
     }
+
+    public record UpdateUserRequest(string Email, string Password, RoleType Role);
 
     record UserResponse(Guid Id, string Email, string RoleType);
 }

@@ -1,6 +1,5 @@
 using System.Text;
 using Core.Persistance;
-using Core.Services;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -12,6 +11,7 @@ using Web.Authorization;
 using Web.OpenApiConfiguration;
 using Web.Persistence;
 using Web.Persistence.Implementation;
+using Web.Services;
 using Web.Util;
 using Web.Validations;
 
@@ -24,7 +24,7 @@ builder.Services.AddOpenApi(x => { x.AddOperationTransformer<UnprocessableEntity
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-builder.Services.AddScoped<BookDomainService>();
+builder.Services.AddScoped<BookService>();
 builder.Services.AddSingleton<TokenProvider>();
 builder.Services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();

@@ -6,21 +6,41 @@ namespace Core.UnitTests.Entity;
 
 public class BookTest : IDisposable
 {
+    private readonly string _defaultAuthor;
+    private readonly CategoryId _defaultCategoryId;
+    private readonly string _defaultIsbn;
+    private readonly string _defaultTitle;
+    private readonly int _defaultTotalCopies;
+
+    public BookTest()
+    {
+        _defaultIsbn = "978-0-306-40615-7";
+        _defaultTitle = "The Art of Computer Programming";
+        _defaultCategoryId = new CategoryId(Guid.NewGuid());
+        _defaultAuthor = "Donald Knuth";
+        _defaultTotalCopies = 10;
+    }
+
     public void Dispose()
     {
+    }
+
+    private Book CreateBook(int availableCopies, int? totalCopies = null)
+    {
+        return Book.CreateBook(
+            _defaultIsbn,
+            _defaultTitle,
+            _defaultCategoryId,
+            _defaultAuthor,
+            availableCopies,
+            totalCopies ?? _defaultTotalCopies
+        );
     }
 
     [Fact]
     public void TestBorrowBookFromLibrary_AvailableCopies_Is_Zero_Must_Throw_Domain_Exception()
     {
-        var book = Book.CreateBook(
-            "978-0-306-40615-7",
-            "The Art of Computer Programming",
-            new CategoryId(Guid.NewGuid()),
-            "Donald Knuth",
-            0,
-            0
-        );
+        var book = CreateBook(availableCopies: 0);
         Assert.Throws<DomainException>(() => book.Borrow());
     }
 
@@ -30,11 +50,11 @@ public class BookTest : IDisposable
         var bookRepo = new FakeBookRepository();
         var bookToUpdate = new CreateBook(
                 "12354",
-                "The Art of Computer Programming",
+                _defaultTitle,
                 Guid.NewGuid(),
-                "Donald Knuth",
+                _defaultAuthor,
                 1,
-                10
+                _defaultTotalCopies
             )
             .ToBook();
         bookRepo.Books.Add(bookToUpdate);
@@ -42,7 +62,7 @@ public class BookTest : IDisposable
         var updatedBook = book.UpdateDetail(new UpdateBook("The Art Of Computer Programming",
             "12354",
             book.CategoryId,
-            "Donald Knuth",
+            _defaultAuthor,
             2,
             0));
         bookRepo.UpdateBookAsync(updatedBook);
@@ -52,14 +72,7 @@ public class BookTest : IDisposable
     [Fact]
     public void TestBorrowBookFromLibrary_AvailableCopies_Must_Decrease_AfterBorrowing()
     {
-        var book = Book.CreateBook(
-            "978-0-306-40615-7",
-            "The Art of Computer Programming",
-            new CategoryId(Guid.NewGuid()),
-            "Donald Knuth",
-            2,
-            10
-        );
+        var book = CreateBook(availableCopies: 2);
         book.Borrow();
         Assert.Equal(1, book.AvailableCopies);
     }
@@ -67,14 +80,7 @@ public class BookTest : IDisposable
     [Fact]
     public void TestReturnBook_After_Borrow_AvailableCopies_Must_Increase()
     {
-        var book = Book.CreateBook(
-            "978-0-306-40615-7",
-            "The Art of Computer Programming",
-            new CategoryId(Guid.NewGuid()),
-            "Donald Knuth",
-            1,
-            10
-        );
+        var book = CreateBook(availableCopies: 1);
 
         book.Borrow();
         Assert.Equal(0, book.AvailableCopies);
@@ -85,14 +91,7 @@ public class BookTest : IDisposable
     [Fact]
     public void TestReturnBook_Available_Book_Shouldnot_Be_More_Than_Total_Copy_Should_Throw_Domain_Exception()
     {
-        var book = Book.CreateBook(
-            "978-0-306-40615-7",
-            "The Art of Computer Programming",
-            new CategoryId(Guid.NewGuid()),
-            "Donald Knuth",
-            1,
-            1
-        );
+        var book = CreateBook(availableCopies: 1, totalCopies: 1);
         Assert.Throws<DomainException>(() => book.Return());
     }
 }

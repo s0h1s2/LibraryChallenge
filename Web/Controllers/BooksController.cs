@@ -3,12 +3,12 @@ using Core;
 using Core.Dto;
 using Core.Entity;
 using Core.Persistance;
-using Core.Services;
 using Core.ValueObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Web.Authorization;
+using Web.Services;
 
 namespace Web.Controllers;
 
@@ -17,17 +17,17 @@ namespace Web.Controllers;
 [Authorize]
 public class BooksController : BaseController
 {
-    private readonly BookDomainService _bookDomainService;
     private readonly IBookRepository _bookRepository;
+    private readonly BookService _bookService;
     private readonly ILogger<BooksController> _logger;
     private readonly IUserRepository _userRepository;
 
     public BooksController(ILogger<BooksController> logger, IBookRepository bookRepository,
-        BookDomainService bookDomainService)
+        BookService bookService)
     {
         _logger = logger;
         _bookRepository = bookRepository;
-        _bookDomainService = bookDomainService;
+        _bookService = bookService;
     }
 
     [HttpGet(Name = "GetBooks")]
@@ -65,7 +65,7 @@ public class BooksController : BaseController
     [HasPermission(PermissionType.CanCreateBooks)]
     public async Task<Created<SuccessResponse<CreateBookResponse>>> AddBook(CreateBook book)
     {
-        var bookResult = await _bookDomainService.AddBookAsync(book);
+        var bookResult = await _bookService.AddBookAsync(book);
         return TypedResults.Created(nameof(AddBook),
             new SuccessResponse<CreateBookResponse>(new CreateBookResponse(bookResult.Id)));
     }
@@ -93,7 +93,7 @@ public class BooksController : BaseController
         var userId = User.Claims.FirstOrDefault(u => u.Type == ClaimTypes.NameIdentifier)!.Value;
         try
         {
-            await _bookDomainService.BorrowBookAsync(borrowBook, Guid.Parse(userId));
+            await _bookService.BorrowBookAsync(borrowBook, Guid.Parse(userId), borrowBook.DueDate);
 
             return TypedResults.Ok(new SuccessResponse<object?>(null, Messages.SuccessMessage));
         }
@@ -133,7 +133,7 @@ public class BooksController : BaseController
         try
         {
             var userId = User.Claims.FirstOrDefault(u => u.Type == ClaimTypes.NameIdentifier)?.Value;
-            await _bookDomainService.ReturnBookAsync(bookId, Guid.Parse(userId));
+            await _bookService.ReturnBookAsync(bookId, Guid.Parse(userId));
             return TypedResults.Ok(new SuccessResponse<object?>(null, Messages.SuccessMessage));
         }
         catch (DomainException e)

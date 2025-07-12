@@ -12,6 +12,12 @@ public class AuthService
     private ApplicationDbContext _dbContext;
     private TokenProvider _tokenProvider;
 
+    public AuthService(ApplicationDbContext dbContext, TokenProvider tokenProvider)
+    {
+        _dbContext = dbContext;
+        _tokenProvider = tokenProvider;
+    }
+
     public async Task<LoginUserResponse> LoginUser(string email, string password)
     {
         var user = await _dbContext.User.Where(u => u.Email == email)

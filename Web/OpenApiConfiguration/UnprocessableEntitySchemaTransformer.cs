@@ -15,7 +15,7 @@ public class UnprocessableEntityOperationTransformer : IOpenApiOperationTransfor
         if (context.Description.ParameterDescriptions.Any(obj =>
                 obj.Type.BaseType != null && obj.Type.BaseType.IsAssignableFrom(fluentValidationType)))
         {
-            operation.Responses.TryAdd(StatusCodes.Status422UnprocessableEntity.ToString(), new OpenApiResponse
+            operation.Responses[StatusCodes.Status422UnprocessableEntity.ToString()] = new OpenApiResponse
             {
                 Description = "Unprocessable Entity",
                 Content =
@@ -43,7 +43,7 @@ public class UnprocessableEntityOperationTransformer : IOpenApiOperationTransfor
                         }
                     }
                 }
-            });
+            };
         }
 
         return Task.CompletedTask;

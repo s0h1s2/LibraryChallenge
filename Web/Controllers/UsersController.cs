@@ -1,6 +1,7 @@
 using Core.Dto;
 using Core.ValueObjects;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,24 +24,26 @@ public class UsersController : BaseController
 
     [HttpGet(Name = "GetUsers")]
     [HasPermission(PermissionType.CanViewUsers)]
-    public async Task<IActionResult> GetUsers()
+    public async Task<Ok<SuccessResponse<IList<UserResponse>>>> GetUsers()
     {
         var users = await _dbContext.User
             .Include(u => u.Role)
             .ToListAsync();
-        return Ok(users.Select(u => new UserResponse(u.Id, u.Email, u.Role.Name.ToString())).ToList());
+        return TypedResults.Ok(new SuccessResponse<IList<UserResponse>>(users
+            .Select(u => new UserResponse(u.Id, u.Email, u.Role.Name.ToString())).ToList()));
     }
 
     [HttpGet("{userId:guid}", Name = "GetUser")]
     [HasPermission(PermissionType.CanViewUsers)]
-    public async Task<IActionResult> GetUser(Guid userId)
+    public async Task<Results<NotFound<FailureResponse>, Ok<SuccessResponse<UserResponse>>>> GetUser(Guid userId)
     {
         var user = await _dbContext.User.Include(u => u.Role)
             .Where(u => u.Id == userId)
             .FirstOrDefaultAsync();
-        if (user is null) return NotFound();
+        if (user is null) return TypedResults.NotFound(new FailureResponse(Messages.NotFoundMessage));
 
-        return Ok(new UserResponse(user.Id, user.Email, user.Role.Name.ToString()));
+        return TypedResults.Ok(
+            new SuccessResponse<UserResponse>(new UserResponse(user.Id, user.Email, user.Role.Name.ToString())));
     }
 
     [HttpPost(Name = "Create User")]
@@ -62,7 +65,8 @@ public class UsersController : BaseController
 
     [HttpPut("{userId:guid}", Name = "Update User")]
     [HasPermission(PermissionType.CanUpdateUsers)]
-    public async Task<IActionResult> UpdateUser(Guid userId, [FromBody] UpdateUserRequest updateUserRequest)
+    public async Task<Results<NotFound<FailureResponse>, Ok>> UpdateUser(Guid userId,
+        [FromBody] UpdateUserRequest updateUserRequest)
     {
         var user = await _dbContext.User
             .Where(u => u.Id == userId)
@@ -71,7 +75,7 @@ public class UsersController : BaseController
         var role = await _dbContext.Role
             .Where(r => r.Name.ToString() == updateUserRequest.RoleType)
             .FirstOrDefaultAsync();
-        if (user is null) return Failure(Messages.NotFoundMessage, 404);
+        if (user is null) return TypedResults.NotFound(new FailureResponse(Messages.NotFoundMessage));
 
         var hashedPassword = string.Empty;
 
@@ -88,10 +92,10 @@ public class UsersController : BaseController
         ));
         _dbContext.User.Update(user);
         await _dbContext.SaveChangesAsync();
-        return Ok();
+        return TypedResults.Ok();
     }
 
     public record UpdateUserRequest(string Email, string Password, string RoleType);
 
-    private record UserResponse(Guid Id, string Email, string RoleType);
+    public record UserResponse(Guid Id, string Email, string RoleType);
 }

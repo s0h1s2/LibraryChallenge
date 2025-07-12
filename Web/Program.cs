@@ -52,6 +52,7 @@ builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 builder.Services.AddFluentValidationAutoValidation(configuration =>
 {
     configuration.DisableBuiltInModelValidation = true;
+    configuration.OverrideDefaultResultFactoryWith<CustomValidationErrorResponse>();
 });
 
 builder.Services

@@ -5,8 +5,9 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Web.Exceptions;
 using Web.Persistence;
-using Web.Util;
+using Web.Services;
 using UserEntity = Core.Entity.User;
 
 namespace Web.Controllers;
@@ -15,58 +16,44 @@ namespace Web.Controllers;
 [Route("api/v1/[controller]")]
 public class AuthController : BaseController
 {
+    private readonly AuthService _authService;
     private readonly ApplicationDbContext _dbContext;
-    private readonly TokenProvider _tokenProvider;
 
-    public AuthController(ApplicationDbContext dbContext, TokenProvider tokenProvider)
+    public AuthController(ApplicationDbContext dbContext, AuthService authService)
     {
         _dbContext = dbContext;
-        _tokenProvider = tokenProvider;
+        _authService = authService;
     }
 
     [HttpPost("login", Name = "Login User")]
-    public async Task<Results<UnauthorizedHttpResult, Ok<SuccessResponse<LoginUserResponse>>>> LoginUser(
+    public async Task<Results<UnauthorizedHttpResult, Ok<SuccessResponse<AuthService.LoginUserResponse>>>> LoginUser(
         [FromBody] LoginUser loginUser)
     {
-        var user = await _dbContext.User.Where(u => u.Email == loginUser.Email)
-            .FirstOrDefaultAsync();
-        if (user is null) return TypedResults.Unauthorized();
-
-        var passwordHasher = new PasswordHasher<object?>();
-        var result = passwordHasher.VerifyHashedPassword(null, user.PasswordHash, loginUser.Password);
-        if (result == PasswordVerificationResult.Failed) return TypedResults.Unauthorized();
-
-        var token = _tokenProvider.Create(user);
-        var (refreshToken, expirationDate) = _tokenProvider.CreateRefreshToken(user);
-        _dbContext.RefreshTokens.Add(Persistence.RefreshToken.Create(refreshToken, expirationDate, user.Id));
-        await _dbContext.SaveChangesAsync();
-
-        return TypedResults.Ok(new SuccessResponse<LoginUserResponse>(new LoginUserResponse(token, refreshToken)));
+        try
+        {
+            var result = await _authService.LoginUser(loginUser.Email, loginUser.Password);
+            return TypedResults.Ok(new SuccessResponse<AuthService.LoginUserResponse>(result));
+        }
+        catch (UnauthorizedException e)
+        {
+            return TypedResults.Unauthorized();
+        }
     }
 
     [HttpPost("refresh", Name = "Refresh JWT Token")]
-    public async Task<Results<UnauthorizedHttpResult, Ok<SuccessResponse<LoginUserResponse>>>> RefreshToken(
+    public async Task<Results<UnauthorizedHttpResult, Ok<SuccessResponse<AuthService.LoginUserResponse>>>> RefreshToken(
         [FromBody] RefreshTokenRequest request)
     {
-        var refreshToken = await _dbContext.RefreshTokens
-            .Where(rt => rt.Token == request.RefreshToken)
-            .FirstOrDefaultAsync();
-
-        if (refreshToken is null || refreshToken.Expiration < DateTime.UtcNow)
+        try
+        {
+            var result = await _authService.RefreshUserToken(request.RefreshToken);
+            return TypedResults.Ok(
+                new SuccessResponse<AuthService.LoginUserResponse>(result));
+        }
+        catch (UnauthorizedException)
+        {
             return TypedResults.Unauthorized();
-
-        var user = await _dbContext.User.FindAsync(refreshToken.UserId);
-        if (user is null) return TypedResults.Unauthorized();
-
-
-        var newToken = _tokenProvider.Create(user);
-        var (newRefreshToken, expirationDate) = _tokenProvider.CreateRefreshToken(user);
-        _dbContext.RefreshTokens.Add(Persistence.RefreshToken.Create(newRefreshToken, expirationDate, user.Id));
-
-        await _dbContext.SaveChangesAsync();
-
-        return TypedResults.Ok(
-            new SuccessResponse<LoginUserResponse>(new LoginUserResponse(newToken, newRefreshToken)));
+        }
     }
 
     [HttpPost("register", Name = "Register Normal User")]
@@ -84,7 +71,6 @@ public class AuthController : BaseController
         return TypedResults.Ok(new RegisterUserResponse(registerUser.Email));
     }
 
-    public record LoginUserResponse(string Token, string RefreshToken);
 
     public record RefreshTokenRequest(string RefreshToken);
 

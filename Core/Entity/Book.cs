@@ -39,17 +39,15 @@ public class Book
         return book;
     }
 
-    public void Borrow(User user, DateTime dueDate)
+    public void Borrow()
     {
         if (AvailableCopies == 0) throw new DomainException("Can't borrow book when no copies are available");
         AvailableCopies--;
-        user.AddBookToBorrowedBooks(this, dueDate);
     }
 
-    public void ReturnBy(User user)
+    public void Return()
     {
         AvailableCopies++;
-        user.MarkBookAsReturned(this);
     }
 
     public Book UpdateDetail(UpdateBook updateBook)

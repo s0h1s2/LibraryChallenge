@@ -25,7 +25,7 @@ public class BookDomainService
         var book = await _bookRepository.GetBookByIdAsync(borrowBook.BookId);
         var user = await _userRepository.GetUserByIdAsync(userId);
         if (book is null || user is null) throw new KeyNotFoundException();
-        book.Borrow(user, borrowBook.DueDate);
+        book.Borrow();
         await _bookRepository.UpdateBookAndBorrowedBooksByUserAsync(book, user);
     }
 
@@ -34,7 +34,7 @@ public class BookDomainService
         var book = await _bookRepository.GetBookByIdAsync(bookId);
         var user = await _userRepository.GetUserWithBorrowedBooksAsync(userId, bookId);
         if (book is null || user is null) throw new KeyNotFoundException();
-        book.ReturnBy(user);
+        book.Return();
         await _bookRepository.UpdateBookAndBorrowedBooksByUserAsync(book, user);
     }
 }

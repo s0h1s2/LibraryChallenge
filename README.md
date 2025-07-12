@@ -88,10 +88,7 @@ Permissions and roles are stored as data records rather than being hardcoded as 
 
 The data-driven design enables seamless addition, modification, or removal of roles and permissions while maintaining the benefits of compile-time safety through enum validation.
 
-Although I could have implemented a many-to-many relationship between `User` and `Role` tables using an additional junction table, the current project scope doesn't require this level of complexity. The direct user-to-role assignment approach is sufficient for the current requirements and maintains simplicity without over-engineering the solution.
-
-
-For controller-level permission management, I implemented a comprehensive authorization system using `AuthorizationHandler`, `Policy AuthorizationHandler`, and a custom `HasPermission` attribute. This approach ensures well-maintained and well-structured code while providing flexibility for future extensions and modifications.
+Although I could have implemented a many-to-many relationship between `User` and `Role` tables using an additional junction table, the current project scope doesn't require this level of complexity. The direct user-to-role assignment approach is sufficient for the current requirements and maintains simplicity without over-engineering the solution. For controller-level permission management, I implemented a comprehensive authorization system using `AuthorizationHandler`, `Policy AuthorizationHandler`, and a custom `HasPermission` attribute. This approach ensures well-maintained and well-structured code while providing flexibility for future extensions and modifications.
 
 The authorization framework leverages ASP.NET Core's built-in policy-based authorization system, allowing for declarative permission checks at the controller and action levels. The `HasPermission` attribute provides a clean, readable way to specify required permissions directly on controller methods, promoting code clarity and maintainability.
 
@@ -99,6 +96,7 @@ This architecture separates authorization concerns from business logic while mai
 
 Currently, the `AuthorizationHandler` queries the database on every request to verify permissions. While this ensures real-time permission validation, I could optimize performance by embedding permissions directly in the JWT token, reducing database calls and improving response times.since the project doesn't implement a sign-out mechanism, the database query approach ensures immediate permission changes take effect without requiring users to re-authenticate.
 
+I implemented Entity Framework Core's Fluent Configuration to maintain clear separation between data persistence and domain logic, ensuring that domain models remain free from persistence-specific concerns.
 
 
 

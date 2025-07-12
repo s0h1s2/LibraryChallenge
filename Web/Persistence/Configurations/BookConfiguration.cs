@@ -24,6 +24,10 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
             .HasMaxLength(100);
         builder.Property(b => b.AvailableCopies)
             .IsRequired();
+        builder
+            .Property(b => b.TotalCopies)
+            .IsRequired();
+
         builder.Property(b => b.CategoryId).HasColumnName("CategoryId");
 
         builder.HasOne(x => x.Category)

@@ -17,8 +17,14 @@ public class BookRepository : IBookRepository
 
     public async Task<Book?> AddBookAsync(CreateBook book)
     {
-        var bookToAdd = Book.CreateBook(book.Isbn, book.Title, new CategoryId(book.CategoryId),
-            book.Author, book.AvailableCopies);
+        var bookToAdd = Book.CreateBook(
+            book.Isbn,
+            book.Title,
+            new CategoryId(book.CategoryId),
+            book.Author,
+            book.AvailableCopies,
+            totalCopies: book.totalCopies
+        );
         _context.Books.Add(bookToAdd);
         await _context.SaveChangesAsync();
         return bookToAdd;
@@ -42,7 +48,8 @@ public class BookRepository : IBookRepository
                     book.Title,
                     book.CategoryId,
                     book.Author,
-                    book.AvailableCopies
+                    book.AvailableCopies,
+                    book.TotalCopies
                 ))
             .ToList();
     }

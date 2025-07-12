@@ -1,22 +1,11 @@
 ﻿using Core.Dto;
 using Core.Entity;
 using Core.UnitTests.Persistance;
-using Core.ValueObjects;
 
 namespace Core.UnitTests.Entity;
 
 public class BookTest : IDisposable
 {
-    public BookTest()
-    {
-        User = User.Create("shkar",
-            "password123",
-            Role.CreateExisting(1, RoleType.Admin)
-        );
-    }
-
-    public User User { get; set; }
-
     public void Dispose()
     {
     }
@@ -29,6 +18,7 @@ public class BookTest : IDisposable
             "The Art of Computer Programming",
             new CategoryId(Guid.NewGuid()),
             "Donald Knuth",
+            0,
             0
         );
         Assert.Throws<DomainException>(() => book.Borrow());
@@ -43,7 +33,9 @@ public class BookTest : IDisposable
                 "The Art of Computer Programming",
                 Guid.NewGuid(),
                 "Donald Knuth",
-                1)
+                1,
+                10
+            )
             .ToBook();
         bookRepo.Books.Add(bookToUpdate);
         var book = bookRepo.Books.First();
@@ -51,7 +43,8 @@ public class BookTest : IDisposable
             "12354",
             book.CategoryId,
             "Donald Knuth",
-            2));
+            2,
+            0));
         bookRepo.UpdateBookAsync(updatedBook);
         Assert.NotEqual(book, bookRepo.Books.First());
     }
@@ -64,7 +57,8 @@ public class BookTest : IDisposable
             "The Art of Computer Programming",
             new CategoryId(Guid.NewGuid()),
             "Donald Knuth",
-            2
+            2,
+            10
         );
         book.Borrow();
         Assert.Equal(1, book.AvailableCopies);
@@ -78,11 +72,27 @@ public class BookTest : IDisposable
             "The Art of Computer Programming",
             new CategoryId(Guid.NewGuid()),
             "Donald Knuth",
-            1
+            1,
+            10
         );
+
         book.Borrow();
         Assert.Equal(0, book.AvailableCopies);
         book.Return();
         Assert.Equal(1, book.AvailableCopies);
+    }
+
+    [Fact]
+    public void TestReturnBook_Available_Book_Shouldnot_Be_More_Than_Total_Copy_Should_Throw_Domain_Exception()
+    {
+        var book = Book.CreateBook(
+            "978-0-306-40615-7",
+            "The Art of Computer Programming",
+            new CategoryId(Guid.NewGuid()),
+            "Donald Knuth",
+            1,
+            1
+        );
+        Assert.Throws<DomainException>(() => book.Return());
     }
 }

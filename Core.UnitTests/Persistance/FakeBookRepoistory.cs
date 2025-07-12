@@ -20,7 +20,7 @@ public class FakeBookRepository : IBookRepository
     {
         Books = Books.Select(b =>
                 book.Id == b.Id
-                    ? Book.CreateExisting(b.Id, b.Isbn, b.Title, b.CategoryId, b.Author, b.AvailableCopies)
+                    ? Book.CreateExisting(b.Id, b.Isbn, b.Title, b.CategoryId, b.Author, b.AvailableCopies, 10)
                     : b)
             .ToList();
         return Task.FromResult(book);

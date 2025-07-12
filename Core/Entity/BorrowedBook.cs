@@ -30,4 +30,10 @@ public class BorrowedBook
     {
         ReturnDate = returnDate;
     }
+
+    public void ExtendDue(DateTime newDueDate)
+    {
+        if (newDueDate < DueDate) throw new DomainException("New due date must be greater than current due date");
+        DueDate = newDueDate;
+    }
 }

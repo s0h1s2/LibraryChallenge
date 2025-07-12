@@ -8,11 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
-using Web;
 using Web.Authorization;
+using Web.OpenApiConfiguration;
 using Web.Persistence;
 using Web.Persistence.Implementation;
 using Web.Util;
+using Web.Validations;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.

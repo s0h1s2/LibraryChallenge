@@ -82,7 +82,20 @@ cd Web
 dotnet ef database update
 ```
 
-### 4. Start the Application
+### 4. Seed Initial Data (Optional)
+The application includes seed data for testing and development:
+
+```bash
+# The database will be automatically seeded with:
+# - Default roles (Member, Admin, Librarian)
+# - Default permissions (CanCreateBooks, CanUpdateBooks, etc.)
+# - Sample categories (Fiction, Non-Fiction, Science, etc.)
+# - Sample books for testing
+```
+
+**Note**: Seed data is automatically created when the database is first initialized. You can modify the seed data in the `Web/Persistence/ApplicationDbContext.cs` file.
+
+### 5. Start the Application
 ```bash
 # From solution root
 dotnet run --project Web
@@ -92,7 +105,7 @@ cd Web
 dotnet run
 ```
 
-### 5. Access the Application
+### 6. Access the Application
 - **API**: https://localhost:5094
 - **Scalar UI**: https://localhost:5094/scalar
 

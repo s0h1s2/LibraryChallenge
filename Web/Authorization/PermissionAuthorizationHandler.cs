@@ -26,7 +26,11 @@ public class PermissionAuthorizationHandler : AuthorizationHandler<PermissionReq
             .Where(u => u.Id == userIdGuid)
             .Include(u => u.Role)
             .ThenInclude(u => u.Permissions)
-            .FirstAsync();
+            .FirstOrDefaultAsync();
+        if (user is null)
+        {
+            return;
+        }
 
         if (user.HasPermission(requirement.Permission)) context.Succeed(requirement);
     }

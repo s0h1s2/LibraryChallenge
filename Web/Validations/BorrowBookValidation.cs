@@ -1,5 +1,4 @@
 using Core.Dto;
-
 using FluentValidation;
 
 namespace Web.Validations;

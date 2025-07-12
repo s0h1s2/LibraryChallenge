@@ -23,13 +23,13 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseNpgsql();
-        optionsBuilder.UseSeeding(((context, b) =>
+        optionsBuilder.UseSeeding((context, b) =>
         {
             var adminRole = Core.Entity.Role.Create(RoleType.Admin);
             var liberianRole = Core.Entity.Role.Create(RoleType.Liberian);
             var memberRole = Core.Entity.Role.Create(RoleType.Member);
             var permissions = Enum.GetValues<PermissionType>()
-                .Select((p) => Core.Entity.Permission.Create(p))
+                .Select(p => Core.Entity.Permission.Create(p))
                 .ToList();
             adminRole.AssignPermissions(permissions);
             context.Set<Permission>().AddRange(permissions);
@@ -45,7 +45,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                 Core.Entity.User.Create("liberian@mail.com", hashPassword.HashPassword(null, "password"), liberianRole)
             );
             context.SaveChanges();
-        }));
+        });
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

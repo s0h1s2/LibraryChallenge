@@ -71,10 +71,7 @@ public class UsersController : BaseController
         var role = await _dbContext.Role
             .Where(r => r.Name.ToString() == updateUserRequest.Role.ToString())
             .FirstOrDefaultAsync();
-        if (user is null || role is null)
-        {
-            return NotFound("User or role not found");
-        }
+        if (user is null || role is null) return NotFound("User or role not found");
 
         var passwordHasher = new PasswordHasher<object?>();
         var hashedPassword = passwordHasher.HashPassword(null, updateUserRequest.Password);
@@ -90,5 +87,5 @@ public class UsersController : BaseController
 
     public record UpdateUserRequest(string Email, string Password, RoleType Role);
 
-    record UserResponse(Guid Id, string Email, string RoleType);
+    private record UserResponse(Guid Id, string Email, string RoleType);
 }

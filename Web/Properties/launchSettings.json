@@ -8,7 +8,7 @@
       "applicationUrl": "http://localhost:5094",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "DATABASE_URL":"Host=db.qmuxuldybanirhkizgih.supabase.co;Database=postgres;Username=postgres;Password=[YOUR-PASSWORD];SSL Mode=Require;Trust Server Certificate=true"
+        "DATABASE_URL": "Host=db.qmuxuldybanirhkizgih.supabase.co;Database=postgres;Username=postgres;Password=[YOUR-PASSWORD];SSL Mode=Require;Trust Server Certificate=true"
       }
     },
     "https": {

@@ -16,6 +16,9 @@
 	<s:String x:Key="/Default/Environment/Hierarchy/Build/BuildTool/CustomBuildToolPath/@EntryValue">/home/mrprogrammez/.dotnet/sdk/9.0.301/MSBuild.dll</s:String>
 	<s:Int64 x:Key="/Default/Environment/Hierarchy/Build/BuildTool/MsbuildVersion/@EntryValue">1114126</s:Int64>
 	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">/home/mrprogrammez/.cache/JetBrains/Rider2025.1/resharper-host/temp/Rider/vAny/CoverageData/_DitLibrary.503178956/Snapshot/snapshot.utdcvr</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=00d4577b_002Dc43e_002D4652_002D8f5a_002D12338df32294/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;Core.UnitTests&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Project Location="/home/mrprogrammez/Desktop/projects/DitLibrary/Core.UnitTests" Presentation="&amp;lt;Core.UnitTests&amp;gt;" /&gt;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0824e5a5_002D2b64_002D4c68_002Dacfe_002D2efe8ef9ac97/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="UserTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::21FEB2F7-49CC-46FB-B662-8906727DFEDA::net9.0::Core.UnitTests.UserTest&lt;/TestId&gt;

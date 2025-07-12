@@ -6,7 +6,7 @@ namespace Core.UnitTests.Entity;
 
 public class UserTest : IDisposable
 {
-    private User _user;
+    private readonly User _user;
 
     public UserTest()
     {

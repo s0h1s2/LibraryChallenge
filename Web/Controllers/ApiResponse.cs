@@ -8,21 +8,25 @@ public class ApiResponse<T>
     public int Status { get; set; }
 
     public static ApiResponse<T> Ok(T data, string? message = null, int status = 200)
-        => new()
+    {
+        return new ApiResponse<T>
         {
             Success = true,
             Message = message,
             Data = data,
             Status = status
         };
+    }
 
 
     public static ApiResponse<T> Fail(string message, int status = 400)
-        => new()
+    {
+        return new ApiResponse<T>
         {
             Success = false,
             Message = message,
             Data = default,
             Status = status
         };
+    }
 }

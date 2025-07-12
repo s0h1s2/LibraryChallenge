@@ -45,27 +45,18 @@ public class Role
     public void RevokePermission(Permission permission)
     {
         var permissionToRemove = _permissions.FirstOrDefault(perm => permission.Id == perm.Id);
-        if (permissionToRemove is null)
-        {
-            throw new DomainException("Permission does not exist in the role.");
-        }
+        if (permissionToRemove is null) throw new DomainException("Permission does not exist in the role.");
 
         _permissions.Remove(permissionToRemove);
     }
 
     public void AssignPermissions(IList<Permission> rolePermissions)
     {
-        foreach (var rolePermission in rolePermissions)
-        {
-            AssignPermission(rolePermission);
-        }
+        foreach (var rolePermission in rolePermissions) AssignPermission(rolePermission);
     }
 
     public void RevokePermissions(List<Permission> rolePermissions)
     {
-        foreach (var rolePermission in rolePermissions)
-        {
-            RevokePermission(rolePermission);
-        }
+        foreach (var rolePermission in rolePermissions) RevokePermission(rolePermission);
     }
 }

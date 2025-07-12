@@ -45,7 +45,9 @@ public class Role
     public void RevokePermission(Permission permission)
     {
         var permissionToRemove = _permissions.FirstOrDefault(perm => permission.Id == perm.Id);
-        if (permissionToRemove is null) throw new DomainException("Permission does not exist in the role.");
+        if (permissionToRemove is null)
+            throw new DomainException(
+                $"This Role {Name.ToString()} doesn't have permission by name of {permission.Name}");
 
         _permissions.Remove(permissionToRemove);
     }

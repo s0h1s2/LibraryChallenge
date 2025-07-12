@@ -45,6 +45,159 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                 Core.Entity.User.Create("liberian@mail.com", hashPassword.HashPassword(null, "password"), liberianRole)
             );
             context.SaveChanges();
+            var programmingCategory = Core.Category.Create("Programming");
+            var scienceCategory = Core.Category.Create("Science");
+            var fictionCategory = Core.Category.Create("Fiction");
+            context.Set<Category>().AddRange(programmingCategory, scienceCategory, fictionCategory);
+            context.SaveChanges();
+            context.Set<Book>().AddRange(
+                // Programming Category Books (7 books)
+                Book.CreateBook(
+                    "12345",
+                    "The Art of Computer Programming",
+                    programmingCategory.Id,
+                    "Donald Knuth",
+                    10, 10
+                ),
+                Book.CreateBook(
+                    "67890",
+                    "Clean Code",
+                    programmingCategory.Id,
+                    "Robert C. Martin",
+                    8, 15
+                ),
+                Book.CreateBook(
+                    "11111",
+                    "Design Patterns",
+                    programmingCategory.Id,
+                    "Gang of Four",
+                    12, 8
+                ),
+                Book.CreateBook(
+                    "22222",
+                    "JavaScript: The Good Parts",
+                    programmingCategory.Id,
+                    "Douglas Crockford",
+                    6, 20
+                ),
+                Book.CreateBook(
+                    "33333",
+                    "Refactoring",
+                    programmingCategory.Id,
+                    "Martin Fowler",
+                    9, 12
+                ),
+                Book.CreateBook(
+                    "44444",
+                    "The Pragmatic Programmer",
+                    programmingCategory.Id,
+                    "Andrew Hunt",
+                    7, 18
+                ),
+                Book.CreateBook(
+                    "55555",
+                    "Code Complete",
+                    programmingCategory.Id,
+                    "Steve McConnell",
+                    11, 9
+                ),
+
+// Science Category Books (7 books)
+                Book.CreateBook(
+                    "66666",
+                    "A Brief History of Time",
+                    scienceCategory.Id,
+                    "Stephen Hawking",
+                    5, 25
+                ),
+                Book.CreateBook(
+                    "77777",
+                    "The Origin of Species",
+                    scienceCategory.Id,
+                    "Charles Darwin",
+                    8, 14
+                ),
+                Book.CreateBook(
+                    "88888",
+                    "Cosmos",
+                    scienceCategory.Id,
+                    "Carl Sagan",
+                    6, 22
+                ),
+                Book.CreateBook(
+                    "99999",
+                    "The Double Helix",
+                    scienceCategory.Id,
+                    "James Watson",
+                    4, 28
+                ),
+                Book.CreateBook(
+                    "10101",
+                    "Silent Spring",
+                    scienceCategory.Id,
+                    "Rachel Carson",
+                    7, 16
+                ),
+                Book.CreateBook(
+                    "20202",
+                    "The Selfish Gene",
+                    scienceCategory.Id,
+                    "Richard Dawkins",
+                    9, 13
+                ),
+                Book.CreateBook(
+                    "30303",
+                    "Sapiens",
+                    scienceCategory.Id,
+                    "Yuval Noah Harari",
+                    10, 11
+                ),
+
+// Fiction Category Books (6 books)
+                Book.CreateBook(
+                    "40404",
+                    "1984",
+                    fictionCategory.Id,
+                    "George Orwell",
+                    5, 30
+                ),
+                Book.CreateBook(
+                    "50505",
+                    "To Kill a Mockingbird",
+                    fictionCategory.Id,
+                    "Harper Lee",
+                    6, 26
+                ),
+                Book.CreateBook(
+                    "60606",
+                    "The Great Gatsby",
+                    fictionCategory.Id,
+                    "F. Scott Fitzgerald",
+                    4, 35
+                ),
+                Book.CreateBook(
+                    "70707",
+                    "Pride and Prejudice",
+                    fictionCategory.Id,
+                    "Jane Austen",
+                    7, 19
+                ),
+                Book.CreateBook(
+                    "80808",
+                    "The Catcher in the Rye",
+                    fictionCategory.Id,
+                    "J.D. Salinger",
+                    5, 24
+                ),
+                Book.CreateBook(
+                    "90909",
+                    "Lord of the Flies",
+                    fictionCategory.Id,
+                    "William Golding",
+                    6, 21
+                )
+            );
+            context.SaveChanges();
         });
     }
 

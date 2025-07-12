@@ -26,13 +26,7 @@ public class BookRepository : IBookRepository
 
     public async Task<Book> UpdateBookAsync(Book book)
     {
-        var bookEntity = await _context.Books.FindAsync(book.Id);
-        if (bookEntity == null)
-        {
-            throw new KeyNotFoundException($"Book with id {book.Id} not found.");
-        }
-
-        _context.Books.Update(bookEntity);
+        _context.Books.Update(book);
         await _context.SaveChangesAsync();
         return book;
     }

@@ -1,18 +1,17 @@
+using Core.Persistance;
 using Core.ValueObjects;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using Web.Controllers;
-using Web.Persistence;
 
 namespace Web.Validations;
 
 public class UpdateUserValidation : AbstractValidator<UsersController.UpdateUserRequest>
 {
-    private readonly ApplicationDbContext _dbContext;
+    private readonly IUserRepository _userRepository;
 
-    public UpdateUserValidation(ApplicationDbContext dbContext)
+    public UpdateUserValidation(IUserRepository userRepository)
     {
-        _dbContext = dbContext;
+        _userRepository = userRepository;
         RuleFor(x => x.Email)
             .EmailAddress()
             .MustAsync(CheckForUniqueEmail)
@@ -30,7 +29,7 @@ public class UpdateUserValidation : AbstractValidator<UsersController.UpdateUser
 
     private async Task<bool> CheckForUniqueEmail(string email, CancellationToken cancellation)
     {
-        return await _dbContext.User.AnyAsync(user => user.Email == email, cancellation) is false;
+        return await _userRepository.IsEmailUniqueAsync(email);
     }
 
     private bool BeValidRole(string roleName)

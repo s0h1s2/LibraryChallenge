@@ -8,4 +8,6 @@ public interface IUserRepository
     Task<User> GetUserByIdAsync(Guid userId);
     Task<User> GetUserWithBorrowedBooksAsync(Guid userId, Guid bookId);
     Task<User> UpdateUserAsync(User? user);
+
+    Task<bool> IsEmailUniqueAsync(string email);
 }

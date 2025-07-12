@@ -28,4 +28,9 @@ public class FakeUserRepository : IUserRepository
     {
         throw new NotImplementedException();
     }
+
+    public Task<bool> IsEmailUniqueAsync(string email)
+    {
+        return Task.FromResult(Users.All(u => u.Email != email));
+    }
 }

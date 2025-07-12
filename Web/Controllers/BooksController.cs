@@ -6,6 +6,7 @@ using Core.Persistance;
 using Core.Services;
 using Core.ValueObjects;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Web.Authorization;
 
@@ -31,111 +32,115 @@ public class BooksController : BaseController
 
     [HttpGet(Name = "GetBooks")]
     [Produces<SuccessResponse<IList<Book>>>]
-    public async Task<IActionResult> Get()
+    public async Task<Ok<SuccessResponse<IList<Book>>>> Get()
     {
         var books = await _bookRepository.GetBooksAsync();
-        return Success(books);
+        return TypedResults.Ok(new SuccessResponse<IList<Book>>(books));
     }
 
     [HttpGet("{id:guid}", Name = "GetBookById")]
-    [Produces<SuccessResponse<Book>>]
-    public async Task<IActionResult> GetBookById(Guid id)
+    public async Task<Results<Ok<SuccessResponse<Book>>, NotFound>> GetBookById(Guid id)
     {
         var book = await _bookRepository.GetBookByIdAsync(id);
-        if (book == null) return NotFound();
+        if (book == null) return TypedResults.NotFound();
 
-        return Success(book);
+        return TypedResults.Ok(new SuccessResponse<Book>(book));
     }
 
     [HttpGet("search", Name = "FilterBooks")]
     [Produces<SuccessResponse<IList<Book>>>]
-    public async Task<IActionResult> FilterBooks([FromQuery] string q)
+    public async Task<Results<Ok<IEnumerable<Book>>, ValidationProblem>> FilterBooks([FromQuery] string q)
     {
-        if (string.IsNullOrWhiteSpace(q)) return Failure(Messages.SearchTermNotFound);
+        if (string.IsNullOrWhiteSpace(q))
+            return TypedResults.ValidationProblem(new Dictionary<string, string[]>()
+            {
+                { "q", new[] { Messages.SearchTermNotFound } }
+            });
 
         var books = await _bookRepository.FilterBooksAsync(q);
-        return Success(books);
+        return TypedResults.Ok(books);
     }
 
     [HttpPost("", Name = "AddBook")]
     [HasPermission(PermissionType.CanCreateBooks)]
-    public async Task<IActionResult> AddBook(CreateBook book)
+    public async Task<Created<SuccessResponse<CreateBookResponse>>> AddBook(CreateBook book)
     {
         var bookResult = await _bookDomainService.AddBookAsync(book);
-        return CreatedAtAction(
-            nameof(AddBook),
-            new { id = bookResult?.Id },
-            bookResult
-        );
+        return TypedResults.Created(nameof(AddBook),
+            new SuccessResponse<CreateBookResponse>(new CreateBookResponse(bookResult.Id)));
     }
 
     [HttpDelete("{id:guid}", Name = "DeleteBookById")]
     [HasPermission(PermissionType.CanDeleteBooks)]
-    public async Task<IActionResult> DeleteBookById(Guid id)
+    public async Task<Results<Ok<SuccessResponse<object?>>, NotFound<FailureResponse>>> DeleteBookById(Guid id)
     {
         try
         {
             var book = await _bookRepository.DeleteBookAsync(id);
-            return Success(true, Messages.SuccessMessage);
+            return TypedResults.Ok(new SuccessResponse<object?>(null));
         }
         catch (KeyNotFoundException e)
         {
-            return Failure(e.Message, 404);
+            return TypedResults.NotFound(new FailureResponse(Messages.NotFoundMessage));
         }
     }
 
     [HttpPost("borrow", Name = "BorrowBook")]
     [HasPermission(PermissionType.CanBorrowBooks)]
-    public async Task<IActionResult> BorrowBook([FromBody] BorrowBook borrowBook)
+    public async Task<Results<Ok<SuccessResponse<object?>>, NotFound<FailureResponse>, BadRequest<FailureResponse>>>
+        BorrowBook([FromBody] BorrowBook borrowBook)
     {
         var userId = User.Claims.FirstOrDefault(u => u.Type == ClaimTypes.NameIdentifier)!.Value;
         try
         {
             await _bookDomainService.BorrowBookAsync(borrowBook, Guid.Parse(userId));
 
-            return Success<object>(null, Messages.SuccessMessage);
+            return TypedResults.Ok(new SuccessResponse<object?>(null, Messages.SuccessMessage));
         }
         catch (KeyNotFoundException e)
         {
-            return Failure(Messages.BookNotFound, 404);
+            return TypedResults.NotFound(new FailureResponse(Messages.NotFoundMessage));
         }
         catch (DomainException e)
         {
-            return Failure(e.Message);
+            return TypedResults.BadRequest(new FailureResponse(e.Message));
         }
     }
 
     [HttpPut("{id:guid}", Name = "UpdateBook")]
     [HasPermission(PermissionType.CanUpdateBooks)]
-    public async Task<IActionResult> UpdateBook(Guid id, [FromBody] UpdateBook updateBook)
+    public async Task<Results<Ok<SuccessResponse<object?>>, NotFound<FailureResponse>, BadRequest<FailureResponse>>>
+        UpdateBook(Guid id, [FromBody] UpdateBook updateBook)
     {
         var book = await _bookRepository.GetBookByIdAsync(id);
-        if (book == null) return Failure(Messages.BookNotFound, 404);
+        if (book == null) return TypedResults.NotFound(new FailureResponse(Messages.NotFoundMessage));
         try
         {
             var newBookInfo = book.UpdateDetail(updateBook);
             await _bookRepository.UpdateBookAsync(newBookInfo);
-            return Success(book, Messages.SuccessMessage);
+            return TypedResults.Ok(new SuccessResponse<object?>(null, Messages.SuccessMessage));
         }
         catch (DomainException e)
         {
-            return Failure(e.Message);
+            return TypedResults.BadRequest(new FailureResponse(e.Message));
         }
     }
 
     [HttpPost("{bookId:guid}/return", Name = "ReturnBook")]
     [HasPermission(PermissionType.CanReturnBooks)]
-    public async Task<IActionResult> ReturnBook(Guid bookId)
+    public async Task<Results<Ok<SuccessResponse<object?>>, BadRequest<FailureResponse>>> ReturnBook(Guid bookId)
     {
         try
         {
             var userId = User.Claims.FirstOrDefault(u => u.Type == ClaimTypes.NameIdentifier)?.Value;
             await _bookDomainService.ReturnBookAsync(bookId, Guid.Parse(userId));
-            return Success<object>(null, Messages.SuccessMessage);
+            return TypedResults.Ok(new SuccessResponse<object?>(null, Messages.SuccessMessage));
         }
         catch (DomainException e)
         {
-            return Failure(e.Message);
+            return TypedResults.BadRequest(new FailureResponse(e.Message));
         }
     }
+
+    public record CreateBookResponse(Guid Id);
 }

@@ -8,8 +8,8 @@ namespace Web.Services;
 
 public class BookService
 {
+    private readonly ApplicationDbContext _dbContext;
     private readonly LibraryService _libraryService;
-    private ApplicationDbContext _dbContext;
 
     public BookService(LibraryService libraryService, ApplicationDbContext dbContext)
     {

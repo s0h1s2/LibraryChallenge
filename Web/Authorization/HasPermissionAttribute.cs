@@ -1,7 +1,7 @@
 using Core.ValueObjects;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Web.Authorization;
+namespace Web.Util.Authorization;
 
 public class HasPermissionAttribute : AuthorizeAttribute
 {

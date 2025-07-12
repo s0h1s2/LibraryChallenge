@@ -1,9 +1,9 @@
 using Core.Persistance;
 using Core.ValueObjects;
 using FluentValidation;
-using Web.Controllers;
+using Web.Util.Controllers;
 
-namespace Web.Validations;
+namespace Web.Util.Validations;
 
 public class UpdateUserValidation : AbstractValidator<UsersController.UpdateUserRequest>
 {

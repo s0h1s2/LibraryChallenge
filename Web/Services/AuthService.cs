@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Web.Controllers;
-using Web.Exceptions;
-using Web.Persistence;
-using Web.Util;
+using Web.Util.Exceptions;
+using Web.Util.Persistence;
+using Web.Util.Util;
 
-namespace Web.Services;
+namespace Web.Util.Services;
 
 public class AuthService
 {

@@ -1,4 +1,4 @@
-namespace Web.Exceptions;
+namespace Web.Util.Exceptions;
 
 public class UnauthorizedException : Exception
 {

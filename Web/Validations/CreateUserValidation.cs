@@ -3,7 +3,7 @@ using Core.Persistance;
 using Core.ValueObjects;
 using FluentValidation;
 
-namespace Web.Validations;
+namespace Web.Util.Validations;
 
 public class CreateUserValidation : AbstractValidator<CreateUser>
 {

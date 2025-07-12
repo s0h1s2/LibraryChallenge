@@ -2,7 +2,7 @@ using Core.Dto;
 using Core.Persistance;
 using FluentValidation;
 
-namespace Web.Validations;
+namespace Web.Util.Validations;
 
 public class RegisterUserValidation : AbstractValidator<RegisterUser>
 {

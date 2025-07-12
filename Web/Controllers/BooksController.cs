@@ -7,10 +7,10 @@ using Core.ValueObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Web.Authorization;
-using Web.Services;
+using Web.Util.Authorization;
+using Web.Util.Services;
 
-namespace Web.Controllers;
+namespace Web.Util.Controllers;
 
 [ApiController]
 [Route("api/v1/[controller]")]

@@ -2,7 +2,7 @@ using Core.Entity;
 using Core.Persistance;
 using Microsoft.EntityFrameworkCore;
 
-namespace Web.Persistence.Implementation;
+namespace Web.Util.Persistence.Implementation;
 
 public class UserRepository : IUserRepository
 {

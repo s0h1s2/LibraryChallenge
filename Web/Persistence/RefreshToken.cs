@@ -1,6 +1,6 @@
 using Core.Entity;
 
-namespace Web.Persistence;
+namespace Web.Util.Persistence;
 
 public class RefreshToken
 {

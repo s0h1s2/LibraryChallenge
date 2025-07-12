@@ -102,7 +102,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                     11, 9
                 ),
 
-// Science Category Books (7 books)
+                // Science Category Books (7 books)
                 Book.CreateBook(
                     "66666",
                     "A Brief History of Time",
@@ -153,7 +153,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                     10, 11
                 ),
 
-// Fiction Category Books (6 books)
+                // Fiction Category Books (6 books)
                 Book.CreateBook(
                     "40404",
                     "1984",

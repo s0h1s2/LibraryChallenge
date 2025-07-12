@@ -81,9 +81,6 @@ While the Web project requires additional refactoring to meet optimal standards,
 I implemented FluentValidation for DTO validation and utilized an AutoValidation mechanism to adhere to the DRY (Don't Repeat Yourself) principle. The validation logic is documented through OpenAPI configuration, ensuring comprehensive API documentation.
 Any DTO that implements AbstractValidator is automatically registered with the OpenAPI specification, providing seamless integration between validation rules and API documentation. This approach eliminates manual documentation maintenance while ensuring that validation constraints are clearly communicated to API consumers.
  
-Here's a more professional and grammatically correct version:
-
----
 
 For the authorization implementation, I designed a four-table structure consisting of `User`, `Role`, `Permission`, and `RolePermissions`. The `Role` and `Permission` entities are connected through the `RolePermissions` junction table, while each user is directly assigned to a role in the `Role` table.
 
@@ -92,6 +89,17 @@ Permissions and roles are stored as data records rather than being hardcoded as 
 The data-driven design enables seamless addition, modification, or removal of roles and permissions while maintaining the benefits of compile-time safety through enum validation.
 
 Although I could have implemented a many-to-many relationship between `User` and `Role` tables using an additional junction table, the current project scope doesn't require this level of complexity. The direct user-to-role assignment approach is sufficient for the current requirements and maintains simplicity without over-engineering the solution.
+
+
+For controller-level permission management, I implemented a comprehensive authorization system using `AuthorizationHandler`, `Policy AuthorizationHandler`, and a custom `HasPermission` attribute. This approach ensures well-maintained and well-structured code while providing flexibility for future extensions and modifications.
+
+The authorization framework leverages ASP.NET Core's built-in policy-based authorization system, allowing for declarative permission checks at the controller and action levels. The `HasPermission` attribute provides a clean, readable way to specify required permissions directly on controller methods, promoting code clarity and maintainability.
+
+This architecture separates authorization concerns from business logic while maintaining a consistent and extensible permission validation mechanism throughout the application.
+
+Currently, the `AuthorizationHandler` queries the database on every request to verify permissions. While this ensures real-time permission validation, I could optimize performance by embedding permissions directly in the JWT token, reducing database calls and improving response times.since the project doesn't implement a sign-out mechanism, the database query approach ensures immediate permission changes take effect without requiring users to re-authenticate.
+
+
 
 
 **Built with ASP.NET Core 9.0**

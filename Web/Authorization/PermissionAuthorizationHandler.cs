@@ -17,16 +17,10 @@ public class PermissionAuthorizationHandler : AuthorizationHandler<PermissionReq
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context,
         PermissionRequirement requirement)
     {
-        string? userId = context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-        if (userId is null)
-        {
-            return;
-        }
+        var userId = context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+        if (userId is null) return;
 
-        if (Guid.TryParse(userId, out Guid userIdGuid) is false)
-        {
-            return;
-        }
+        if (Guid.TryParse(userId, out var userIdGuid) is false) return;
 
         var user = await _context.User
             .Where(u => u.Id == userIdGuid)
@@ -34,9 +28,6 @@ public class PermissionAuthorizationHandler : AuthorizationHandler<PermissionReq
             .ThenInclude(u => u.Permissions)
             .FirstAsync();
 
-        if (user.HasPermission(requirement.Permission))
-        {
-            context.Succeed(requirement);
-        }
+        if (user.HasPermission(requirement.Permission)) context.Succeed(requirement);
     }
 }

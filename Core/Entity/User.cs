@@ -22,7 +22,7 @@ public class User
     public Guid Id { get; private set; }
     public int RoleId { get; private set; }
     public Role Role { get; private set; }
-    public virtual IList<BorrowedBook> BorrowedBooks { get; private set; } = new List<BorrowedBook>();
+    public virtual IList<BorrowedBook> BorrowedBooks { get; } = new List<BorrowedBook>();
 
     public static User Create(string email, string password, Role role)
     {

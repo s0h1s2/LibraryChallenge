@@ -18,9 +18,9 @@ public sealed class TokenProvider(IConfiguration configuration)
         {
             Subject = new ClaimsIdentity([
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Email, user.Email)
             ]),
-            Expires = DateTime.UtcNow.AddSeconds(configuration.GetValue<int>("Jwt:ExpireInSeconds", 3600)),
+            Expires = DateTime.UtcNow.AddSeconds(configuration.GetValue("Jwt:ExpireInSeconds", 3600)),
             SigningCredentials = credentials,
             Issuer = configuration["Jwt:Issuer"],
             Audience = configuration["Jwt:Audience"]

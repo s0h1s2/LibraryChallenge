@@ -17,8 +17,8 @@ public class BookRepository : IBookRepository
 
     public async Task<Book?> AddBookAsync(CreateBook book)
     {
-        var bookToAdd = Book.CreateBook(isbn: book.Isbn, title: book.Title, category: new CategoryId(book.CategoryId),
-            author: book.Author, availableCopies: book.AvailableCopies);
+        var bookToAdd = Book.CreateBook(book.Isbn, book.Title, new CategoryId(book.CategoryId),
+            book.Author, book.AvailableCopies);
         _context.Books.Add(bookToAdd);
         await _context.SaveChangesAsync();
         return bookToAdd;
@@ -50,10 +50,7 @@ public class BookRepository : IBookRepository
     public async Task<Book?> GetBookByIdAsync(Guid id)
     {
         var bookEntity = await _context.Books.FindAsync(id);
-        if (bookEntity == null)
-        {
-            return null;
-        }
+        if (bookEntity == null) return null;
 
         return bookEntity;
     }
@@ -61,10 +58,7 @@ public class BookRepository : IBookRepository
     public async Task<bool> DeleteBookAsync(Guid id)
     {
         var book = await _context.Books.FindAsync(id);
-        if (book == null)
-        {
-            throw new KeyNotFoundException($"Book with id {id} not found.");
-        }
+        if (book == null) throw new KeyNotFoundException($"Book with id {id} not found.");
 
         _context.Books.Remove(book);
         await _context.SaveChangesAsync();

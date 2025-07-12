@@ -21,7 +21,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
             .HasConversion<string>() // Store enum as string
             .HasMaxLength(50);
 
-        builder.HasMany<Permission>(x => x.Permissions)
+        builder.HasMany(x => x.Permissions)
             .WithMany(x => x.Roles)
             .UsingEntity(j => j.ToTable("RolePermissions"));
     }

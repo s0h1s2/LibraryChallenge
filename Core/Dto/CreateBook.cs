@@ -14,4 +14,4 @@ public record CreateBook(string Isbn, string Title, Guid CategoryId, string Auth
             availableCopies: AvailableCopies
         );
     }
-};
+}

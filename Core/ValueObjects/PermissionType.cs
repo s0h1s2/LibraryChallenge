@@ -19,5 +19,5 @@ public enum PermissionType
 
     CanViewReports,
     CanViewAllBorrowingHistory,
-    CanManagePermissions,
+    CanManagePermissions
 }

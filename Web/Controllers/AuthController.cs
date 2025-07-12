@@ -30,17 +30,11 @@ public class AuthController : BaseController
     {
         var user = await _dbContext.User.Where(u => u.Email == loginUser.Email)
             .FirstOrDefaultAsync();
-        if (user is null)
-        {
-            return Failure("Invalid email or password", 401);
-        }
+        if (user is null) return Failure("Invalid email or password", 401);
 
         var passwordHasher = new PasswordHasher<object?>();
         var result = passwordHasher.VerifyHashedPassword(null, user.PasswordHash, loginUser.Password);
-        if (result == PasswordVerificationResult.Failed)
-        {
-            return Failure("Invalid email or password", 401);
-        }
+        if (result == PasswordVerificationResult.Failed) return Failure("Invalid email or password", 401);
 
         var token = _tokenProvider.Create(user);
         var (refreshToken, expirationDate) = _tokenProvider.CreateRefreshToken(user);
@@ -58,15 +52,10 @@ public class AuthController : BaseController
             .FirstOrDefaultAsync();
 
         if (refreshToken is null || refreshToken.Expiration < DateTime.UtcNow)
-        {
             return Failure("Invalid or expired refresh token", 401);
-        }
 
         var user = await _dbContext.User.FindAsync(refreshToken.UserId);
-        if (user is null)
-        {
-            return Failure("User not found", 404);
-        }
+        if (user is null) return Failure("User not found", 404);
 
         var newToken = _tokenProvider.Create(user);
         var (newRefreshToken, expirationDate) = _tokenProvider.CreateRefreshToken(user);
@@ -91,7 +80,7 @@ public class AuthController : BaseController
         await _dbContext.SaveChangesAsync();
         return Success(new
         {
-            Email = registerUser.Email,
+            registerUser.Email
         }, status: 201);
     }
 

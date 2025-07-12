@@ -60,13 +60,13 @@ public class BookTest : IDisposable
             .ToBook();
         bookRepo.Books.Add(bookToUpdate);
         var book = bookRepo.Books.First();
-        var updatedBook = book.UpdateDetail(new UpdateBook("The Art Of Computer Programming",
+        book.UpdateDetail(new UpdateBook("The Art Of Computer Programming",
             "12354",
-            book.CategoryId,
+            book.CategoryId.Id,
             _defaultAuthor,
             2,
             0));
-        bookRepo.UpdateBookAsync(updatedBook);
+        bookRepo.UpdateBookAsync(book);
         Assert.NotEqual(book, bookRepo.Books.First());
     }
 

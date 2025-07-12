@@ -44,7 +44,7 @@ public class LibraryServiceTest : IDisposable
         lib.BorrowBook(_book, _user, _dueDate);
         Assert.Single(_user.BorrowedBooks);
         lib.ReturnBook(_book, _user);
-        Assert.Empty(_user.BorrowedBooks);
+        Assert.Contains(_user.BorrowedBooks, br => br.IsReturned);
         Assert.Equal(1, _book.AvailableCopies);
     }
 }

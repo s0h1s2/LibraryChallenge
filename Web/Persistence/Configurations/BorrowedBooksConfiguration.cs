@@ -22,6 +22,7 @@ public class BorrowedBooksConfiguration : IEntityTypeConfiguration<BorrowedBook>
         builder.Property(bb => bb.ReturnDate)
             .HasColumnType("timestamp without time zone");
 
+        builder.HasQueryFilter(bb => bb.ReturnDate == null);
 
         builder.HasOne(bb => bb.Book)
             .WithMany()

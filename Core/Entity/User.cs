@@ -42,7 +42,6 @@ public class User
         var borrowedBook = BorrowedBooks.FirstOrDefault(bb => bb.BookId == book.Id);
         if (borrowedBook == null) throw new DomainException("This book is not borrowed by the user");
         borrowedBook.MarkAsReturned(DateTime.Now);
-        BorrowedBooks.Remove(borrowedBook);
     }
 
     public bool HasPermission(string name)

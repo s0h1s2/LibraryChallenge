@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Web.Util.Persistence;
 
-namespace Web.Util.Authorization;
+namespace Web.Authorization;
 
 public class PermissionAuthorizationHandler : AuthorizationHandler<PermissionRequirement>
 {

@@ -7,7 +7,7 @@ using Core.ValueObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Web.Util.Authorization;
+using Web.Authorization;
 using Web.Util.Services;
 
 namespace Web.Util.Controllers;

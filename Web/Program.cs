@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
-using Web.Util.Authorization;
+using Web.Authorization;
 using Web.Util.OpenApiConfiguration;
 using Web.Util.Persistence;
 using Web.Util.Persistence.Implementation;

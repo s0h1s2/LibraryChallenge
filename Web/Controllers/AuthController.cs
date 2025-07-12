@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Core.Dto;
 using Core.ValueObjects;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +18,6 @@ public class AuthController : BaseController
     private readonly ApplicationDbContext _dbContext;
     private readonly TokenProvider _tokenProvider;
 
-
     public AuthController(ApplicationDbContext dbContext, TokenProvider tokenProvider)
     {
         _dbContext = dbContext;
@@ -25,37 +25,39 @@ public class AuthController : BaseController
     }
 
     [HttpPost("login", Name = "Login User")]
-    [Produces(typeof(ApiResponse<LoginUserResponse>))]
-    public async Task<IActionResult> LoginUser([FromBody] LoginUser loginUser)
+    public async Task<Results<UnauthorizedHttpResult, Ok<SuccessResponse<LoginUserResponse>>>> LoginUser(
+        [FromBody] LoginUser loginUser)
     {
         var user = await _dbContext.User.Where(u => u.Email == loginUser.Email)
             .FirstOrDefaultAsync();
-        if (user is null) return Failure("Invalid email or password", 401);
+        if (user is null) return TypedResults.Unauthorized();
 
         var passwordHasher = new PasswordHasher<object?>();
         var result = passwordHasher.VerifyHashedPassword(null, user.PasswordHash, loginUser.Password);
-        if (result == PasswordVerificationResult.Failed) return Failure("Invalid email or password", 401);
+        if (result == PasswordVerificationResult.Failed) return TypedResults.Unauthorized();
 
         var token = _tokenProvider.Create(user);
         var (refreshToken, expirationDate) = _tokenProvider.CreateRefreshToken(user);
         _dbContext.RefreshTokens.Add(Persistence.RefreshToken.Create(refreshToken, expirationDate, user.Id));
         await _dbContext.SaveChangesAsync();
 
-        return Success(new LoginUserResponse(token, refreshToken));
+        return TypedResults.Ok(new SuccessResponse<LoginUserResponse>(new LoginUserResponse(token, refreshToken)));
     }
 
     [HttpPost("refresh", Name = "Refresh JWT Token")]
-    public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
+    public async Task<Results<UnauthorizedHttpResult, Ok<SuccessResponse<LoginUserResponse>>>> RefreshToken(
+        [FromBody] RefreshTokenRequest request)
     {
         var refreshToken = await _dbContext.RefreshTokens
             .Where(rt => rt.Token == request.RefreshToken)
             .FirstOrDefaultAsync();
 
         if (refreshToken is null || refreshToken.Expiration < DateTime.UtcNow)
-            return Failure("Invalid or expired refresh token", 401);
+            return TypedResults.Unauthorized();
 
         var user = await _dbContext.User.FindAsync(refreshToken.UserId);
-        if (user is null) return Failure("User not found", 404);
+        if (user is null) return TypedResults.Unauthorized();
+
 
         var newToken = _tokenProvider.Create(user);
         var (newRefreshToken, expirationDate) = _tokenProvider.CreateRefreshToken(user);
@@ -63,11 +65,12 @@ public class AuthController : BaseController
 
         await _dbContext.SaveChangesAsync();
 
-        return Success(new LoginUserResponse(newToken, newRefreshToken));
+        return TypedResults.Ok(
+            new SuccessResponse<LoginUserResponse>(new LoginUserResponse(newToken, newRefreshToken)));
     }
 
-    [HttpPost("register")]
-    public async Task<IActionResult> CreateUser([FromBody] RegisterUser registerUser)
+    [HttpPost("register", Name = "Register Normal User")]
+    public async Task<Ok<RegisterUserResponse>> CreateUser([FromBody] RegisterUser registerUser)
     {
         var memberRole = await _dbContext.Role
             .Where(role => role.Name == RoleType.Member)
@@ -78,13 +81,12 @@ public class AuthController : BaseController
             new PasswordHasher<object?>().HashPassword(null, registerUser.Password), memberRole));
 
         await _dbContext.SaveChangesAsync();
-        return Success(new
-        {
-            registerUser.Email
-        }, status: 201);
+        return TypedResults.Ok(new RegisterUserResponse(registerUser.Email));
     }
 
-    private record LoginUserResponse(string Token, string RefreshToken);
+    public record LoginUserResponse(string Token, string RefreshToken);
 
     public record RefreshTokenRequest(string RefreshToken);
+
+    public record RegisterUserResponse(string Email);
 }

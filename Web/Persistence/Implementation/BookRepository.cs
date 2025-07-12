@@ -15,21 +15,6 @@ public class BookRepository : IBookRepository
         _context = context;
     }
 
-    public async Task<Book?> AddBookAsync(CreateBook book)
-    {
-        var bookToAdd = Book.CreateBook(
-            book.Isbn,
-            book.Title,
-            new CategoryId(book.CategoryId),
-            book.Author,
-            book.AvailableCopies,
-            totalCopies: book.totalCopies
-        );
-        _context.Books.Add(bookToAdd);
-        await _context.SaveChangesAsync();
-        return bookToAdd;
-    }
-
     public async Task<Book> UpdateBookAsync(Book book)
     {
         _context.Books.Update(book);
@@ -79,6 +64,21 @@ public class BookRepository : IBookRepository
             .ToListAsync();
 
         return books;
+    }
+
+    public async Task<Book?> AddBookAsync(CreateBook book)
+    {
+        var bookToAdd = Book.CreateBook(
+            book.Isbn,
+            book.Title,
+            new CategoryId(book.CategoryId),
+            book.Author,
+            book.AvailableCopies,
+            totalCopies: book.totalCopies
+        );
+        _context.Books.Add(bookToAdd);
+        await _context.SaveChangesAsync();
+        return bookToAdd;
     }
 
     public async Task UpdateBookAndBorrowedBooksByUserAsync(Book book, User user)

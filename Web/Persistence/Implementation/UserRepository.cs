@@ -40,4 +40,9 @@ public class UserRepository : IUserRepository
         await _dbContext.SaveChangesAsync();
         return user;
     }
+
+    public async Task<bool> IsEmailUniqueAsync(string email)
+    {
+        return !await _dbContext.User.AnyAsync(u => u.Email == email);
+    }
 }

@@ -1,18 +1,17 @@
 using Core.Dto;
+using Core.Persistance;
 using Core.ValueObjects;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
-using Web.Persistence;
 
 namespace Web.Validations;
 
 public class CreateUserValidation : AbstractValidator<CreateUser>
 {
-    private readonly ApplicationDbContext _dbContext;
+    private readonly IUserRepository _userRepository;
 
-    public CreateUserValidation(ApplicationDbContext dbContext)
+    public CreateUserValidation(IUserRepository userRepository)
     {
-        _dbContext = dbContext;
+        _userRepository = userRepository;
         RuleFor(x => x.Email)
             .NotEmpty()
             .WithMessage("Email is required")
@@ -34,7 +33,7 @@ public class CreateUserValidation : AbstractValidator<CreateUser>
 
     private async Task<bool> CheckForUniqueEmail(string email, CancellationToken cancellation)
     {
-        return await _dbContext.User.AnyAsync(user => user.Email == email, cancellation) is false;
+        return await _userRepository.IsEmailUniqueAsync(email);
     }
 
     private bool BeValidRole(string roleName)

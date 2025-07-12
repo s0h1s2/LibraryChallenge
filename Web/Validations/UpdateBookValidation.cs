@@ -20,14 +20,16 @@ public class UpdateBookValidation : AbstractValidator<UpdateBook>
 
         RuleFor(x => x.Author)
             .MaximumLength(50).WithMessage("Author cannot exceed 50 characters.");
-        RuleFor(x => x.CategoryId)
-            .MustAsync(LookForCategory)
-            .When(x => x.CategoryId.Id != Guid.Empty)
-            .WithMessage("Category is required.");
+
+        // RuleFor(x => x.CategoryId)
+        //     .MustAsync(LookForCategory)
+        //     .When(x => x.CategoryId.Id != Guid.Empty)
+        //     .WithMessage("Category is required.");
+        //
         RuleFor(x => x.AvailableCopies);
     }
 
-    private Task<bool> LookForCategory(CategoryId categoryId, CancellationToken cancellationToken)
+    private Task<bool> LookForCategory(CategoryId? categoryId, CancellationToken cancellationToken)
     {
         return _dbContext.Category.AnyAsync(entity => entity.Id == categoryId, cancellationToken);
     }

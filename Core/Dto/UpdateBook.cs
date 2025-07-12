@@ -1,11 +1,9 @@
-using Core.ValueObjects;
-
 namespace Core.Dto;
 
 public record UpdateBook(
     string? Title,
     string? Isbn,
-    CategoryId? CategoryId,
+    Guid? CategoryId,
     string? Author,
     int? AvailableCopies,
     int? TotalCopies

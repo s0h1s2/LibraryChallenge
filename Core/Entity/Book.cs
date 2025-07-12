@@ -17,11 +17,11 @@ public class Book
     }
 
     public Guid Id { get; private set; }
-    public string Isbn { get; }
-    public string Title { get; }
-    public CategoryId CategoryId { get; }
+    public string Isbn { get; private set; }
+    public string Title { get; private set; }
+    public CategoryId CategoryId { get; private set; }
     public Category Category { get; private set; }
-    public string Author { get; }
+    public string Author { get; private set; }
 
     public int AvailableCopies { get; private set; }
     public int TotalCopies { get; private set; }
@@ -57,16 +57,17 @@ public class Book
         AvailableCopies++;
     }
 
-    public Book UpdateDetail(UpdateBook updateBook)
+    public void UpdateDetail(UpdateBook updateBook)
     {
-        return CreateExisting(
-            Id,
-            updateBook.Isbn ?? Isbn,
-            updateBook.Title ?? Title,
-            CategoryId,
-            updateBook.Author ?? Author,
-            updateBook.AvailableCopies ?? AvailableCopies,
-            totalCopies: updateBook.TotalCopies ?? TotalCopies
-        );
+        Isbn = updateBook.Isbn ?? Isbn;
+        Title = updateBook.Title ?? Title;
+        if (updateBook.CategoryId.HasValue)
+        {
+            CategoryId = new CategoryId(updateBook.CategoryId.GetValueOrDefault());
+        }
+
+        Author = updateBook.Author ?? Author;
+        AvailableCopies = updateBook.AvailableCopies ?? AvailableCopies;
+        TotalCopies = updateBook.TotalCopies ?? TotalCopies;
     }
 }

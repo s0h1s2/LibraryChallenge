@@ -1,4 +1,5 @@
-using Core;
+using Core.Entity;
+using Core.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -1,6 +1,7 @@
 ﻿using Core.Dto;
 using Core.Entity;
 using Core.UnitTests.Persistance;
+using Core.ValueObjects;
 
 namespace Core.UnitTests.Entity;
 

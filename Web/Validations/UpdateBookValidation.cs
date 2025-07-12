@@ -1,5 +1,5 @@
-using Core;
 using Core.Dto;
+using Core.ValueObjects;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Web.Persistence;

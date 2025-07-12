@@ -1,5 +1,4 @@
 using System.Reflection;
-using Core;
 using Core.Entity;
 using Core.ValueObjects;
 using Microsoft.AspNetCore.Identity;
@@ -45,9 +44,9 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                 Core.Entity.User.Create("liberian@mail.com", hashPassword.HashPassword(null, "password"), liberianRole)
             );
             context.SaveChanges();
-            var programmingCategory = Core.Category.Create("Programming");
-            var scienceCategory = Core.Category.Create("Science");
-            var fictionCategory = Core.Category.Create("Fiction");
+            var programmingCategory = Core.Entity.Category.Create("Programming");
+            var scienceCategory = Core.Entity.Category.Create("Science");
+            var fictionCategory = Core.Entity.Category.Create("Fiction");
             context.Set<Category>().AddRange(programmingCategory, scienceCategory, fictionCategory);
             context.SaveChanges();
             context.Set<Book>().AddRange(

@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Core;
 using Core.Dto;
+using Core.Entity;
 using Core.Persistance;
 using Core.Services;
 using Core.ValueObjects;
@@ -29,6 +30,7 @@ public class BooksController : BaseController
     }
 
     [HttpGet(Name = "GetBooks")]
+    [Produces<SuccessResponse<IList<Book>>>]
     public async Task<IActionResult> Get()
     {
         var books = await _bookRepository.GetBooksAsync();
@@ -36,6 +38,7 @@ public class BooksController : BaseController
     }
 
     [HttpGet("{id:guid}", Name = "GetBookById")]
+    [Produces<SuccessResponse<Book>>]
     public async Task<IActionResult> GetBookById(Guid id)
     {
         var book = await _bookRepository.GetBookByIdAsync(id);
@@ -45,6 +48,7 @@ public class BooksController : BaseController
     }
 
     [HttpGet("search", Name = "FilterBooks")]
+    [Produces<SuccessResponse<IList<Book>>>]
     public async Task<IActionResult> FilterBooks([FromQuery] string q)
     {
         if (string.IsNullOrWhiteSpace(q)) return Failure(Messages.SearchTermNotFound);

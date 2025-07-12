@@ -7,4 +7,7 @@ public static class Messages
     public const string SearchTermNotFound = "Search  term cannot be empty.";
     public const string BookNotFound = "Book not found.";
     public const string InvalidLogin = "Invalid login credentials.";
+
+    public static readonly Func<string, string> ResoruceUpdated =
+        (string resourceName) => $"{resourceName} updated successfully.";
 }

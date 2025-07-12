@@ -4,7 +4,7 @@ using Core.Persistance;
 using Core.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
-namespace Web.Persistence.Implementation;
+namespace Web.Util.Persistence.Implementation;
 
 public class BookRepository : IBookRepository
 {

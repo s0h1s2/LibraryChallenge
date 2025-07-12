@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi.Models;
 
-namespace Web.OpenApiConfiguration;
+namespace Web.Util.OpenApiConfiguration;
 
 public class BadRequestSchemaTransformer : IOpenApiOperationTransformer
 {

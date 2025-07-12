@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Web.Controllers;
+namespace Web.Util.Controllers;
 
 public class BaseController : ControllerBase
 {

@@ -1,7 +1,7 @@
 using Core.Dto;
 using FluentValidation;
 
-namespace Web.Validations;
+namespace Web.Util.Validations;
 
 public class BorrowBookValidation : AbstractValidator<BorrowBook>
 {

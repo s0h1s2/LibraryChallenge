@@ -1,4 +1,4 @@
-namespace Web.Controllers;
+namespace Web.Util.Controllers;
 
 public record SuccessResponse<T>(T Data, string? Message = null, int Status = 200);
 

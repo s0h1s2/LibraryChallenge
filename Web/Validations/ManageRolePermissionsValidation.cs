@@ -1,9 +1,9 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Web.Controllers;
-using Web.Persistence;
+using Web.Util.Controllers;
+using Web.Util.Persistence;
 
-namespace Web.Validations;
+namespace Web.Util.Validations;
 
 public class ManageRolePermissionsValidation : AbstractValidator<RoleManagementController.ManageRolePermissionsRequest>
 {

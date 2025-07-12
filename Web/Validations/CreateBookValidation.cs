@@ -2,9 +2,9 @@ using Core.Dto;
 using Core.ValueObjects;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Web.Persistence;
+using Web.Util.Persistence;
 
-namespace Web.Validations;
+namespace Web.Util.Validations;
 
 public class CreateBookValidation : AbstractValidator<CreateBook>
 {

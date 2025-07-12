@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web.Authorization;
-using Web.Persistence;
+using Web.Util.Authorization;
+using Web.Util.Persistence;
 
-namespace Web.Controllers;
+namespace Web.Util.Controllers;
 
 [ApiController]
 [Route("api/v1/[controller]")]

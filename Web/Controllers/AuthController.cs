@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web.Exceptions;
-using Web.Persistence;
-using Web.Services;
+using Web.Util.Exceptions;
+using Web.Util.Persistence;
+using Web.Util.Services;
 using UserEntity = Core.Entity.User;
 
-namespace Web.Controllers;
+namespace Web.Util.Controllers;
 
 [ApiController]
 [Route("api/v1/[controller]")]

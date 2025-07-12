@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Results;
 
-namespace Web.Validations;
+namespace Web.Util.Validations;
 
 public class CustomValidationErrorResponse : IFluentValidationAutoValidationResultFactory
 {

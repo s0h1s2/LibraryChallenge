@@ -5,7 +5,7 @@ using Core.Entity;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Web.Util;
+namespace Web.Util.Util;
 
 public sealed class TokenProvider(IConfiguration configuration)
 {

@@ -2,9 +2,9 @@ using Core.Dto;
 using Core.Entity;
 using Core.Services;
 using Microsoft.EntityFrameworkCore;
-using Web.Persistence;
+using Web.Util.Persistence;
 
-namespace Web.Services;
+namespace Web.Util.Services;
 
 public class BookService
 {

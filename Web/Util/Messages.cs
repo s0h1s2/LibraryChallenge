@@ -1,4 +1,4 @@
-namespace Web.Controllers;
+namespace Web.Util;
 
 public static class Messages
 {

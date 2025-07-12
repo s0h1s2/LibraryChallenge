@@ -1,4 +1,6 @@
-namespace Core;
+using Core.ValueObjects;
+
+namespace Core.Entity;
 
 public class Category
 {

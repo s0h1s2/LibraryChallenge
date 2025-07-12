@@ -1,3 +1,5 @@
+using Core.ValueObjects;
+
 namespace Core.Dto;
 
 public record UpdateBook(

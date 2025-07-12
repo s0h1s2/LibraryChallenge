@@ -2,7 +2,7 @@ using Core.Entity;
 using Core.Services;
 using Core.ValueObjects;
 
-namespace Core.UnitTests.Domain;
+namespace Core.UnitTests.Services;
 
 public class LibraryServiceTest : IDisposable
 {

@@ -27,12 +27,14 @@ public class BookService
     public async Task BorrowBookAsync(BorrowBook borrowBook, Guid userId, DateTime dueDate)
     {
         var book = await _dbContext.Books.FindAsync(borrowBook.BookId);
-        var user = await _dbContext.User.Include(user => user.BorrowedBooks).FirstAsync(user => user.Id == userId);
+        var user = await _dbContext.User.Include(user => user.BorrowedBooks)
+            .FirstAsync(user => user.Id == userId);
         if (book is null || user is null) throw new KeyNotFoundException();
 
         _libraryService.BorrowBook(book, user, dueDate);
-        _dbContext.Add(book);
-        _dbContext.Add(user.BorrowedBooks);
+        _dbContext.Update(book);
+        _dbContext.Update(user);
+
         await _dbContext.SaveChangesAsync();
     }
 

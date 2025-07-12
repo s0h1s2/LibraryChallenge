@@ -21,8 +21,8 @@ public class Role
 
     public RoleType Name { get; private set; }
     public int Id { get; private set; }
-    private List<Permission> _permissions { get; } = new();
-    public IReadOnlyCollection<Permission> Permissions => _permissions.AsReadOnly();
+    protected virtual List<Permission> _permissions { get; } = new();
+    public ICollection<Permission> Permissions => _permissions;
 
 
     public static Role Create(RoleType roleType)

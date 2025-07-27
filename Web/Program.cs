@@ -30,7 +30,7 @@ builder.Services.AddScoped<BookService>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<LibraryService>();
 builder.Services.AddSingleton<TokenProvider>();
-builder.Services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
+builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
 builder.Services.AddRateLimiter(options =>
 {
